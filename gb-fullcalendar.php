@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:     Gb Fullcalendar
+ * Plugin Name:     GB Fullcalendar
  * Description:     Example block written with ESNext standard and JSX support – build step required.
  * Version:         0.1.0
  * Author:          The WordPress Contributors

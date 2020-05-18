@@ -1,4 +1,4 @@
-=== Gb Fullcalendar ===
+=== GB Fullcalendar ===
 Contributors:      The WordPress Contributors
 Tags:              block
 Requires at least: 5.3.2

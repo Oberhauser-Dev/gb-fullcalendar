@@ -18,7 +18,7 @@ import { __ } from '@wordpress/i18n';
 export default function Edit( { className } ) {
 	return (
 		<p className={ className }>
-			{ __( 'Gb Fullcalendar – hello from the editor!', 'create-block' ) }
+			{ __( 'GB Fullcalendar – hello from the editor!', 'create-block' ) }
 		</p>
 	);
 }

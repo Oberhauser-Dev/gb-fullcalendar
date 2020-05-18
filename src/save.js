@@ -18,7 +18,7 @@ export default function save() {
 	return (
 		<p>
 			{ __(
-				'Gb Fullcalendar – hello from the saved content!',
+				'GB Fullcalendar – hello from the saved content!',
 				'create-block'
 			) }
 		</p>
