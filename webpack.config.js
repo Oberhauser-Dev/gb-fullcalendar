@@ -6,9 +6,6 @@ module.exports = {
 		...defaultConfig.entry,
 		client: './src/client.js',
 	},
-	resolve: {
-		...defaultConfig.resolve,
-	},
 	module: {
 		...defaultConfig.module,
 		rules: [
@@ -18,5 +15,5 @@ module.exports = {
 				use: ['style-loader', 'css-loader'],
 			},
 		]
-	}
+	},
 };

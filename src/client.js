@@ -1,23 +1,10 @@
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import { render } from '@wordpress/element';
+import GbFullCalendar from './GbFullCalendar';
 
-import '@fullcalendar/core/main.min.css';
-import '@fullcalendar/daygrid/main.min.css';
-
-export function initFullcalendars( domEl ) {
-	const calendars = domEl.getElementsByClassName( 'fullcalendarWrapper' );
-	for (let i = 0; i < calendars.length; i++) {
-		const calendarEl = calendars.item( i );
-		if (! calendarEl.classList.contains( 'fc' )) {
-
-			const calendar = new Calendar( calendarEl, {
-				plugins: [ dayGridPlugin ],
-			} );
-			calendar.render();
-		}
+window.addEventListener('DOMContentLoaded', (event) => {
+	// Does only work on front-end as in backend they are generated dynamically (without wrapper).
+	const wrappers = document.getElementsByClassName(`fullcalendar-wrapper`);
+	for(let wrapper of wrappers) {
+		render(<GbFullCalendar />, wrapper);
 	}
-}
-
-document.addEventListener( 'DOMContentLoaded', function() {
-	initFullcalendars( document );
-} );
+});

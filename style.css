@@ -10,3 +10,7 @@
 	/*color: #fff;*/
 	/*padding: 2px;*/
 }
+
+.wp-block-create-block-gb-fullcalendar table {
+    margin: 0;
+}
