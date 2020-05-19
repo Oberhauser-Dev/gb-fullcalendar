@@ -15,12 +15,16 @@ import { __ } from '@wordpress/i18n';
  * @return {WPElement} Element to render.
  */
 export default function save() {
+
 	return (
-		<p>
-			{ __(
-				'GB Fullcalendar – hello from the saved content!',
-				'create-block'
-			) }
-		</p>
+		<div>
+			<p>
+				{ __(
+					'GB Fullcalendar – hello from the saved content!',
+					'create-block',
+				) }
+			</p>
+			<div className="fullcalendarWrapper"></div>
+		</div>
 	);
 }

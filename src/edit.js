@@ -4,6 +4,7 @@
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
 import { __ } from '@wordpress/i18n';
+import { initFullcalendars } from './client';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -17,8 +18,40 @@ import { __ } from '@wordpress/i18n';
  */
 export default function Edit( { className } ) {
 	return (
-		<p className={ className }>
-			{ __( 'GB Fullcalendar – hello from the editor!', 'create-block' ) }
-		</p>
+		<div>
+			<p className={ className }>
+				{ __( 'GB Fullcalendar – hello from the editor!', 'create-block' ) }
+			</p>
+			<div className="fullcalendarWrapper"></div>
+		</div>
 	);
+}
+
+/**
+ * Observe whole backend DOM, to dynamically add fullcalendar.
+  */
+
+// const targetNode = document.getElementById('wpbody');
+const targetNode = document;
+if (targetNode) {
+	const config = { attributes: false, childList: true, subtree: true };
+
+	const callback = function( mutationsList ) {
+		for (let mutation of mutationsList) {
+			if (mutation.type === 'childList' && mutation.addedNodes) {
+				for (let i = 0; i < mutation.addedNodes.length; i++) {
+					const domNode = mutation.addedNodes.item( i );
+					if (domNode instanceof Element) {
+						initFullcalendars( domNode );
+					}
+				}
+			}
+		}
+
+		// Stop observing, if needed
+		// observer.disconnect();
+	};
+
+	const observer = new MutationObserver( callback );
+	observer.observe( targetNode, config );
 }

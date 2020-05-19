@@ -35,6 +35,14 @@ function create_block_gb_fullcalendar_block_init() {
 		$script_asset['version']
 	);
 
+    $client_js     = 'build/client.js';
+    wp_register_script(
+        'create-block-gb-fullcalendar-block',
+        plugins_url( $client_js, __FILE__ ),
+        $script_asset['dependencies'],
+        $script_asset['version']
+    );
+
 	$editor_css = 'editor.css';
 	wp_register_style(
 		'create-block-gb-fullcalendar-block-editor',
@@ -53,6 +61,7 @@ function create_block_gb_fullcalendar_block_init() {
 
 	register_block_type( 'create-block/gb-fullcalendar', array(
 		'editor_script' => 'create-block-gb-fullcalendar-block-editor',
+		'script' => 'create-block-gb-fullcalendar-block',
 		'editor_style'  => 'create-block-gb-fullcalendar-block-editor',
 		'style'         => 'create-block-gb-fullcalendar-block',
 	) );
