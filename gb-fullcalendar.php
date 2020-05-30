@@ -119,11 +119,28 @@ function localize_script() {
  */
 function getFullCalendarArgs()
 {
+    // Header Toolbar
     $headerToolbar = new stdClass();
     $headerToolbar->left = 'prevYear,prev,today,next,nextYear';
     $headerToolbar->center = 'title';
-    $headerToolbar->right = implode(',', get_option('gbfc_available_views', array('dayGridMonth', 'timeGridWeek', 'timeGridDay', 'list')));
+    $headerToolbar->right = implode(',', get_option('gbfc_available_views', array('dayGridMonth', 'timeGridWeek', 'timeGridDay', 'listCustom')));
     $headerToolbar = apply_filters('gbfc_calendar_header_vars', $headerToolbar);
+
+    // Custom views
+    $gbfc_available_views_duration = get_option('gbfc_available_views_duration', array('dayGridCustom' => 7, 'timeGridCustom' => 1, 'listCustom' => 30));
+    $viewsTypeMap = [
+        'dayGridCustom' => 'dayGrid',
+        'timeGridCustom' => 'timeGrid',
+        'listCustom' => 'list',
+    ];
+    $views = new stdClass();
+    foreach ($gbfc_available_views_duration as $customViewKey => $duration) {
+        $view = new stdClass();
+        $view->type = $viewsTypeMap[$customViewKey];
+        $view->duration = new stdClass();
+        $view->duration->days = intval($duration);
+        $views->$customViewKey = $view;
+    }
 
     return [
         'themeSystem' => get_option('gbfc_themeSystem', 'standard'), // else: 'bootstrap'
@@ -137,6 +154,7 @@ function getFullCalendarArgs()
         // See https://fullcalendar.io/docs/v5/event-popover
         'dayMaxEventRows' => true,
         'dayMaxEvents' => true,
+        'views' => $views,
 
         // eventBackgroundColor: 'white',
         // eventColor: 'white',

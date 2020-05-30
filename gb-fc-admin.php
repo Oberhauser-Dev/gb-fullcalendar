@@ -117,21 +117,33 @@ class GbFcAdmin {
                                 <?php
                                 //                                dayGridMonth', 'timeGridWeek', 'timeGridDay', 'list'
                                 $available_views = apply_filters('gbfc_available_views', array(
-                                    'dayGridMonth' => 'Month (DayGrid)',
-                                    'dayGridWeek' => 'Week (DayGrid)',
-                                    'timeGridWeek' => 'Week (TimeGrid)',
-                                    'timeGridDay' => 'Day (TimeGrid)',
-                                    'listMonth' => 'Month (List)',
-                                    'listWeek' => 'Week (List)',
-                                    'listDay' => 'Day (List)',
+                                    'dayGridMonth' => 'DayGrid (month)',
+                                    'dayGridWeek' => 'DayGrid (week)',
+                                    'dayGridCustom' => 'DayGrid (custom)',
+                                    'timeGridWeek' => 'TimeGrid (week)',
+                                    'timeGridDay' => 'TimeGrid (day)',
+                                    'timeGridCustom' => 'TimeGrid (custom)',
+                                    'listMonth' => 'List (month)',
+                                    'listWeek' => 'List (week)',
+                                    'listDay' => 'List (day)',
+                                    'listCustom' => 'List (custom)',
                                 ));
+                                $custom_views = array(
+                                    'dayGridCustom',
+                                    'timeGridCustom',
+                                    'listCustom',
+                                );
                                 ?>
 								<tr>
 									<th scope="row"><?php _e('Available Views','gb-fullcalendar'); ?></th>
 									<td>
-										<?php $gbfc_available_views = get_option('gbfc_available_views', array('month','basicWeek','basicDay')); ?>
+										<?php $gbfc_available_views = get_option('gbfc_available_views', array('dayGridMonth', 'timeGridWeek', 'timeGridDay', 'listCustom')); ?>
+										<?php $gbfc_available_views_duration = get_option('gbfc_available_views_duration', array('dayGridCustom' => 7, 'timeGridCustom' => 1, 'listCustom' => 30));	?>
 										<?php foreach( $available_views as $view_key => $view_value ): ?>
-										<input type="checkbox" name="gbfc_available_views[]" value="<?php echo $view_key ?>" <?php if( in_array($view_key, $gbfc_available_views) ){ echo 'checked="checked"'; } ?>/> <?php echo $view_value; ?><br />
+										<input type="checkbox" name="gbfc_available_views[]" value="<?php echo $view_key ?>" <?php if( in_array($view_key, $gbfc_available_views) ){ echo 'checked="checked"'; } ?>/> <?php echo $view_value; ?>
+                                            <?php if( in_array($view_key, $custom_views) ){ ?>
+                                                <input type="number" name="gbfc_available_views_duration[<?php echo $view_key ?>]" value="<?php echo $gbfc_available_views_duration[$view_key] ?? 1 ?>" /> Days
+                                            <?php }?><br />
 										<?php endforeach; ?>
 										<em><?php _e('Users will be able to select from these views when viewing the calendar.'); ?></em>
 									</td>
