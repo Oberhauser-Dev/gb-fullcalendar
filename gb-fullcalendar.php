@@ -134,6 +134,9 @@ function getFullCalendarArgs()
         'headerToolbar' => $headerToolbar,
         'locale' => strtolower(str_replace('_', '-', get_locale())),
         'eventDisplay' => 'block', // See https://fullcalendar.io/docs/v5/eventDisplay
+        // See https://fullcalendar.io/docs/v5/event-popover
+        'dayMaxEventRows' => true,
+        'dayMaxEvents' => true,
 
         // eventBackgroundColor: 'white',
         // eventColor: 'white',

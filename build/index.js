@@ -37066,7 +37066,11 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
         eventDataTransform: function eventDataTransform(eventData) {
           // Text color is now handled by fc to get best contrast in different modes
           // Can be removed, if em doesn't send text color anymore.
-          delete eventData.textColor;
+          if (eventData.color !== '#FFFFFF') {
+            // TODO workaround for white background, should be handled in lib
+            delete eventData.textColor;
+          }
+
           return eventData;
         }
       }, GbFcGlobal.fc);

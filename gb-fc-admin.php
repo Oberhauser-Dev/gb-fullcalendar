@@ -139,7 +139,9 @@ class GbFcAdmin {
 								<?php
 								gbfc_options_select( __('Default View','gb-fullcalendar'), 'gbfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.','gb-fullcalendar') );
 								gbfc_options_input_text ( __( 'Time Format', 'gb-fullcalendar'), 'gbfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','gb-fullcalendar'),'http://momentjs.com/docs/#/displaying/format/'), 'h(:mm)a' );
-								gbfc_options_input_text ( __( 'Events limit', 'gb-fullcalendar'), 'gbfc_limit', __('Enter the maximum number of events to show per day, which will then be preceded by a link to the calendar day page.','gb-fullcalendar') );
+								// TODO this option should be disabled by default and let fullcalendar handle too much events.
+                                // Keep name wpfc_limit as it is referred in events-manager/em-wpfc.php -> if not set default is 3.
+								gbfc_options_input_text ( __( 'Events limit', 'gb-fullcalendar'), 'wpfc_limit', __('Enter the maximum number of events to show per day, which will then be preceded by a link to the calendar day page.','gb-fullcalendar'), '1000' );
 								gbfc_options_input_text ( __( 'View events link', 'gb-fullcalendar'), 'gbfc_limit_txt', __('When the limit of events is shown for one day, this text will be used for the link to the calendar day page.','gb-fullcalendar') );
 								?>
 							</table>
