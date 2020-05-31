@@ -529,6 +529,107 @@ function _unsupportedIterableToArray(o, minLen) {
 
 /***/ }),
 
+/***/ "./node_modules/@fullcalendar/bootstrap/main.css":
+/*!*******************************************************!*\
+  !*** ./node_modules/@fullcalendar/bootstrap/main.css ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var api = __webpack_require__(/*! ../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+            var content = __webpack_require__(/*! !../../css-loader/dist/cjs.js!./main.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/@fullcalendar/bootstrap/main.css");
+
+            content = content.__esModule ? content.default : content;
+
+            if (typeof content === 'string') {
+              content = [[module.i, content, '']];
+            }
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = api(content, options);
+
+
+
+module.exports = content.locals || {};
+
+/***/ }),
+
+/***/ "./node_modules/@fullcalendar/bootstrap/main.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@fullcalendar/bootstrap/main.js ***!
+  \******************************************************/
+/*! exports provided: default, BootstrapTheme */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BootstrapTheme", function() { return BootstrapTheme; });
+/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./main.css */ "./node_modules/@fullcalendar/bootstrap/main.css");
+/* harmony import */ var _main_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_main_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _fullcalendar_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/common */ "./node_modules/@fullcalendar/common/main.js");
+/*!
+FullCalendar v5.0.0-beta.4
+Docs & License: https://fullcalendar.io/
+(c) 2019 Adam Shaw
+*/
+
+
+
+
+
+var BootstrapTheme = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_1__["__extends"])(BootstrapTheme, _super);
+    function BootstrapTheme() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return BootstrapTheme;
+}(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_2__["Theme"]));
+BootstrapTheme.prototype.classes = {
+    root: 'fc-theme-bootstrap',
+    table: 'table-bordered',
+    tableCellShaded: 'table-active',
+    buttonGroup: 'btn-group',
+    button: 'btn btn-primary',
+    buttonActive: 'active',
+    popover: 'card card-primary',
+    popoverHeader: 'card-header',
+    popoverContent: 'card-body',
+    bordered: 'card card-primary fc-bootstrap-bordered'
+};
+BootstrapTheme.prototype.baseIconClass = 'fa';
+BootstrapTheme.prototype.iconClasses = {
+    close: 'fa-times',
+    prev: 'fa-chevron-left',
+    next: 'fa-chevron-right',
+    prevYear: 'fa-angle-double-left',
+    nextYear: 'fa-angle-double-right'
+};
+BootstrapTheme.prototype.rtlIconClasses = {
+    prev: 'fa-chevron-right',
+    next: 'fa-chevron-left',
+    prevYear: 'fa-angle-double-right',
+    nextYear: 'fa-angle-double-left'
+};
+BootstrapTheme.prototype.iconOverrideOption = 'bootstrapFontAwesome'; // TODO: make TS-friendly. move the option-processing into this plugin
+BootstrapTheme.prototype.iconOverrideCustomButtonOption = 'bootstrapFontAwesome';
+BootstrapTheme.prototype.iconOverridePrefix = 'fa-';
+var plugin = Object(_fullcalendar_common__WEBPACK_IMPORTED_MODULE_2__["createPlugin"])({
+    themeClasses: {
+        bootstrap: BootstrapTheme
+    }
+});
+
+/* harmony default export */ __webpack_exports__["default"] = (plugin);
+
+
+
+/***/ }),
+
 /***/ "./node_modules/@fullcalendar/common/main.css":
 /*!****************************************************!*\
   !*** ./node_modules/@fullcalendar/common/main.css ***!
@@ -29204,6 +29305,24 @@ function toVal(mix) {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/@fullcalendar/bootstrap/main.css":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/@fullcalendar/bootstrap/main.css ***!
+  \*********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, "\n.fc.fc-theme-bootstrap a {\n  text-decoration: none;\n}\n\n.fc.fc-theme-bootstrap a[data-navlink]:hover {\n  text-decoration: underline;\n}\n\n.fc-theme-bootstrap .fc-day-today.alert {\n  border-radius: 0;\n}\n\n.fc-theme-bootstrap .table {\n  margin-bottom: 0;\n}\n\n.fc-theme-bootstrap .fc-popover.card {\n  position: absolute; /* because .card sets it to position:relative */\n}\n\n.fc .fc-bootstrap-bordered {\n  background: transparent; /* some themes provide background. undo */\n  border-radius: 0; /* some themes provide border-radius. undo */\n}\n\n\n/* Popover\n--------------------------------------------------------------------------------------------------*/\n\n.fc-theme-bootstrap .fc-popover .card-body {\n  padding: 0; /* undo built-in padding */\n}\n\n\n/* TimeGrid Slots (lines that run horizontally)\n--------------------------------------------------------------------------------------------------*/\n\n.fc-theme-bootstrap .fc-timegrid-slots table {\n  /* some themes have background color. see through to slats */\n  background: none;\n}\n", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/@fullcalendar/common/main.css":
 /*!******************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/@fullcalendar/common/main.css ***!
@@ -36923,7 +37042,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
 /* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.js");
 /* harmony import */ var _fullcalendar_core_locales_all__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/core/locales-all */ "./node_modules/@fullcalendar/core/locales-all.js");
-/* harmony import */ var _TaxonomySelect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TaxonomySelect */ "./src/TaxonomySelect.js");
+/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.js");
+/* harmony import */ var _TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TaxonomySelect */ "./src/TaxonomySelect.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -36959,6 +37079,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -37014,6 +37135,12 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
         return _this2.onSelectTaxonomy.apply(_this2, arguments);
       };
 
+      var plugins = [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__["default"]];
+
+      if (GbFcGlobal.fc.themeSystem === 'bootstrap') {
+        plugins.push(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"]);
+      }
+
       var fcOptions = _objectSpread({
         eventSources: [// WP Events manager source
         {
@@ -37040,7 +37167,7 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
             var taxonomyDropdowns = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "fc-toolbar-chunk"
             }, GbFcGlobal.fcExtra.taxonomyNodes.map(function (tNode) {
-              return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({
+              return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
                 onSelectTaxonomy: _onSelectTax
               }, tNode));
             }));
@@ -37078,7 +37205,7 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
         ref: this.calendarRef,
         locales: _fullcalendar_core_locales_all__WEBPACK_IMPORTED_MODULE_6__["default"],
-        plugins: [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__["default"]]
+        plugins: plugins
       }, fcOptions)));
     }
   }]);

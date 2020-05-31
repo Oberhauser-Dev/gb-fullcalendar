@@ -5,6 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import allLocales from '@fullcalendar/core/locales-all';
+import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 
 /**
@@ -37,6 +38,10 @@ export default class GbFullCalendar extends Component {
 
 	render() {
 		const _onSelectTax = (...props) => this.onSelectTaxonomy(...props);
+		const plugins = [ dayGridPlugin, timeGridPlugin, listPlugin ];
+		if(GbFcGlobal.fc.themeSystem === 'bootstrap') {
+			plugins.push(bootstrapPlugin);
+		}
 		const fcOptions = {
 			eventSources: [
 				// WP Events manager source
@@ -93,7 +98,7 @@ export default class GbFullCalendar extends Component {
 				<FullCalendar
 					ref={this.calendarRef}
 					locales={allLocales}
-					plugins={[ dayGridPlugin, timeGridPlugin, listPlugin ]}
+					plugins={plugins}
 					{...fcOptions}
 				/>
 			</div>

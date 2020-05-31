@@ -150,51 +150,16 @@ class GbFcAdmin {
 								</tr>
 								<?php
 								gbfc_options_select( __('Default View','gb-fullcalendar'), 'gbfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.','gb-fullcalendar') );
-								gbfc_options_input_text ( __( 'Time Format', 'gb-fullcalendar'), 'gbfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','gb-fullcalendar'),'http://momentjs.com/docs/#/displaying/format/'), 'h(:mm)a' );
-								// TODO this option should be disabled by default and let fullcalendar handle too much events.
+                                gbfc_options_select( __('Default Theme System','gb-fullcalendar'), 'gbfc_themeSystem', ['standard' => 'Standard', 'bootstrap' => 'Bootstrap'], __('Choose the default theme system. How to customize theme, see: https://fullcalendar.io/docs/theming','gb-fullcalendar'), 'standard' );
+                                // Let handle time format by localization in fullcalendar
+								//gbfc_options_input_text ( __( 'Time Format', 'gb-fullcalendar'), 'gbfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','gb-fullcalendar'),'http://momentjs.com/docs/#/displaying/format/'), 'h(:mm)a' );
+								// TODO wpfc_limit as well as gbfc_limit_txt option should be disabled by default and let fullcalendar handle too much events.
                                 // Keep name wpfc_limit as it is referred in events-manager/em-wpfc.php -> if not set default is 3.
 								gbfc_options_input_text ( __( 'Events limit', 'gb-fullcalendar'), 'wpfc_limit', __('Enter the maximum number of events to show per day, which will then be preceded by a link to the calendar day page.','gb-fullcalendar'), '1000' );
-								gbfc_options_input_text ( __( 'View events link', 'gb-fullcalendar'), 'gbfc_limit_txt', __('When the limit of events is shown for one day, this text will be used for the link to the calendar day page.','gb-fullcalendar') );
+								//gbfc_options_input_text ( __( 'View events link', 'gb-fullcalendar'), 'wpfc_limit_txt', __('When the limit of events is shown for one day, this text will be used for the link to the calendar day page.','gb-fullcalendar') );
 								?>
 							</table>
 							<?php do_action('gbfc_admin_after_calendar_options'); ?>
-						    <h2><?php _e('jQuery UI Themeroller','gb-fullcalendar'); ?></h2>
-						    <p><?php echo sprintf(__( 'You can select from a set of pre-made CSS themes, which are taken from the <a href="%s">jQuery Theme Roller</a> gallery. If you roll your own theme, upload the CSS file and images folder to <code>wp-content/yourtheme/plugins/gb-fullcalendar/</code> and refresh this page, it should appear an option in the pull down menu below.','gb-fullcalendar'),'http://jqueryui.com/themeroller/'); ?></p>
-							<table class='form-table'>
-								<?php
-								//jQuery UI ships with pre-made themes, so here they are. This was coded for packaged CSS Themes 1.10.4 and 1.11.4
-								$jquery_themes = array('black-tie','blitzer','cupertino','dark-hive','dot-luv','eggplant','excite-bike','flick','hot-sneaks','humanity','le-frog','mint-choc','overcast','pepper-grinder','redmond','smoothness','south-street','start','sunny','swanky-purse','trontastic','ui-darkness','ui-lightness','vader');
-								$jquery_themes = apply_filters('gbfc_jquery_themes', $jquery_themes);
-								//get custom theme CSS files
-								$plugin_path = get_stylesheet_directory()."/plugins/gb-fullcalendar/";
-								foreach( glob( $plugin_path.'*.css') as $css_file ){
-									$css_file = str_replace($plugin_path,'',$css_file);
-									$css_custom_files[] = $css_file;
-								}
-								?>
-							    <tr class="form-field">
-							        <th scope="row" valign="top"><label for="product_package_unit_price"><?php _e( 'jQuery CSS Theme?', 'gb-fullcalendar'); ?></label></th>
-							        <td>
-							            <select name="gbfc_theme_css">
-							            	<option value="0"><?php _e( 'No Theme','gb-fullcalendar'); ?></option>
-							            	<optgroup label="<?php _e('Built-In','gb-fullcalendar'); ?>">
-								            	<?php foreach( $jquery_themes as $jquery_theme ): ?>
-								            	<option <?php if(get_option('gbfc_theme_css') == $jquery_theme) echo 'selected="selected"'; ?>><?php echo esc_html($jquery_theme); ?></option>
-								            	<?php endforeach; ?>
-							            	</optgroup>
-							            	<?php if( !empty($css_custom_files) ): ?>
-							            	<optgroup label="<?php _e('Custom','gb-fullcalendar'); ?>">
-							            		<?php foreach( $css_custom_files as $css_custom_file ): ?>
-							            			<option <?php if(get_option('gbfc_theme_css') == $css_custom_file) echo 'selected="selected"'; ?>><?php echo esc_html($css_custom_file); ?></option>
-							            		<?php endforeach; ?>
-							            	</optgroup>
-							            	<?php endif; ?>
-							            </select>
-							            <i><?php _e( 'You can use the jQuery UI CSS framework to style the calendar, and choose from a set of themes below.','gb-fullcalendar'); ?></i>
-							        </td>
-							    </tr>
-							</table>
-							<?php do_action('gbfc_admin_after_themeroller_options'); ?>
 						    <h2><?php _e('Tooltips','gb-fullcalendar'); ?></h2>
 						    <p><?php _e( 'You can use <a href="http://craigsworks.com/projects/qtip2/">jQuery qTips</a> to show excerpts of your events within a tooltip when hovering over a specific event on the calendar. You can control the content shown, positioning and style of the tool tips below.','gb-fullcalendar'); ?></p>
 

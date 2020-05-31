@@ -22,6 +22,7 @@
 		"style-loader": "^1.2.1"
 	},
 	"dependencies": {
+		"@fullcalendar/bootstrap": "^5.0.0-beta.4",
 		"@fullcalendar/core": "^5.0.0-beta.4",
 		"@fullcalendar/daygrid": "^5.0.0-beta.4",
 		"@fullcalendar/list": "^5.0.0-beta.4",
