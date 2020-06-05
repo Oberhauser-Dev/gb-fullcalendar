@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name:     GB FullCalendar
- * Description:     Example block written with ESNext standard and JSX support – build step required.
+ * Plugin URI:      https://github.com/oberhauser-dev/gb-fullcalendar/
+ * Description:     gb-fullcalendar — is an updated alternative to the wp-fullcalendar as a Gutenberg plugin.
  * Version:         0.1.0
- * Author:          The WordPress Contributors
- * License:         GPL-2.0-or-later
- * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
+ * Author:          August Oberhauser
+ * Author URI:      https://www.oberhauser.dev/
+ * License:         GPL3+
+ * License URI:     https://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:     create-block
  *
  * @package         create-block
