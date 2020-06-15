@@ -7,8 +7,17 @@
  *
  * @return {WPElement} Element to render.
  */
-export default function save() {
+export default function save( { attributes } ) {
+	const gbFcLocal = {
+		fc: attributes,
+		fcExtra: {},
+	};
 	return (
-		<div className="fullcalendar-wrapper"></div>
+		<>
+			<div className="fullcalendar-wrapper"></div>
+			<script>
+				var GbFcLocal = { JSON.stringify( gbFcLocal ) }
+			</script>
+		</>
 	);
 }

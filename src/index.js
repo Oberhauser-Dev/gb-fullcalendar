@@ -64,6 +64,34 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 		html: false,
 	},
 
+	attributes: {
+		initialView: {
+			type: 'string',
+		},
+		// content: {
+		// 	type: 'string',
+		// 	source: 'html',
+		// 	selector: 'p',
+		// },
+		// checkboxField: {
+		// 	type: 'boolean',
+		// 	default: true,
+		// },
+		// radioField: {
+		// 	type: 'string',
+		// 	default: 'yes',
+		// },
+		// textField: {
+		// 	type: 'string',
+		// },
+		// toggleField: {
+		// 	type: 'boolean',
+		// },
+		// selectField: {
+		// 	type: 'string',
+		// },
+	},
+
 	/**
 	 * @see ./edit.js
 	 */

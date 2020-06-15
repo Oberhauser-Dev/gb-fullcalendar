@@ -37023,6 +37023,17 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 
 /***/ }),
 
+/***/ "./src/FullCalendarOptions.json":
+/*!**************************************!*\
+  !*** ./src/FullCalendarOptions.json ***!
+  \**************************************/
+/*! exports provided: initialView, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"initialView\":[{\"value\":\"dayGridMonth\",\"label\":\"DayGrid (month)\"},{\"value\":\"dayGridWeek\",\"label\":\"DayGrid (week)\"},{\"value\":\"dayGridCustom\",\"label\":\"DayGrid (custom)\"},{\"value\":\"timeGridWeek\",\"label\":\"TimeGrid (week)\"},{\"value\":\"timeGridDay\",\"label\":\"TimeGrid (day)\"},{\"value\":\"timeGridCustom\",\"label\":\"TimeGrid (custom)\"},{\"value\":\"listMonth\",\"label\":\"List (month)\"},{\"value\":\"listWeek\",\"label\":\"List (week)\"},{\"value\":\"listDay\",\"label\":\"List (day)\"},{\"value\":\"listCustom\",\"label\":\"List (custom)\"}]}");
+
+/***/ }),
+
 /***/ "./src/GbFullCalendar.js":
 /*!*******************************!*\
   !*** ./src/GbFullCalendar.js ***!
@@ -37089,9 +37100,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-/**
- * @param {{GbFcGlobal: {fc, fcExtra: {ajaxUrl: string, month: string, year: string}}}} data
- */
 
 var GbFullCalendar = /*#__PURE__*/function (_Component) {
   _inherits(GbFullCalendar, _Component);
@@ -37106,6 +37114,18 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.calendarRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.filterParams = {};
+    /**
+     * The FullCalendar options
+     * @link https://fullcalendar.io/docs
+     */
+
+    _this.fc = props.fc;
+    /**
+     * Additional options for Gutenberg, Wordpress and EventsManager
+     * @type {{ajaxUrl: string, month: string, year: string}}
+     */
+
+    _this.fcExtra = props.fcExtra;
     return _this;
   }
 
@@ -37115,8 +37135,8 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
       return _objectSpread({
         action: 'WP_FullCalendar',
         type: 'event',
-        month: GbFcGlobal.fcExtra.month,
-        year: GbFcGlobal.fcExtra.year
+        month: this.fcExtra.month,
+        year: this.fcExtra.year
       }, this.filterParams);
     }
   }, {
@@ -37137,14 +37157,14 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
 
       var plugins = [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__["default"]];
 
-      if (GbFcGlobal.fc.themeSystem === 'bootstrap') {
+      if (this.fc.themeSystem === 'bootstrap') {
         plugins.push(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"]);
       }
 
       var fcOptions = _objectSpread({
         eventSources: [// WP Events manager source
         {
-          url: GbFcGlobal.fcExtra.ajaxUrl,
+          url: this.fcExtra.ajaxUrl,
           method: 'POST',
           extraParams: function extraParams() {
             return _this2.getExtraParams();
@@ -37166,7 +37186,7 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
             fcFilterToolbar.style.marginBottom = '1.5em';
             var taxonomyDropdowns = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "fc-toolbar-chunk"
-            }, GbFcGlobal.fcExtra.taxonomyNodes.map(function (tNode) {
+            }, _this2.fcExtra.taxonomyNodes.map(function (tNode) {
               return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
                 onSelectTaxonomy: _onSelectTax
               }, tNode));
@@ -37193,14 +37213,14 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
         eventDataTransform: function eventDataTransform(eventData) {
           // Text color is now handled by fc to get best contrast in different modes
           // Can be removed, if em doesn't send text color anymore.
-          if (eventData.color !== '#FFFFFF') {
+          if (_this2.fc.eventDisplay === 'block' && eventData.color !== '#FFFFFF') {
             // TODO workaround for white background, should be handled in lib
             delete eventData.textColor;
           }
 
           return eventData;
         }
-      }, GbFcGlobal.fc);
+      }, this.fc);
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
         ref: this.calendarRef,
@@ -37408,11 +37428,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GbFullCalendar */ "./src/GbFullCalendar.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/editor */ "@wordpress/editor");
+/* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FullCalendarOptions.json */ "./src/FullCalendarOptions.json");
+var _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./FullCalendarOptions.json */ "./src/FullCalendarOptions.json", 1);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * Retrieves the translation of text.
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
+
+
+
 
 
 /**
@@ -37427,10 +37458,72 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function Edit(_ref) {
-  var className = _ref.className;
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", {
-    className: className
-  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__["__"])('GB FullCalendar – hello from the editor!', 'create-block')), /*#__PURE__*/React.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+  var attributes = _ref.attributes,
+      setAttributes = _ref.setAttributes;
+  var content = attributes.content,
+      checkboxField = attributes.checkboxField,
+      radioField = attributes.radioField,
+      textField = attributes.textField,
+      toggleField = attributes.toggleField,
+      initialView = attributes.initialView;
+  var gbFcPrefs = {
+    fc: GbFcGlobal.fc,
+    fcExtra: GbFcGlobal.fcExtra
+  };
+
+  if (attributes) {
+    gbFcPrefs.fc = Object.assign(gbFcPrefs.fc, attributes); //gbFcPrefs.fcExtra = Object.assign( gbFcPrefs.fcExtra, GbFcLocal.fcExtra );
+  }
+
+  function onChangeInputField(fieldName, newValue) {
+    setAttributes(_defineProperty({}, fieldName, newValue));
+  }
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
+    title: "Most awesome settings ever",
+    initialOpen: true
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
+    heading: "Checkbox Field",
+    label: "Tick Me",
+    help: "Additional help text",
+    checked: checkboxField,
+    onChange: function onChange(value) {
+      return onChangeInputField('checkbox', value);
+    }
+  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["RadioControl"], {
+    label: "Radio Field",
+    selected: radioField,
+    options: [{
+      label: 'Yes',
+      value: 'yes'
+    }, {
+      label: 'No',
+      value: 'no'
+    }],
+    onChange: function onChange(value) {
+      return onChangeInputField('radio', value);
+    }
+  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], {
+    label: "Text Field",
+    help: "Additional help text",
+    value: textField,
+    onChange: function onChange(value) {
+      return onChangeInputField('text', value);
+    }
+  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
+    label: "Toggle Field",
+    checked: toggleField,
+    onChange: function onChange(value) {
+      return onChangeInputField('toggle', value);
+    }
+  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+    label: "Initial View",
+    value: initialView,
+    options: _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4__.initialView,
+    onChange: function onChange(value) {
+      return onChangeInputField('initialView', value);
+    }
+  })))), /*#__PURE__*/React.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], gbFcPrefs));
 }
 
 /***/ }),
@@ -37508,6 +37601,33 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])('cre
     // Removes support for an HTML mode.
     html: false
   },
+  attributes: {
+    initialView: {
+      type: 'string'
+    } // content: {
+    // 	type: 'string',
+    // 	source: 'html',
+    // 	selector: 'p',
+    // },
+    // checkboxField: {
+    // 	type: 'boolean',
+    // 	default: true,
+    // },
+    // radioField: {
+    // 	type: 'string',
+    // 	default: 'yes',
+    // },
+    // textField: {
+    // 	type: 'string',
+    // },
+    // toggleField: {
+    // 	type: 'boolean',
+    // },
+    // selectField: {
+    // 	type: 'string',
+    // },
+
+  },
 
   /**
    * @see ./edit.js
@@ -37541,10 +37661,15 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {WPElement} Element to render.
  */
-function save() {
-  return /*#__PURE__*/React.createElement("div", {
+function save(_ref) {
+  var attributes = _ref.attributes;
+  var gbFcLocal = {
+    fc: attributes,
+    fcExtra: {}
+  };
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "fullcalendar-wrapper"
-  });
+  }), /*#__PURE__*/React.createElement("script", null, "var GbFcLocal = ", JSON.stringify(gbFcLocal)));
 }
 
 /***/ }),
@@ -37557,6 +37682,28 @@ function save() {
 /***/ (function(module, exports) {
 
 (function() { module.exports = this["wp"]["blocks"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!*********************************************!*\
+  !*** external {"this":["wp","components"]} ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["components"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/editor":
+/*!*****************************************!*\
+  !*** external {"this":["wp","editor"]} ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = this["wp"]["editor"]; }());
 
 /***/ }),
 

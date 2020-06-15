@@ -147,9 +147,9 @@ function getFullCalendarArgs()
     return [
         'themeSystem' => get_option('gbfc_themeSystem', 'standard'), // else: 'bootstrap'
         'firstDay' => get_option('start_of_week'),
-        'editable' => 'false',
+        'editable' => false,
         'initialView' => get_option('gbfc_defaultView', 'dayGridMonth'), // Can be overwritten in shortcode
-        'weekends' => get_option('gbfc_weekends', true) ? 'true' : 'false',
+        'weekends' => get_option('gbfc_weekends', true) ? true : false,
         'headerToolbar' => $headerToolbar,
         'locale' => strtolower(str_replace('_', '-', get_locale())),
         'eventDisplay' => 'block', // See https://fullcalendar.io/docs/v5/eventDisplay
@@ -221,7 +221,7 @@ function getFullCalendarExtraArgs()
                 // Add em category colors
                 if($isCategory) {
                     foreach ($terms as $term) {
-                        $term->color = get_em_term_color($term->term_id);
+                        $term->color = getEmTermColor($term->term_id);
                     }
                 }
 
@@ -248,7 +248,7 @@ function getFullCalendarExtraArgs()
     ];
 }
 
-function get_em_term_color($term_id)
+function getEmTermColor($term_id)
 {
     // @see: plugins/events-manager/em-wpfc.php#start_el
     global $wpdb;

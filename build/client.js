@@ -37089,9 +37089,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-/**
- * @param {{GbFcGlobal: {fc, fcExtra: {ajaxUrl: string, month: string, year: string}}}} data
- */
 
 var GbFullCalendar = /*#__PURE__*/function (_Component) {
   _inherits(GbFullCalendar, _Component);
@@ -37106,6 +37103,18 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.calendarRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.filterParams = {};
+    /**
+     * The FullCalendar options
+     * @link https://fullcalendar.io/docs
+     */
+
+    _this.fc = props.fc;
+    /**
+     * Additional options for Gutenberg, Wordpress and EventsManager
+     * @type {{ajaxUrl: string, month: string, year: string}}
+     */
+
+    _this.fcExtra = props.fcExtra;
     return _this;
   }
 
@@ -37115,8 +37124,8 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
       return _objectSpread({
         action: 'WP_FullCalendar',
         type: 'event',
-        month: GbFcGlobal.fcExtra.month,
-        year: GbFcGlobal.fcExtra.year
+        month: this.fcExtra.month,
+        year: this.fcExtra.year
       }, this.filterParams);
     }
   }, {
@@ -37137,14 +37146,14 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
 
       var plugins = [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__["default"]];
 
-      if (GbFcGlobal.fc.themeSystem === 'bootstrap') {
+      if (this.fc.themeSystem === 'bootstrap') {
         plugins.push(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"]);
       }
 
       var fcOptions = _objectSpread({
         eventSources: [// WP Events manager source
         {
-          url: GbFcGlobal.fcExtra.ajaxUrl,
+          url: this.fcExtra.ajaxUrl,
           method: 'POST',
           extraParams: function extraParams() {
             return _this2.getExtraParams();
@@ -37166,7 +37175,7 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
             fcFilterToolbar.style.marginBottom = '1.5em';
             var taxonomyDropdowns = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "fc-toolbar-chunk"
-            }, GbFcGlobal.fcExtra.taxonomyNodes.map(function (tNode) {
+            }, _this2.fcExtra.taxonomyNodes.map(function (tNode) {
               return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
                 onSelectTaxonomy: _onSelectTax
               }, tNode));
@@ -37193,14 +37202,14 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
         eventDataTransform: function eventDataTransform(eventData) {
           // Text color is now handled by fc to get best contrast in different modes
           // Can be removed, if em doesn't send text color anymore.
-          if (eventData.color !== '#FFFFFF') {
+          if (_this2.fc.eventDisplay === 'block' && eventData.color !== '#FFFFFF') {
             // TODO workaround for white background, should be handled in lib
             delete eventData.textColor;
           }
 
           return eventData;
         }
-      }, GbFcGlobal.fc);
+      }, this.fc);
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
         ref: this.calendarRef,
@@ -37418,6 +37427,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 window.addEventListener('DOMContentLoaded', function (event) {
   // Does only work on front-end as in backend they are generated dynamically (without wrapper).
   var wrappers = document.getElementsByClassName("fullcalendar-wrapper");
+  var gbFcPrefs = {
+    fc: GbFcGlobal.fc,
+    fcExtra: GbFcGlobal.fcExtra
+  };
+
+  if (typeof GbFcLocal !== 'undefined') {
+    gbFcPrefs.fc = Object.assign(gbFcPrefs.fc, GbFcLocal.fc);
+    gbFcPrefs.fcExtra = Object.assign(gbFcPrefs.fcExtra, GbFcLocal.fcExtra);
+  }
 
   var _iterator = _createForOfIteratorHelper(wrappers),
       _step;
@@ -37425,7 +37443,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var wrapper = _step.value;
-      Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])( /*#__PURE__*/React.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], null), wrapper);
+      Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])( /*#__PURE__*/React.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], gbFcPrefs), wrapper);
     }
   } catch (err) {
     _iterator.e(err);

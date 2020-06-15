@@ -1,60 +1,69 @@
 import React from 'react';
 import { Component, render } from '@wordpress/element';
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import allLocales from '@fullcalendar/core/locales-all';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 
-/**
- * @param {{GbFcGlobal: {fc, fcExtra: {ajaxUrl: string, month: string, year: string}}}} data
- */
 export default class GbFullCalendar extends Component {
 
 	constructor( props ) {
 		super( props );
 		this.calendarRef = React.createRef();
 		this.filterParams = {};
+
+		/**
+		 * The FullCalendar options
+		 * @link https://fullcalendar.io/docs
+		 */
+		this.fc = props.fc;
+
+		/**
+		 * Additional options for Gutenberg, Wordpress and EventsManager
+		 * @type {{ajaxUrl: string, month: string, year: string}}
+		 */
+		this.fcExtra = props.fcExtra;
 	}
 
 	getExtraParams() {
 		return {
 			action: 'WP_FullCalendar',
 			type: 'event',
-			month: GbFcGlobal.fcExtra.month,
-			year: GbFcGlobal.fcExtra.year,
+			month: this.fcExtra.month,
+			year: this.fcExtra.year,
 			...this.filterParams,
-		}
+		};
 	}
 
-	onSelectTaxonomy(taxonomy, value) {
+	onSelectTaxonomy( taxonomy, value ) {
 		this.filterParams[taxonomy] = value;
 
-		let calendarApi = this.calendarRef.current.getApi()
+		let calendarApi = this.calendarRef.current.getApi();
 		calendarApi.refetchEvents();
 	}
 
 	render() {
-		const _onSelectTax = (...props) => this.onSelectTaxonomy(...props);
+		const _onSelectTax = ( ...props ) => this.onSelectTaxonomy( ...props );
 		const plugins = [ dayGridPlugin, timeGridPlugin, listPlugin ];
-		if(GbFcGlobal.fc.themeSystem === 'bootstrap') {
-			plugins.push(bootstrapPlugin);
+		if (this.fc.themeSystem === 'bootstrap') {
+			plugins.push( bootstrapPlugin );
 		}
 		const fcOptions = {
 			eventSources: [
 				// WP Events manager source
 				{
-					url: GbFcGlobal.fcExtra.ajaxUrl,
+					url: this.fcExtra.ajaxUrl,
 					method: 'POST',
 					extraParams: () => this.getExtraParams(),
-					failure: function(err) {
-						alert('there was an error while fetching events!' + JSON.stringify(err));
+					failure: function( err ) {
+						alert( 'there was an error while fetching events!' + JSON.stringify( err ) );
 					},
 				},
 			],
-			viewDidMount: function({view, el}) {
+			viewDidMount: ( { view, el } ) => {
 				const calendarWrapper = el.parentElement.parentElement;
 				// Only add filter, if not already done, as viewDidMount is called more often.
 				if (calendarWrapper.getElementsByClassName( 'fc-filter-toolbar' ).length === 0) {
@@ -68,7 +77,7 @@ export default class GbFullCalendar extends Component {
 					const taxonomyDropdowns = (
 						<div className='fc-toolbar-chunk'>
 							{
-								GbFcGlobal.fcExtra.taxonomyNodes.map( ( tNode ) => {
+								this.fcExtra.taxonomyNodes.map( ( tNode ) => {
 									return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
 								} )
 							}
@@ -85,23 +94,23 @@ export default class GbFullCalendar extends Component {
 			eventDataTransform: ( eventData ) => {
 				// Text color is now handled by fc to get best contrast in different modes
 				// Can be removed, if em doesn't send text color anymore.
-				if (eventData.color !== '#FFFFFF') {
+				if (this.fc.eventDisplay === 'block' && eventData.color !== '#FFFFFF') {
 					// TODO workaround for white background, should be handled in lib
 					delete eventData.textColor;
 				}
 				return eventData;
 			},
-			...GbFcGlobal.fc,
-		}
+			...this.fc,
+		};
 		return (
 			<div>
 				<FullCalendar
-					ref={this.calendarRef}
-					locales={allLocales}
-					plugins={plugins}
-					{...fcOptions}
+					ref={ this.calendarRef }
+					locales={ allLocales }
+					plugins={ plugins }
+					{ ...fcOptions }
 				/>
 			</div>
-		)
+		);
 	}
 }
