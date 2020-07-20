@@ -241,9 +241,6 @@ function getFullCalendarExtraArgs()
 
     return [
         'ajaxUrl' => admin_url('admin-ajax.php', $schema),
-        // TODO The fetch interval may can be removed!
-        'month' => intval(date('m', current_time('timestamp')) - 1),
-        'year' => intval(date('Y', current_time('timestamp'))),
         'taxonomyNodes' => $taxonomyNodes,
     ];
 }

@@ -32,8 +32,6 @@ export default class GbFullCalendar extends Component {
 		return {
 			action: 'WP_FullCalendar',
 			type: 'event',
-			month: this.fcExtra.month,
-			year: this.fcExtra.year,
 			...this.filterParams,
 		};
 	}
