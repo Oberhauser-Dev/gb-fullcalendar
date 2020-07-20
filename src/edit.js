@@ -14,7 +14,7 @@ import {
 	InspectorControls,
 } from '@wordpress/editor';
 import fcOptions from './FullCalendarOptions.json';
-import React from 'react';
+import GbFullCalendarWrapper from './GbFullCalendarWrapper';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -84,6 +84,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 
+			{/* Only to test wrapper */}
+			{/*<GbFullCalendarWrapper gbFcLocal={gbFcPrefs}/>*/}
+
+			{/* The real calendar */}
 			<GbFullCalendar { ...gbFcPrefs } />
 		</>
 	);

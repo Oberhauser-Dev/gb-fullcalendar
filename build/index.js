@@ -37045,17 +37045,15 @@ module.exports = JSON.parse("{\"initialView\":[{\"value\":\"dayGridMonth\",\"lab
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GbFullCalendar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attributesToGbfcOptions", function() { return attributesToGbfcOptions; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fullcalendar_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/react */ "./node_modules/@fullcalendar/react/dist/main.js");
-/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
-/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
-/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.js");
-/* harmony import */ var _fullcalendar_core_locales_all__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/core/locales-all */ "./node_modules/@fullcalendar/core/locales-all.js");
-/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.js");
-/* harmony import */ var _TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TaxonomySelect */ "./src/TaxonomySelect.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fullcalendar_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fullcalendar/react */ "./node_modules/@fullcalendar/react/dist/main.js");
+/* harmony import */ var _fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fullcalendar/daygrid */ "./node_modules/@fullcalendar/daygrid/main.js");
+/* harmony import */ var _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fullcalendar/timegrid */ "./node_modules/@fullcalendar/timegrid/main.js");
+/* harmony import */ var _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fullcalendar/list */ "./node_modules/@fullcalendar/list/main.js");
+/* harmony import */ var _fullcalendar_core_locales_all__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fullcalendar/core/locales-all */ "./node_modules/@fullcalendar/core/locales-all.js");
+/* harmony import */ var _fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fullcalendar/bootstrap */ "./node_modules/@fullcalendar/bootstrap/main.js");
+/* harmony import */ var _TaxonomySelect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TaxonomySelect */ "./src/TaxonomySelect.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -37100,10 +37098,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 /**
- * A number, or a string containing a number.
+ * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}} FcExtra
  * @typedef {{echo: boolean, class: string, selected: string|int, name: string, slug: string, show_option_all: string, items: []}} TaxonomyNode
+ * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
 
 var GbFullCalendar = /*#__PURE__*/function (_Component) {
@@ -37111,24 +37109,25 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(GbFullCalendar);
 
+  /**
+   * @param props {GbFcPrefs}
+   */
   function GbFullCalendar(props) {
     var _this;
 
     _classCallCheck(this, GbFullCalendar);
 
     _this = _super.call(this, props);
-    _this.calendarRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.calendarRef = React.createRef();
     _this.filterParams = {};
     /**
      * The FullCalendar options
      * @link https://fullcalendar.io/docs
-     * @type {import('@fullcalendar/common').CalendarOptions}
      */
 
     _this.fc = props.fc;
     /**
      * Additional options for Gutenberg, Wordpress and EventsManager
-     * @type {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}}
      */
 
     _this.fcExtra = props.fcExtra;
@@ -37159,10 +37158,10 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
         return _this2.onSelectTaxonomy.apply(_this2, arguments);
       };
 
-      var plugins = [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_4__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_5__["default"]];
+      var plugins = [_fullcalendar_daygrid__WEBPACK_IMPORTED_MODULE_2__["default"], _fullcalendar_timegrid__WEBPACK_IMPORTED_MODULE_3__["default"], _fullcalendar_list__WEBPACK_IMPORTED_MODULE_4__["default"]];
 
       if (this.fc.themeSystem === 'bootstrap') {
-        plugins.push(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"]);
+        plugins.push(_fullcalendar_bootstrap__WEBPACK_IMPORTED_MODULE_6__["default"]);
       }
 
       var fcOptions = _objectSpread({
@@ -37188,18 +37187,18 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
             var fcFilterToolbar = document.createElement('div');
             fcFilterToolbar.classList.add('fc-toolbar', 'fc-filter-toolbar');
             fcFilterToolbar.style.marginBottom = '1.5em';
-            var taxonomyDropdowns = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            var taxonomyDropdowns = /*#__PURE__*/React.createElement("div", {
               className: "fc-toolbar-chunk"
             }, _this2.fcExtra.taxonomyNodes.map(function (tNode) {
               var _this2$fcExtra$initia;
 
               tNode.selected = (_this2$fcExtra$initia = _this2.fcExtra.initialTaxonomies[tNode.slug]) !== null && _this2$fcExtra$initia !== void 0 ? _this2$fcExtra$initia : tNode.selected;
-              return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
+              return /*#__PURE__*/React.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({
                 onSelectTaxonomy: _onSelectTax
               }, tNode));
             }));
 
-            Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["render"])(taxonomyDropdowns, fcFilterToolbar);
+            Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(taxonomyDropdowns, fcFilterToolbar);
 
             var _iterator = _createForOfIteratorHelper(fcHeaderToolbars),
                 _step;
@@ -37229,21 +37228,21 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
         }
       }, this.fc);
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+      return /*#__PURE__*/React.createElement(_fullcalendar_react__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
         ref: this.calendarRef,
-        locales: _fullcalendar_core_locales_all__WEBPACK_IMPORTED_MODULE_6__["default"],
+        locales: _fullcalendar_core_locales_all__WEBPACK_IMPORTED_MODULE_5__["default"],
         plugins: plugins
-      }, fcOptions)));
+      }, fcOptions));
     }
   }]);
 
   return GbFullCalendar;
-}(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+}(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 /**
  *
  * @param attributes
- * @param gbFcPrefs
- * @returns {{fcExtra: {}, fc: {}}}
+ * @param gbFcPrefs {GbFcPrefs}
+ * @returns {GbFcPrefs}
  */
 
 
@@ -37272,6 +37271,48 @@ function attributesToGbfcOptions(attributes) {
 
 /***/ }),
 
+/***/ "./src/GbFullCalendarWrapper.js":
+/*!**************************************!*\
+  !*** ./src/GbFullCalendarWrapper.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GbFullCalendarWrapper; });
+// import { useInstanceId } from '@wordpress/compose';
+Object.defineProperty(String.prototype, 'hashCode', {
+  value: function value() {
+    var hash = 0,
+        i,
+        chr;
+
+    for (i = 0; i < this.length; i++) {
+      chr = this.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+
+    return hash;
+  }
+});
+function GbFullCalendarWrapper(_ref) {
+  var gbFcLocal = _ref.gbFcLocal;
+  // const instanceId = useInstanceId( GbFullCalendarWrapper );
+  var gbFcLocalJSON = JSON.stringify(gbFcLocal); // Workaround to create unique id, which remains the same over two sessions.
+  // TODO use "useInstanceId" instead, if possible.
+
+  var instanceId = Math.abs(gbFcLocalJSON.hashCode()).toString(16);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    id: "gbfc-wrapper-".concat(instanceId),
+    "data-value": instanceId,
+    className: "gbfc-wrapper"
+  }), /*#__PURE__*/React.createElement("script", null, "var GbFcLocal_".concat(instanceId, " = ").concat(gbFcLocalJSON)));
+}
+
+/***/ }),
+
 /***/ "./src/TaxonomySelect.js":
 /*!*******************************!*\
   !*** ./src/TaxonomySelect.js ***!
@@ -37282,13 +37323,11 @@ function attributesToGbfcOptions(attributes) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TaxonomySelect; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/index.js");
-/* harmony import */ var _material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/InputLabel */ "./node_modules/@material-ui/core/esm/InputLabel/index.js");
-/* harmony import */ var _material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/MenuItem */ "./node_modules/@material-ui/core/esm/MenuItem/index.js");
-/* harmony import */ var _material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/FormControl */ "./node_modules/@material-ui/core/esm/FormControl/index.js");
-/* harmony import */ var _material_ui_core_Select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/Select */ "./node_modules/@material-ui/core/esm/Select/index.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/index.js");
+/* harmony import */ var _material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core/InputLabel */ "./node_modules/@material-ui/core/esm/InputLabel/index.js");
+/* harmony import */ var _material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/MenuItem */ "./node_modules/@material-ui/core/esm/MenuItem/index.js");
+/* harmony import */ var _material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/FormControl */ "./node_modules/@material-ui/core/esm/FormControl/index.js");
+/* harmony import */ var _material_ui_core_Select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Select */ "./node_modules/@material-ui/core/esm/Select/index.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -37307,8 +37346,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-var useStyles = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["makeStyles"])(function (theme) {
+var useStyles = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_0__["makeStyles"])(function (theme) {
   return {
     formControl: {
       margin: theme.spacing(1),
@@ -37319,7 +37357,7 @@ var useStyles = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["ma
     }
   };
 });
-var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["createMuiTheme"])({
+var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_0__["createMuiTheme"])({
   typography: {
     // Informiere die Material-UI über die Schriftgröße des HTML-Elements.
     // TODO check if this works in all themes... https://material-ui.com/de/customization/typography/
@@ -37362,7 +37400,7 @@ function TaxonomySelect(props) {
       show_option_all = props.show_option_all,
       selected = props.selected;
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(selected),
+  var _React$useState = React.useState(selected),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       termId = _React$useState2[0],
       setTermId = _React$useState2[1]; // Sort by hierarchy
@@ -37383,13 +37421,13 @@ function TaxonomySelect(props) {
     onSelectTaxonomy(taxonomy, event.target.value);
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["ThemeProvider"], {
+  return /*#__PURE__*/React.createElement(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_0__["ThemeProvider"], {
     theme: theme
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, /*#__PURE__*/React.createElement(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
     className: classes.formControl
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, /*#__PURE__*/React.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_1__["default"], {
     id: "demo-simple-select-label"
-  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, name), /*#__PURE__*/React.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_4__["default"], {
     labelId: "demo-simple-select-label",
     id: "demo-simple-select",
     value: termId,
@@ -37402,7 +37440,7 @@ function flattenHierarchy(items, depth) {
     var colorEl = '';
 
     if (term.color) {
-      colorEl = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      colorEl = /*#__PURE__*/React.createElement("span", {
         style: {
           color: term.color,
           fontSize: '1.5em'
@@ -37416,7 +37454,7 @@ function flattenHierarchy(items, depth) {
       space += " ";
     }
 
-    var res = [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    var res = [/*#__PURE__*/React.createElement(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
       value: term.term_id
     }, colorEl, space + term.name)];
 
@@ -37477,8 +37515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FullCalendarOptions.json */ "./src/FullCalendarOptions.json");
 var _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./FullCalendarOptions.json */ "./src/FullCalendarOptions.json", 1);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _GbFullCalendarWrapper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./GbFullCalendarWrapper */ "./src/GbFullCalendarWrapper.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
@@ -37513,17 +37550,17 @@ function Edit(_ref) {
     setAttributes(_defineProperty({}, fieldName, newValue));
   }
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_5___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
     title: "View settings",
     initialOpen: true
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
     label: "Initial View",
     value: gbFcPrefs.fc.initialView,
     options: _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4__.initialView,
     onChange: function onChange(value) {
       return onChangeInputField('initialView', value);
     }
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
+  }))), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
     title: "Taxonomy settings"
   }, gbFcPrefs.fcExtra.taxonomyNodes.map(function (tNode) {
     var items = Object.values(tNode.items).map(function (term) {
@@ -37538,7 +37575,7 @@ function Edit(_ref) {
       value: 0
     });
     var initialVal = initialTaxonomies[tNode.slug] ? parseInt(initialTaxonomies[tNode.slug]) : null;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+    return /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
       label: 'Default for ' + tNode.name,
       value: initialVal,
       options: items,
@@ -37548,7 +37585,7 @@ function Edit(_ref) {
         onChangeInputField('initialTaxonomies', Object.assign({}, initialTaxonomies));
       }
     }));
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], gbFcPrefs));
+  }))), /*#__PURE__*/React.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], gbFcPrefs));
 }
 
 /***/ }),
@@ -37682,6 +37719,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])('cre
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return save; });
 /* harmony import */ var _GbFullCalendar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GbFullCalendar */ "./src/GbFullCalendar.js");
+/* harmony import */ var _GbFullCalendarWrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GbFullCalendarWrapper */ "./src/GbFullCalendarWrapper.js");
 /**
  * The save function defines the way in which the different attributes should
  * be combined into the final markup, which is then serialized by the block
@@ -37692,12 +37730,13 @@ __webpack_require__.r(__webpack_exports__);
  * @return {WPElement} Element to render.
  */
 
+
 function save(_ref) {
   var attributes = _ref.attributes;
   var gbFcLocal = Object(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_0__["attributesToGbfcOptions"])(attributes);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "fullcalendar-wrapper"
-  }), /*#__PURE__*/React.createElement("script", null, "var GbFcLocal = ", JSON.stringify(gbFcLocal)));
+  return /*#__PURE__*/React.createElement(_GbFullCalendarWrapper__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    gbFcLocal: gbFcLocal
+  });
 }
 
 /***/ }),

@@ -8,16 +8,12 @@
  * @return {WPElement} Element to render.
  */
 import { attributesToGbfcOptions } from './GbFullCalendar';
+import GbFullCalendarWrapper from './GbFullCalendarWrapper';
 
 export default function save( { attributes } ) {
-	const gbFcLocal = attributesToGbfcOptions(attributes)
+	const gbFcLocal = attributesToGbfcOptions( attributes );
 
 	return (
-		<>
-			<div className="fullcalendar-wrapper"></div>
-			<script>
-				var GbFcLocal = { JSON.stringify( gbFcLocal ) }
-			</script>
-		</>
+		<GbFullCalendarWrapper gbFcLocal={ gbFcLocal }/>
 	);
 }

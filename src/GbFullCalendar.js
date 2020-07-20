@@ -1,4 +1,3 @@
-import React from 'react';
 import { Component, render } from '@wordpress/element';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,12 +8,16 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 
 /**
- * A number, or a string containing a number.
+ * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}} FcExtra
  * @typedef {{echo: boolean, class: string, selected: string|int, name: string, slug: string, show_option_all: string, items: []}} TaxonomyNode
+ * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
 
 export default class GbFullCalendar extends Component {
 
+	/**
+	 * @param props {GbFcPrefs}
+	 */
 	constructor( props ) {
 		super( props );
 		this.calendarRef = React.createRef();
@@ -23,13 +26,11 @@ export default class GbFullCalendar extends Component {
 		/**
 		 * The FullCalendar options
 		 * @link https://fullcalendar.io/docs
-		 * @type {import('@fullcalendar/common').CalendarOptions}
 		 */
 		this.fc = props.fc;
 
 		/**
 		 * Additional options for Gutenberg, Wordpress and EventsManager
-		 * @type {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}}
 		 */
 		this.fcExtra = props.fcExtra;
 	}
@@ -108,14 +109,12 @@ export default class GbFullCalendar extends Component {
 			...this.fc,
 		};
 		return (
-			<div>
-				<FullCalendar
-					ref={ this.calendarRef }
-					locales={ allLocales }
-					plugins={ plugins }
-					{ ...fcOptions }
-				/>
-			</div>
+			<FullCalendar
+				ref={ this.calendarRef }
+				locales={ allLocales }
+				plugins={ plugins }
+				{ ...fcOptions }
+			/>
 		);
 	}
 }
@@ -123,8 +122,8 @@ export default class GbFullCalendar extends Component {
 /**
  *
  * @param attributes
- * @param gbFcPrefs
- * @returns {{fcExtra: {}, fc: {}}}
+ * @param gbFcPrefs {GbFcPrefs}
+ * @returns {GbFcPrefs}
  */
 export function attributesToGbfcOptions( attributes, gbFcPrefs = { fc: {}, fcExtra: {} } ) {
 	// Set fc preferences
