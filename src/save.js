@@ -7,11 +7,11 @@
  *
  * @return {WPElement} Element to render.
  */
+import { attributesToGbfcOptions } from './GbFullCalendar';
+
 export default function save( { attributes } ) {
-	const gbFcLocal = {
-		fc: attributes,
-		fcExtra: {},
-	};
+	const gbFcLocal = attributesToGbfcOptions(attributes)
+
 	return (
 		<>
 			<div className="fullcalendar-wrapper"></div>

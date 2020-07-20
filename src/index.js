@@ -65,6 +65,10 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 	},
 
 	attributes: {
+		initialTaxonomies: {
+			type: 'object',
+			default: {},
+		},
 		initialView: {
 			type: 'string',
 		},

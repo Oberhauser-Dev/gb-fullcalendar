@@ -157,6 +157,7 @@ function getFullCalendarArgs()
         'dayMaxEventRows' => true,
         'dayMaxEvents' => true,
         'views' => $views,
+        'showNonCurrentDates' => false, // TODO Cannot handle dates outside of range in events manager
 
         // eventBackgroundColor: 'white',
         // eventColor: 'white',
@@ -231,6 +232,7 @@ function getFullCalendarExtraArgs()
                     'class' => 'gbfc-taxonomy ' . $taxonomy_name,
                     'selected' => $default_value,
                     'name' => $taxonomy->labels->name,
+                    'slug' => $taxonomy->name,
                     'show_option_all' => $taxonomy->labels->all_items,
                     'items' => $terms,
                 ));

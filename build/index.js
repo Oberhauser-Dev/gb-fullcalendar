@@ -37038,12 +37038,13 @@ module.exports = JSON.parse("{\"initialView\":[{\"value\":\"dayGridMonth\",\"lab
 /*!*******************************!*\
   !*** ./src/GbFullCalendar.js ***!
   \*******************************/
-/*! exports provided: default */
+/*! exports provided: default, attributesToGbfcOptions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GbFullCalendar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attributesToGbfcOptions", function() { return attributesToGbfcOptions; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
@@ -37100,6 +37101,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+/**
+ * A number, or a string containing a number.
+ * @typedef {{echo: boolean, class: string, selected: string|int, name: string, slug: string, show_option_all: string, items: []}} TaxonomyNode
+ */
 
 var GbFullCalendar = /*#__PURE__*/function (_Component) {
   _inherits(GbFullCalendar, _Component);
@@ -37117,12 +37122,13 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
     /**
      * The FullCalendar options
      * @link https://fullcalendar.io/docs
+     * @type {import('@fullcalendar/common').CalendarOptions}
      */
 
     _this.fc = props.fc;
     /**
      * Additional options for Gutenberg, Wordpress and EventsManager
-     * @type {{ajaxUrl: string, month: string, year: string}}
+     * @type {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}}
      */
 
     _this.fcExtra = props.fcExtra;
@@ -37185,6 +37191,9 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
             var taxonomyDropdowns = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "fc-toolbar-chunk"
             }, _this2.fcExtra.taxonomyNodes.map(function (tNode) {
+              var _this2$fcExtra$initia;
+
+              tNode.selected = (_this2$fcExtra$initia = _this2.fcExtra.initialTaxonomies[tNode.slug]) !== null && _this2$fcExtra$initia !== void 0 ? _this2$fcExtra$initia : tNode.selected;
               return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
                 onSelectTaxonomy: _onSelectTax
               }, tNode));
@@ -37230,8 +37239,36 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
 
   return GbFullCalendar;
 }(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+/**
+ *
+ * @param attributes
+ * @param gbFcPrefs
+ * @returns {{fcExtra: {}, fc: {}}}
+ */
 
 
+
+function attributesToGbfcOptions(attributes) {
+  var gbFcPrefs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    fc: {},
+    fcExtra: {}
+  };
+  // Set fc preferences
+  var initialView = attributes.initialView;
+
+  if (initialView) {
+    gbFcPrefs.fc.initialView = initialView;
+  } // Set fcExtra preferences
+
+
+  var initialTaxonomies = attributes.initialTaxonomies;
+
+  if (initialTaxonomies) {
+    gbFcPrefs.fcExtra.initialTaxonomies = initialTaxonomies;
+  }
+
+  return gbFcPrefs;
+}
 
 /***/ }),
 
@@ -37311,18 +37348,25 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["create
 //  }]
 // }
 
+/**
+ *
+ * @param props {TaxonomyNode}
+ * @returns {*}
+ */
+
 function TaxonomySelect(props) {
   var classes = useStyles();
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      termId = _React$useState2[0],
-      setTermId = _React$useState2[1];
-
   var onSelectTaxonomy = props.onSelectTaxonomy,
       taxonomy = props.taxonomy,
       name = props.name,
-      show_option_all = props.show_option_all; // Sort by hierarchy
+      show_option_all = props.show_option_all,
+      selected = props.selected;
+
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(selected),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      termId = _React$useState2[0],
+      setTermId = _React$useState2[1]; // Sort by hierarchy
+
 
   var items = hierarchy(Object.values(props.items), {
     idKey: 'term_id',
@@ -37433,6 +37477,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FullCalendarOptions.json */ "./src/FullCalendarOptions.json");
 var _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./FullCalendarOptions.json */ "./src/FullCalendarOptions.json", 1);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /**
@@ -37440,6 +37486,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
+
 
 
 
@@ -37459,70 +37506,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function Edit(_ref) {
   var attributes = _ref.attributes,
       setAttributes = _ref.setAttributes;
-  var content = attributes.content,
-      checkboxField = attributes.checkboxField,
-      radioField = attributes.radioField,
-      textField = attributes.textField,
-      toggleField = attributes.toggleField,
-      initialView = attributes.initialView;
-  var gbFcPrefs = {
-    fc: GbFcGlobal.fc,
-    fcExtra: GbFcGlobal.fcExtra
-  };
-
-  if (attributes) {
-    gbFcPrefs.fc = Object.assign(gbFcPrefs.fc, attributes); //gbFcPrefs.fcExtra = Object.assign( gbFcPrefs.fcExtra, GbFcLocal.fcExtra );
-  }
+  var gbFcPrefs = Object(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["attributesToGbfcOptions"])(attributes, GbFcGlobal);
+  var initialTaxonomies = gbFcPrefs.fcExtra.initialTaxonomies;
 
   function onChangeInputField(fieldName, newValue) {
     setAttributes(_defineProperty({}, fieldName, newValue));
   }
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
-    title: "Most awesome settings ever",
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_5___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
+    title: "View settings",
     initialOpen: true
-  }, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
-    heading: "Checkbox Field",
-    label: "Tick Me",
-    help: "Additional help text",
-    checked: checkboxField,
-    onChange: function onChange(value) {
-      return onChangeInputField('checkbox', value);
-    }
-  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["RadioControl"], {
-    label: "Radio Field",
-    selected: radioField,
-    options: [{
-      label: 'Yes',
-      value: 'yes'
-    }, {
-      label: 'No',
-      value: 'no'
-    }],
-    onChange: function onChange(value) {
-      return onChangeInputField('radio', value);
-    }
-  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], {
-    label: "Text Field",
-    help: "Additional help text",
-    value: textField,
-    onChange: function onChange(value) {
-      return onChangeInputField('text', value);
-    }
-  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
-    label: "Toggle Field",
-    checked: toggleField,
-    onChange: function onChange(value) {
-      return onChangeInputField('toggle', value);
-    }
-  })), /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/React.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
     label: "Initial View",
-    value: initialView,
+    value: gbFcPrefs.fc.initialView,
     options: _FullCalendarOptions_json__WEBPACK_IMPORTED_MODULE_4__.initialView,
     onChange: function onChange(value) {
       return onChangeInputField('initialView', value);
     }
-  })))), /*#__PURE__*/React.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], gbFcPrefs));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelBody"], {
+    title: "Taxonomy settings"
+  }, gbFcPrefs.fcExtra.taxonomyNodes.map(function (tNode) {
+    var items = Object.values(tNode.items).map(function (term) {
+      return {
+        label: term.name,
+        value: term.term_id
+      };
+    }); // Add all option at the beginning
+
+    items.unshift({
+      label: tNode.show_option_all,
+      value: 0
+    });
+    var initialVal = initialTaxonomies[tNode.slug] ? parseInt(initialTaxonomies[tNode.slug]) : null;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["PanelRow"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["SelectControl"], {
+      label: 'Default for ' + tNode.name,
+      value: initialVal,
+      options: items,
+      onChange: function onChange(value) {
+        initialTaxonomies[tNode.slug] = value; // Clone object in order to trigger React updating view
+
+        onChangeInputField('initialTaxonomies', Object.assign({}, initialTaxonomies));
+      }
+    }));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_5___default.a.createElement(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_1__["default"], gbFcPrefs));
 }
 
 /***/ }),
@@ -37601,6 +37627,10 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])('cre
     html: false
   },
   attributes: {
+    initialTaxonomies: {
+      type: 'object',
+      "default": {}
+    },
     initialView: {
       type: 'string'
     } // content: {
@@ -37651,6 +37681,7 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])('cre
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return save; });
+/* harmony import */ var _GbFullCalendar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GbFullCalendar */ "./src/GbFullCalendar.js");
 /**
  * The save function defines the way in which the different attributes should
  * be combined into the final markup, which is then serialized by the block
@@ -37660,12 +37691,10 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {WPElement} Element to render.
  */
+
 function save(_ref) {
   var attributes = _ref.attributes;
-  var gbFcLocal = {
-    fc: attributes,
-    fcExtra: {}
-  };
+  var gbFcLocal = Object(_GbFullCalendar__WEBPACK_IMPORTED_MODULE_0__["attributesToGbfcOptions"])(attributes);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "fullcalendar-wrapper"
   }), /*#__PURE__*/React.createElement("script", null, "var GbFcLocal = ", JSON.stringify(gbFcLocal)));

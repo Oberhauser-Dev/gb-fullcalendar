@@ -4,13 +4,8 @@
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
 import { __ } from '@wordpress/i18n';
-import GbFullCalendar from './GbFullCalendar';
-
+import GbFullCalendar, { attributesToGbfcOptions } from './GbFullCalendar';
 import {
-	CheckboxControl,
-	RadioControl,
-	TextControl,
-	ToggleControl,
 	SelectControl,
 	PanelBody,
 	PanelRow,
@@ -18,7 +13,8 @@ import {
 import {
 	InspectorControls,
 } from '@wordpress/editor';
-import fcOptions from './FullCalendarOptions.json'
+import fcOptions from './FullCalendarOptions.json';
+import React from 'react';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -31,23 +27,9 @@ import fcOptions from './FullCalendarOptions.json'
  * @return {WPElement} Element to render.
  */
 export default function Edit( { attributes, setAttributes } ) {
-	const {
-		content,
-		checkboxField,
-		radioField,
-		textField,
-		toggleField,
-		initialView
-	} = attributes;
 
-	const gbFcPrefs = {
-		fc: GbFcGlobal.fc,
-		fcExtra: GbFcGlobal.fcExtra,
-	}
-	if (attributes) {
-		gbFcPrefs.fc = Object.assign( gbFcPrefs.fc, attributes );
-		//gbFcPrefs.fcExtra = Object.assign( gbFcPrefs.fcExtra, GbFcLocal.fcExtra );
-	}
+	const gbFcPrefs = attributesToGbfcOptions( attributes, GbFcGlobal );
+	const initialTaxonomies = gbFcPrefs.fcExtra.initialTaxonomies;
 
 	function onChangeInputField( fieldName, newValue ) {
 		setAttributes( { [fieldName]: newValue } );
@@ -56,59 +38,53 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title="Most awesome settings ever"
-					initialOpen={ true }
-				>
-					<PanelRow>
-						<CheckboxControl
-							heading="Checkbox Field"
-							label="Tick Me"
-							help="Additional help text"
-							checked={ checkboxField }
-							onChange={ ( value ) => onChangeInputField( 'checkbox', value ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<RadioControl
-							label="Radio Field"
-							selected={ radioField }
-							options={
-								[
-									{ label: 'Yes', value: 'yes' },
-									{ label: 'No', value: 'no' },
-								]
-							}
-							onChange={ ( value ) => onChangeInputField( 'radio', value ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<TextControl
-							label="Text Field"
-							help="Additional help text"
-							value={ textField }
-							onChange={ ( value ) => onChangeInputField( 'text', value ) }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ToggleControl
-							label="Toggle Field"
-							checked={ toggleField }
-							onChange={ ( value ) => onChangeInputField( 'toggle', value ) }
-						/>
-					</PanelRow>
+				<PanelBody title="View settings" initialOpen={ true }>
 					<PanelRow>
 						<SelectControl
 							label="Initial View"
-							value={ initialView }
+							value={ gbFcPrefs.fc.initialView }
 							options={ fcOptions.initialView }
 							onChange={ ( value ) => onChangeInputField( 'initialView', value ) }
 						/>
 					</PanelRow>
 				</PanelBody>
+				<PanelBody title="Taxonomy settings">
+					{
+						gbFcPrefs.fcExtra.taxonomyNodes.map( ( tNode ) => {
+							const items = Object.values( tNode.items ).map( ( term ) => {
+								return {
+									label: term.name,
+									value: term.term_id,
+								};
+							} );
+
+							// Add all option at the beginning
+							items.unshift( {
+								label: tNode.show_option_all,
+								value: 0,
+							} );
+							const initialVal = initialTaxonomies[tNode.slug] ? parseInt( initialTaxonomies[tNode.slug] ) : null;
+
+							return (
+								<PanelRow>
+									<SelectControl
+										label={ 'Default for ' + tNode.name }
+										value={ initialVal }
+										options={ items }
+										onChange={ ( value ) => {
+											initialTaxonomies[tNode.slug] = value;
+											// Clone object in order to trigger React updating view
+											onChangeInputField( 'initialTaxonomies', Object.assign( {}, initialTaxonomies ) );
+										} }
+									/>
+								</PanelRow>
+							);
+						} )
+					}
+				</PanelBody>
 			</InspectorControls>
 
-			<GbFullCalendar {...gbFcPrefs} />
+			<GbFullCalendar { ...gbFcPrefs } />
 		</>
 	);
 }

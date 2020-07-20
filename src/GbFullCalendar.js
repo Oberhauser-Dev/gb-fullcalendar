@@ -8,6 +8,11 @@ import allLocales from '@fullcalendar/core/locales-all';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 
+/**
+ * A number, or a string containing a number.
+ * @typedef {{echo: boolean, class: string, selected: string|int, name: string, slug: string, show_option_all: string, items: []}} TaxonomyNode
+ */
+
 export default class GbFullCalendar extends Component {
 
 	constructor( props ) {
@@ -18,12 +23,13 @@ export default class GbFullCalendar extends Component {
 		/**
 		 * The FullCalendar options
 		 * @link https://fullcalendar.io/docs
+		 * @type {import('@fullcalendar/common').CalendarOptions}
 		 */
 		this.fc = props.fc;
 
 		/**
 		 * Additional options for Gutenberg, Wordpress and EventsManager
-		 * @type {{ajaxUrl: string, month: string, year: string}}
+		 * @type {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}}
 		 */
 		this.fcExtra = props.fcExtra;
 	}
@@ -76,6 +82,7 @@ export default class GbFullCalendar extends Component {
 						<div className='fc-toolbar-chunk'>
 							{
 								this.fcExtra.taxonomyNodes.map( ( tNode ) => {
+									tNode.selected = this.fcExtra.initialTaxonomies[tNode.slug] ?? tNode.selected;
 									return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
 								} )
 							}
@@ -111,4 +118,25 @@ export default class GbFullCalendar extends Component {
 			</div>
 		);
 	}
+}
+
+/**
+ *
+ * @param attributes
+ * @param gbFcPrefs
+ * @returns {{fcExtra: {}, fc: {}}}
+ */
+export function attributesToGbfcOptions( attributes, gbFcPrefs = { fc: {}, fcExtra: {} } ) {
+	// Set fc preferences
+	const { initialView } = attributes;
+	if (initialView) {
+		gbFcPrefs.fc.initialView = initialView;
+	}
+
+	// Set fcExtra preferences
+	let { initialTaxonomies } = attributes;
+	if (initialTaxonomies) {
+		gbFcPrefs.fcExtra.initialTaxonomies = initialTaxonomies;
+	}
+	return gbFcPrefs;
 }

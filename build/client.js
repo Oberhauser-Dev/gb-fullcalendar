@@ -37027,12 +37027,13 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 /*!*******************************!*\
   !*** ./src/GbFullCalendar.js ***!
   \*******************************/
-/*! exports provided: default */
+/*! exports provided: default, attributesToGbfcOptions */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return GbFullCalendar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "attributesToGbfcOptions", function() { return attributesToGbfcOptions; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
@@ -37089,6 +37090,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+/**
+ * A number, or a string containing a number.
+ * @typedef {{echo: boolean, class: string, selected: string|int, name: string, slug: string, show_option_all: string, items: []}} TaxonomyNode
+ */
 
 var GbFullCalendar = /*#__PURE__*/function (_Component) {
   _inherits(GbFullCalendar, _Component);
@@ -37106,12 +37111,13 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
     /**
      * The FullCalendar options
      * @link https://fullcalendar.io/docs
+     * @type {import('@fullcalendar/common').CalendarOptions}
      */
 
     _this.fc = props.fc;
     /**
      * Additional options for Gutenberg, Wordpress and EventsManager
-     * @type {{ajaxUrl: string, month: string, year: string}}
+     * @type {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}}
      */
 
     _this.fcExtra = props.fcExtra;
@@ -37174,6 +37180,9 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
             var taxonomyDropdowns = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "fc-toolbar-chunk"
             }, _this2.fcExtra.taxonomyNodes.map(function (tNode) {
+              var _this2$fcExtra$initia;
+
+              tNode.selected = (_this2$fcExtra$initia = _this2.fcExtra.initialTaxonomies[tNode.slug]) !== null && _this2$fcExtra$initia !== void 0 ? _this2$fcExtra$initia : tNode.selected;
               return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TaxonomySelect__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({
                 onSelectTaxonomy: _onSelectTax
               }, tNode));
@@ -37219,8 +37228,36 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
 
   return GbFullCalendar;
 }(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+/**
+ *
+ * @param attributes
+ * @param gbFcPrefs
+ * @returns {{fcExtra: {}, fc: {}}}
+ */
 
 
+
+function attributesToGbfcOptions(attributes) {
+  var gbFcPrefs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    fc: {},
+    fcExtra: {}
+  };
+  // Set fc preferences
+  var initialView = attributes.initialView;
+
+  if (initialView) {
+    gbFcPrefs.fc.initialView = initialView;
+  } // Set fcExtra preferences
+
+
+  var initialTaxonomies = attributes.initialTaxonomies;
+
+  if (initialTaxonomies) {
+    gbFcPrefs.fcExtra.initialTaxonomies = initialTaxonomies;
+  }
+
+  return gbFcPrefs;
+}
 
 /***/ }),
 
@@ -37300,18 +37337,25 @@ var theme = Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__["create
 //  }]
 // }
 
+/**
+ *
+ * @param props {TaxonomyNode}
+ * @returns {*}
+ */
+
 function TaxonomySelect(props) {
   var classes = useStyles();
-
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(0),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      termId = _React$useState2[0],
-      setTermId = _React$useState2[1];
-
   var onSelectTaxonomy = props.onSelectTaxonomy,
       taxonomy = props.taxonomy,
       name = props.name,
-      show_option_all = props.show_option_all; // Sort by hierarchy
+      show_option_all = props.show_option_all,
+      selected = props.selected;
+
+  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0___default.a.useState(selected),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      termId = _React$useState2[0],
+      setTermId = _React$useState2[1]; // Sort by hierarchy
+
 
   var items = hierarchy(Object.values(props.items), {
     idKey: 'term_id',

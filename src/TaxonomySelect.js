@@ -47,11 +47,16 @@ const theme = createMuiTheme( {
 //  }]
 // }
 
+/**
+ *
+ * @param props {TaxonomyNode}
+ * @returns {*}
+ */
 export default function TaxonomySelect( props ) {
 	const classes = useStyles();
-	const [ termId, setTermId ] = React.useState( 0 );
+	const { onSelectTaxonomy, taxonomy, name, show_option_all, selected } = props;
+	const [ termId, setTermId ] = React.useState( selected );
 
-	const { onSelectTaxonomy, taxonomy, name, show_option_all } = props;
 
 	// Sort by hierarchy
 	const items = hierarchy( Object.values( props.items ), { idKey: 'term_id', parentKey: 'parent' } );
