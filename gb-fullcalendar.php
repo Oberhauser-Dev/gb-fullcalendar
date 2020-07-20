@@ -230,6 +230,7 @@ function getFullCalendarExtraArgs()
                     'echo' => true,
                     'class' => 'gbfc-taxonomy ' . $taxonomy_name,
                     'selected' => $default_value,
+                    'name' => $taxonomy->labels->name,
                     'show_option_all' => $taxonomy->labels->all_items,
                     'items' => $terms,
                 ));

@@ -37123,9 +37123,7 @@ var GbFullCalendar = /*#__PURE__*/function (_Component) {
     value: function getExtraParams() {
       return _objectSpread({
         action: 'WP_FullCalendar',
-        type: 'event',
-        month: this.fcExtra.month,
-        year: this.fcExtra.year
+        type: 'event'
       }, this.filterParams);
     }
   }, {
@@ -37312,6 +37310,7 @@ function TaxonomySelect(props) {
 
   var onSelectTaxonomy = props.onSelectTaxonomy,
       taxonomy = props.taxonomy,
+      name = props.name,
       show_option_all = props.show_option_all; // Sort by hierarchy
 
   var items = hierarchy(Object.values(props.items), {
@@ -37335,7 +37334,7 @@ function TaxonomySelect(props) {
     className: classes.formControl
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: "demo-simple-select-label"
-  }, show_option_all), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_5__["default"], {
     labelId: "demo-simple-select-label",
     id: "demo-simple-select",
     value: termId,

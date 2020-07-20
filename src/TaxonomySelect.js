@@ -51,7 +51,7 @@ export default function TaxonomySelect( props ) {
 	const classes = useStyles();
 	const [ termId, setTermId ] = React.useState( 0 );
 
-	const { onSelectTaxonomy, taxonomy, show_option_all } = props;
+	const { onSelectTaxonomy, taxonomy, name, show_option_all } = props;
 
 	// Sort by hierarchy
 	const items = hierarchy( Object.values( props.items ), { idKey: 'term_id', parentKey: 'parent' } );
@@ -69,7 +69,7 @@ export default function TaxonomySelect( props ) {
 	return (
 		<ThemeProvider theme={ theme }>
 			<FormControl className={ classes.formControl }>
-				<InputLabel id="demo-simple-select-label">{ show_option_all }</InputLabel>
+				<InputLabel id="demo-simple-select-label">{ name }</InputLabel>
 				<Select
 					labelId="demo-simple-select-label"
 					id="demo-simple-select"
