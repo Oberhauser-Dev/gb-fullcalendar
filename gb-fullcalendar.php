@@ -13,7 +13,8 @@
  * @package         create-block
  */
 
-include_once( ABSPATH . 'wp-admin/includes/plugin.php' ); // load method for front-end
+include_once(ABSPATH . 'wp-admin/includes/plugin.php'); // load method for front-end
+
 if (!is_plugin_active('wp-fullcalendar/wp-fullcalendar.php')) {
     // Define WPFC-Version to enable EM-wpfc API (ajax);
     if (!defined('WPFC_VERSION'))
@@ -81,6 +82,9 @@ function create_block_gb_fullcalendar_block_init()
         // Call always as admin, otherwise block cannot be added dynamically.
         localize_script();
         include('gb-fc-admin.php');
+    } else {
+        // Add shortcode
+        add_shortcode('fullcalendar', 'calendar_via_shortcode');
     }
 }
 
@@ -89,17 +93,22 @@ add_action('init', 'create_block_gb_fullcalendar_block_init');
 /**
  * Only localize js variables if block is present in front-end.
  */
-function create_block_gb_fullcalendar_block_enqueue_script() {
-    if (has_block('create-block/gb-fullcalendar')) {
-        localize_script();
-    }
+function create_block_gb_fullcalendar_block_enqueue_script()
+{
+    // Always enqueue script, as shortcode need localized script, too.
+    // TODO may fix that  only load, when needed.
+//    if (has_block('create-block/gb-fullcalendar')) {
+    localize_script();
+//    }
 }
-add_action( 'wp_enqueue_scripts', 'create_block_gb_fullcalendar_block_enqueue_script' );
+
+add_action('wp_enqueue_scripts', 'create_block_gb_fullcalendar_block_enqueue_script');
 
 /**
  * Localize javascript variables for gb-fullcalendar.
  */
-function localize_script() {
+function localize_script()
+{
     wp_localize_script(
         'create-block-gb-fullcalendar-block',
         'GbFcGlobal', // Array containing dynamic data for a JS Global.
@@ -176,7 +185,7 @@ function getFullCalendarArgs()
 }
 
 /**
- * Set custom FullCalendar options. Needs a counterpart in @see "src/client.js".
+ * Set custom FullCalendar options. Needs a counterpart in "src/client.js"
  *
  * @return array the custom FC options to be localized.
  */
@@ -185,7 +194,7 @@ function getFullCalendarExtraArgs()
     $schema = is_ssl() ? 'https' : 'http';
 
     $args = []; // TODO fetch from settings
-    $post_type = get_option('gbfc_default_type','event');
+    $post_type = get_option('gbfc_default_type', 'event');
     //figure out what taxonomies to show
     $gbfc_post_taxonomies = get_option('gbfc_post_taxonomies');
     $search_taxonomies = array_keys($gbfc_post_taxonomies[$post_type]) ?? array();
@@ -199,7 +208,7 @@ function getFullCalendarExtraArgs()
     $taxonomyNodes = [];
     foreach (get_object_taxonomies($post_type) as $taxonomy_name) {
         $taxonomy = get_taxonomy($taxonomy_name);
-        if (count(get_terms($taxonomy_name, array('hide_empty' => 1))) > 0 && in_array($taxonomy_name, $search_taxonomies)) {
+        if (in_array($taxonomy_name, $search_taxonomies)) {
             $isCategory = $taxonomy_name === EM_TAXONOMY_CATEGORY;
             // Default value
             $default_value = $args[$taxonomy_name] ?? 0;
@@ -212,15 +221,15 @@ function getFullCalendarExtraArgs()
 
             // See: https://developer.wordpress.org/reference/classes/wp_term_query/__construct/
             $taxonomy_args = array(
-                'hide_empty' => true,
+                'hide_empty' => false, // Do not hide in order to not limit filter settings and hide them in front-end only.
                 'hierarchical' => true,
                 'taxonomy' => $taxonomy_name,
             );
             $taxonomy_args = apply_filters('gb_fc_taxonomy_args', $taxonomy_args, $taxonomy);
             $terms = get_terms($taxonomy_args);
-            if(!$taxonomy_args['hide_empty'] || !empty($terms)) {
+            if (!$taxonomy_args['hide_empty'] || !empty($terms)) {
                 // Add em category colors
-                if($isCategory) {
+                if ($isCategory) {
                     foreach ($terms as $term) {
                         $term->color = getEmTermColor($term->term_id);
                     }
@@ -235,6 +244,7 @@ function getFullCalendarExtraArgs()
                     'slug' => $taxonomy->name,
                     'show_option_all' => $taxonomy->labels->all_items,
                     'items' => $terms,
+                    'is_empty' => count(get_terms($taxonomy_name, array('hide_empty' => true))) === 0 // taxonomy has only terms with no related posts
                 ));
                 $display_args = apply_filters('gb_fc_taxonomy_display_args', $display_args, $taxonomy);
                 $taxonomyNodes[] = $display_args;
@@ -256,4 +266,59 @@ function getEmTermColor($term_id)
         $color = $wpdb->get_var('SELECT meta_value FROM ' . EM_META_TABLE . " WHERE object_id='{$term_id}' AND meta_key='category-bgcolor' LIMIT 1");
     }
     return (!empty($color)) ? $color : '#a8d144';
+}
+
+/**
+ * Returns the calendar HTML setup and primes the js to load at wp_footer
+ * @param array $args
+ * @return string
+ */
+function calendar_via_shortcode($args = array())
+{
+    $post_type = 'post';
+    //figure out what taxonomies to show
+    $wpfc_post_taxonomies = get_option('wpfc_post_taxonomies');
+    $search_taxonomies = !empty($wpfc_post_taxonomies[$post_type]) ? array_keys($wpfc_post_taxonomies[$post_type]) : array();
+    $instanceId = hash('crc32', 'some settings');
+    $gbFcLocal = new stdClass();
+    $gbFcLocal->fc = new stdClass();
+    $gbFcLocal->fcExtra = new stdClass();
+    $gbFcLocal->fcExtra->initialTaxonomies = [];
+    foreach ($args as $arg => $value) {
+        if (substr($arg, 0, 3) === 'fc_') {
+            // Convert fullcalendar specific parameters
+            $termIdentifier = str_replace('_', '', lcfirst(ucwords(substr($arg, 3), '_')));
+            $gbFcLocal->fc->$termIdentifier = $value;
+        } else {
+            $taxonomy = get_taxonomy($arg);
+            if ($taxonomy) {
+                $search_terms = explode(',', $value);
+                array_walk($search_terms, 'trim');
+                foreach ($search_terms as $key => $termIdentifier) {
+                    if (!is_numeric($termIdentifier)) {
+                        // Convert term slug to its id
+                        $term = get_term_by('slug', $termIdentifier, $arg);
+                        if ($term) {
+                            $search_terms[$key] = $term->term_id;
+                        } else {
+                            unset($search_terms[$key]);
+                        }
+                    }
+                }
+                $gbFcLocal->fcExtra->initialTaxonomies[$arg] = $search_terms;
+            }
+        }
+    }
+
+    ob_start();
+    ?>
+    <div id="gbfc-wrapper-<?php echo $instanceId ?>" data-value="<?php echo $instanceId ?>" class="gbfc-wrapper">
+
+    </div>
+    <script>
+		var GbFcLocal_<?php echo $instanceId?> = <?php echo json_encode($gbFcLocal) ?>
+    </script>
+    <?php
+    do_action('wpfc_calendar_displayed', $args);
+    return ob_get_clean();
 }

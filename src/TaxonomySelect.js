@@ -56,7 +56,6 @@ export default function TaxonomySelect( props ) {
 	const { onSelectTaxonomy, taxonomy, name, show_option_all, selected } = props;
 	const [ termId, setTermId ] = React.useState( selected );
 
-
 	// Sort by hierarchy
 	const items = hierarchy( Object.values( props.items ), { idKey: 'term_id', parentKey: 'parent' } );
 	// Add reset button for all selects.
@@ -90,17 +89,17 @@ export default function TaxonomySelect( props ) {
 function flattenHierarchy( items, depth ) {
 
 	return items.map( ( term ) => {
-		let colorEl='';
-		if(term.color) {
-			colorEl = <span style={{color: term.color, fontSize: '1.5em' }}>● </span>;
+		let colorEl = '';
+		if (term.color) {
+			colorEl = <span style={ { color: term.color, fontSize: '1.5em' } }>● </span>;
 		}
 		let space = '';
 		for (let i = 0; i < depth; i++) {
-			space += " ";
+			space += ' ';
 		}
-		let res = [ <MenuItem value={ term.term_id }>{colorEl}{space + term.name }</MenuItem> ];
+		let res = [ <MenuItem value={ term.term_id }>{ colorEl }{ space + term.name }</MenuItem> ];
 		if (term.children && term.children.length > 0) {
-			res = res.concat(flattenHierarchy( term.children, depth + 1 ) );
+			res = res.concat( flattenHierarchy( term.children, depth + 1 ) );
 		}
 		return res;
 	} );
