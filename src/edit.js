@@ -63,11 +63,12 @@ export default function Edit( { attributes, setAttributes } ) {
 								label: tNode.show_option_all,
 								value: 0,
 							} );
-							const initialVal = initialTaxonomies[tNode.slug] ? parseInt( initialTaxonomies[tNode.slug] ) : null;
+							const initialVal = initialTaxonomies[tNode.slug] ?? null;
 
 							return (
 								<PanelRow>
 									<SelectControl
+										multiple={ true }
 										label={ 'Default for ' + tNode.name }
 										value={ initialVal }
 										options={ items }
@@ -84,10 +85,10 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 
-			{/* Only to test wrapper */}
-			{/*<GbFullCalendarWrapper gbFcLocal={gbFcPrefs}/>*/}
+			{/* Only to test wrapper */ }
+			{/*<GbFullCalendarWrapper gbFcLocal={gbFcPrefs}/>*/ }
 
-			{/* The real calendar */}
+			{/* The real calendar */ }
 			<GbFullCalendar { ...gbFcPrefs } />
 		</>
 	);

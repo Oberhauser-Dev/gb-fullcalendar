@@ -9,7 +9,7 @@ import TaxonomySelect from './TaxonomySelect';
 
 /**
  * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}} FcExtra
- * @typedef {{echo: boolean, class: string, selected: string|int, name: string, slug: string, show_option_all: string, items: [], is_empty: boolean}} TaxonomyNode
+ * @typedef {{echo: boolean, class: string, selected: int[], name: string, slug: string, show_option_all: string, items: [], is_empty: boolean}} TaxonomyNode
  * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
 
@@ -44,7 +44,11 @@ export default class GbFullCalendar extends Component {
 	}
 
 	onSelectTaxonomy( taxonomy, value ) {
-		this.filterParams[taxonomy] = value;
+		if (value.includes( 0 )) {
+			delete this.filterParams[taxonomy];
+		} else {
+			this.filterParams[taxonomy] = value;
+		}
 
 		let calendarApi = this.calendarRef.current.getApi();
 		calendarApi.refetchEvents();
@@ -85,11 +89,12 @@ export default class GbFullCalendar extends Component {
 								this.fcExtra.taxonomyNodes.filter( ( tNode => ! tNode.is_empty ) ).map( ( tNode ) => {
 									tNode.items = tNode.items.filter( term => term.count > 0 );
 									let selected = this.fcExtra.initialTaxonomies[tNode.slug];
-									if (Array.isArray( selected ) && selected.length > 0) {
-										selected = selected[0];
-									}
 									// TODO set selected to other, if its not in items
 									tNode.selected = selected ?? tNode.selected;
+									if (! Array.isArray( tNode.selected )) {
+										tNode.selected = [ tNode.selected ];
+									}
+									tNode.selected = tNode.selected.map( termId => parseInt( termId ) );
 									return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
 								} )
 							}
