@@ -1,4 +1,4 @@
-import { Component, render } from '@wordpress/element';
+import { Component, render, useImperativeHandle } from '@wordpress/element';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -6,6 +6,7 @@ import listPlugin from '@fullcalendar/list';
 import allLocales from '@fullcalendar/core/locales-all';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 /**
  * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}} FcExtra
@@ -21,6 +22,7 @@ export default class GbFullCalendar extends Component {
 	constructor( props ) {
 		super( props );
 		this.calendarRef = React.createRef();
+		this.loadingComponent = React.createRef();
 		this.filterParams = {};
 
 		/**
@@ -117,18 +119,67 @@ export default class GbFullCalendar extends Component {
 				}
 				return eventData;
 			},
+			loading: ( isLoading ) => {
+				if (this.loadingComponent.current) {
+					this.loadingComponent.current.loading( isLoading );
+				}
+			},
 			...this.fc,
 		};
 		return (
-			<FullCalendar
-				ref={ this.calendarRef }
-				locales={ allLocales }
-				plugins={ plugins }
-				{ ...fcOptions }
-			/>
+			<div style={ { position: 'relative' } }>
+				<FullCalendar
+					ref={ this.calendarRef }
+					locales={ allLocales }
+					plugins={ plugins }
+					{ ...fcOptions }
+				/>
+				<LoadingComponent ref={ this.loadingComponent }/>
+			</div>
 		);
 	}
 }
+
+const LoadingComponent = React.forwardRef( ( props, ref ) => {
+	const [ loadingIndicator, setLoadingIndicator ] = React.useState( true );
+
+	useImperativeHandle( ref, () => ( {
+
+		loading( isLoading ) {
+			if (isLoading !== loadingIndicator) {
+				setLoadingIndicator( isLoading );
+			}
+		},
+
+	} ) );
+
+	return (
+		<>
+			{ loadingIndicator &&
+			<div style={ {
+				...styles.absoluteFill,
+				backgroundColor: 'rgba(255, 255, 255, 0.6)',
+				zIndex: 999,
+			} }>
+				<CircularProgress style={ {
+					...styles.absoluteFill,
+					margin: 'auto',
+				} }/>
+			</div> }
+		</>
+	);
+
+} );
+
+const styles = {
+	absoluteFill: {
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		left: 0,
+		bottom: 0,
+	},
+};
 
 /**
  *
