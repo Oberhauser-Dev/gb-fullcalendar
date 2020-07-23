@@ -86,3 +86,24 @@ UI hacks, TODO need to be implemented properly via Material UI Theme system
 .fc table {
     margin: 0;
 }
+
+/**
+ Responsive Calendar
+ */
+
+.fc .fc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -4px;
+}
+
+.fc-toolbar-chunk {
+    margin: 4px;
+}
+
+@media screen and (max-device-width: 600px) {
+    .fc .fc-button-group,
+    .fc .fc-toolbar-chunk {
+        width: 100%;
+    }
+}
