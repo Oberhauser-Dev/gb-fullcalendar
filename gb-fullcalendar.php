@@ -278,10 +278,7 @@ function getEmTermColor($term_id)
  */
 function calendar_via_shortcode($args = array())
 {
-    $post_type = 'post';
     //figure out what taxonomies to show
-    $wpfc_post_taxonomies = get_option('wpfc_post_taxonomies');
-    $search_taxonomies = !empty($wpfc_post_taxonomies[$post_type]) ? array_keys($wpfc_post_taxonomies[$post_type]) : array();
     $instanceId = hash('crc32', 'some settings');
     $gbFcLocal = new stdClass();
     $gbFcLocal->fc = new stdClass();
