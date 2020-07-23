@@ -279,7 +279,6 @@ function getEmTermColor($term_id)
 function calendar_via_shortcode($args = array())
 {
     //figure out what taxonomies to show
-    $instanceId = hash('crc32', 'some settings');
     $gbFcLocal = new stdClass();
     $gbFcLocal->fc = new stdClass();
     $gbFcLocal->fcExtra = new stdClass();
@@ -309,6 +308,9 @@ function calendar_via_shortcode($args = array())
             }
         }
     }
+    // Create unique instance id from local gbFc prefs.
+    $gbFcLocalJSON = json_encode($gbFcLocal);
+    $instanceId = hash('crc32', $gbFcLocalJSON);
 
     ob_start();
     ?>
@@ -316,7 +318,7 @@ function calendar_via_shortcode($args = array())
 
     </div>
     <script>
-		var GbFcLocal_<?php echo $instanceId?> = <?php echo json_encode($gbFcLocal) ?>
+		var GbFcLocal_<?php echo $instanceId?> = <?php echo $gbFcLocalJSON ?>
     </script>
     <?php
     do_action('wpfc_calendar_displayed', $args);
