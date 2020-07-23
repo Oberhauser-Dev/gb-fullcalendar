@@ -56,34 +56,18 @@ export default class GbFullCalendar extends Component {
 			}
 			return tNode;
 		} );
-	}
 
-	getExtraParams() {
-		return {
-			action: 'WP_FullCalendar',
-			type: 'event',
-			...this.filterParams,
-		};
-	}
-
-	onSelectTaxonomy( taxonomy, value ) {
-		if (value.includes( 0 )) {
-			delete this.filterParams[taxonomy];
-		} else {
-			this.filterParams[taxonomy] = value;
-		}
-
-		let calendarApi = this.calendarRef.current.getApi();
-		calendarApi.refetchEvents();
-	}
-
-	render() {
+		// Calendar options
 		const _onSelectTax = ( ...props ) => this.onSelectTaxonomy( ...props );
 		const plugins = [ dayGridPlugin, timeGridPlugin, listPlugin ];
 		if (this.fc.themeSystem === 'bootstrap') {
 			plugins.push( bootstrapPlugin );
 		}
-		const fcOptions = {
+
+		/**
+		 * @type {import('@fullcalendar/common').CalendarOptions}
+		 */
+		this.fcOptions = {
 			eventSources: [
 				// WP Events manager source
 				{
@@ -137,16 +121,35 @@ export default class GbFullCalendar extends Component {
 					this.loadingComponent.current.loading( isLoading );
 				}
 			},
+			locales: allLocales,
+			plugins: plugins,
 			...this.fc,
 		};
+	}
+
+	getExtraParams() {
+		return {
+			action: 'WP_FullCalendar',
+			type: 'event',
+			...this.filterParams,
+		};
+	}
+
+	onSelectTaxonomy( taxonomy, value ) {
+		if (value.includes( 0 )) {
+			delete this.filterParams[taxonomy];
+		} else {
+			this.filterParams[taxonomy] = value;
+		}
+
+		let calendarApi = this.calendarRef.current.getApi();
+		calendarApi.refetchEvents();
+	}
+
+	render() {
 		return (
 			<div style={ { position: 'relative' } }>
-				<FullCalendar
-					ref={ this.calendarRef }
-					locales={ allLocales }
-					plugins={ plugins }
-					{ ...fcOptions }
-				/>
+				<FullCalendar ref={ this.calendarRef } { ...this.fcOptions }/>
 				<LoadingComponent ref={ this.loadingComponent }/>
 			</div>
 		);
