@@ -109,28 +109,31 @@ class GbFcAdmin
                         <p>
                             <b>
                                 Note: There's no guarantee that GB FullClanedar works simultaneously with WP
-                                FullCalendar. You may have to disable or uninstall one or the other plugin!
+                                FullCalendar. It's recommended to only enable one plugin at the same time!
                             </b>
                         </p>
 
                         <h2 style="margin-top:0px;"><?php _e('Short Codes', 'gb-fullcalendar'); ?></h2>
                         <p>
-                            You can also use the <code>[fullcalendar]</code> shortcode in one of your posts or
-                            pages.
-                            We introduced new features in order to allow more customization.<br/> <br/>
-                            You can adjust all the <a href="https://fullcalendar.io/docs">FullCalendar settings</a> with
-                            this rule:
-                            Convert all Camel-case words to lower-case words separated with an underscore. Than add the
-                            prefix <code>fc_</code>
+                            In addition you are able to use the <code>[fullcalendar]</code> shortcode in one of your
+                            posts or pages, too.
+                            We introduced new features in order to allow more customization:<br/> <br/>
+                            To adjust all the <a href="https://fullcalendar.io/docs">settings of FullCalendar</a> use
+                            following rule:
+                            Convert all Camel-case words to lower-case words separated with an underscore. Then add the
+                            prefix <code>fc_</code>. <br/>
                             Example: <a href="https://fullcalendar.io/docs/initialView"><code>initialView:
                                     "listCustom"</code></a> is converted to <code>[fullcalendar
-                                fc_initial_view="listCustom"]</code>
+                                fc_initial_view="listCustom"]</code>.
+                            <br/><br/>
+                            Further you can declare your default <a
+                                    href="https://developer.wordpress.org/themes/basics/categories-tags-custom-taxonomies/#custom-taxonomies"><code>taxonomy
+                                    terms</code></a> as follows:
+                            <code>[fullcalendar category="concert, cinema, 11, theatre"
+                                your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id" ]</code>.<br/>
+                            Note that <code>category</code> is a synonym for the taxonomy <code>event-categories</code>
+                            defined by <a href="https://wp-events-plugin.com/">Events Manager</a>.
                             <br/>
-                            Further you can declare your default <code>taxonomy terms</code> as follows:
-                            <code>[fullcalendar event-categories="concert, cinema, 11, theatre"
-                                your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id" ]</code>
-                            <br/>
-
                         </p>
                         <form action="" class="wpfc-options" method="post">
                             <?php do_action('gbfc_admin_before_options'); ?>
