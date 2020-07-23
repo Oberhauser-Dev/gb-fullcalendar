@@ -1,9 +1,8 @@
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -16,37 +15,6 @@ const useStyles = makeStyles( ( theme ) => ( {
 		marginTop: theme.spacing( 2 ),
 	},
 } ) );
-
-const theme = createMuiTheme( {
-	typography: {
-		// Informiere die Material-UI über die Schriftgröße des HTML-Elements.
-		// TODO check if this works in all themes... https://material-ui.com/de/customization/typography/
-		htmlFontSize: 10,
-	},
-} );
-
-// interface TaxonomySelectProps {
-// 	'class': string;
-// 	echo: false;
-// 	hide_empty: boolean;
-// 	hierarchical: boolean;
-// 	name: string;
-// 	selected: boolean;
-// 	show_option_all: string;
-// 	taxonomy: string;
-//  items: [{
-// 		count: 8
-// 		description: "Sonderveranstaltung während der Corona-Pandemie"
-// 		filter: "raw"
-// 		name: "Corona-Five"
-// 		parent: 0
-// 		slug: "event_type_corona"
-// 		taxonomy: "event_type"
-// 		term_group: 0
-// 		term_id: 2
-// 		term_taxonomy_id: 2
-//  }]
-// }
 
 /**
  *
@@ -91,28 +59,26 @@ export default function TaxonomySelect( props ) {
 	};
 
 	return (
-		<ThemeProvider theme={ theme }>
-			<FormControl className={ classes.formControl }>
-				<InputLabel id="demo-simple-select-label">{ name }</InputLabel>
-				<Select
-					multiple
-					value={ termIds }
-					onChange={ handleChange }
-					renderValue={ ( selected ) => {
-						if (selected.includes( 0 )) {
-							return items.find( term => term.term_id === 0 ).name;
-						} else {
-							return selected.map( termId => {
-								const term = items.find( term => term.term_id === parseInt( termId ) );
-								return term ? term.name : null;
-							} ).filter( Boolean ).join( ', ' );
-						}
-					} }
-				>
-					{ flattenHierarchy( hierarchicItems, 0, termIds ) }
-				</Select>
-			</FormControl>
-		</ThemeProvider>
+		<FormControl className={ classes.formControl }>
+			<InputLabel id="demo-simple-select-label">{ name }</InputLabel>
+			<Select
+				multiple
+				value={ termIds }
+				onChange={ handleChange }
+				renderValue={ ( selected ) => {
+					if (selected.includes( 0 )) {
+						return items.find( term => term.term_id === 0 ).name;
+					} else {
+						return selected.map( termId => {
+							const term = items.find( term => term.term_id === parseInt( termId ) );
+							return term ? term.name : null;
+						} ).filter( Boolean ).join( ', ' );
+					}
+				} }
+			>
+				{ flattenHierarchy( hierarchicItems, 0, termIds ) }
+			</Select>
+		</FormControl>
 	);
 }
 

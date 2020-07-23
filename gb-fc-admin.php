@@ -221,6 +221,8 @@ class GbFcAdmin
                                 <?php
                                 gbfc_options_select(__('Default View', 'gb-fullcalendar'), 'gbfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.', 'gb-fullcalendar'));
                                 gbfc_options_select(__('Default Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', ['standard' => 'Standard', 'bootstrap' => 'Bootstrap'], __('Choose the default theme system. How to customize theme, see: https://fullcalendar.io/docs/theming', 'gb-fullcalendar'), 'standard');
+                                gbfc_options_number(__('Default HTML font size', 'gb-fullcalendar'), 'gbfc_htmlFontSize', __('Set the <a href="https://material-ui.com/customization/typography/#html-font-size">HTML font size</a>, e.g. to use 10px simplification (default is 16px)', 'gb-fullcalendar'), 16);
+
                                 // Let handle time format by localization in fullcalendar
                                 //gbfc_options_input_text ( __( 'Time Format', 'gb-fullcalendar'), 'gbfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','gb-fullcalendar'),'http://momentjs.com/docs/#/displaying/format/'), 'h(:mm)a' );
                                 // TODO wpfc_limit as well as gbfc_limit_txt option should be disabled by default and let fullcalendar handle too much events.
@@ -387,6 +389,22 @@ function gbfc_options_select($title, $name, $list, $description, $default = '')
                     </option>
                 <?php endforeach; ?>
             </select> <br/>
+            <em><?php echo $description; ?></em>
+        </td>
+    </tr>
+    <?php
+}
+
+function gbfc_options_number($title, $name, $description, $default = 0)
+{
+    ?>
+    <tr valign="top" id='<?php echo esc_attr($name); ?>_row'>
+        <th scope="row"><?php echo esc_html($title); ?></th>
+        <td>
+
+            <input name="<?php echo esc_attr($name); ?>" type="number"
+                   style="max-width: 100px; width: 100%"
+                   value="<?php echo esc_attr(get_option($name, $default), ENT_QUOTES); ?>"/> <br/>
             <em><?php echo $description; ?></em>
         </td>
     </tr>

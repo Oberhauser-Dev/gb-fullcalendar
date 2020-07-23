@@ -252,9 +252,12 @@ function getFullCalendarExtraArgs()
         }
     }
 
+    $gbfc_htmlFontSize = get_option('gbfc_htmlFontSize', 16);
+
     return [
         'ajaxUrl' => admin_url('admin-ajax.php', $schema),
         'taxonomyNodes' => $taxonomyNodes,
+        'htmlFontSize' => $gbfc_htmlFontSize,
     ];
 }
 

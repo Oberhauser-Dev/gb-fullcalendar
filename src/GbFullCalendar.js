@@ -7,9 +7,10 @@ import allLocales from '@fullcalendar/core/locales-all';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 /**
- * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], month: string, year: string}} FcExtra
+ * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], htmlFontSize: number}} FcExtra
  * @typedef {{echo: boolean, class: string, selected: int[], name: string, slug: string, show_option_all: string, items: [], is_empty: boolean}} TaxonomyNode
  * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
@@ -64,6 +65,13 @@ export default class GbFullCalendar extends Component {
 			plugins.push( bootstrapPlugin );
 		}
 
+		const theme = createMuiTheme( {
+			typography: {
+				// You might want to change the <html> element default font size. For instance, when using the 10px simplification
+				htmlFontSize: Number( this.fcExtra.htmlFontSize ),
+			},
+		} );
+
 		/**
 		 * @type {import('@fullcalendar/common').CalendarOptions}
 		 */
@@ -92,11 +100,13 @@ export default class GbFullCalendar extends Component {
 
 					const taxonomyDropdowns = (
 						<div className='fc-toolbar-chunk'>
-							{
-								this.fcExtra.taxonomyNodes.map( ( tNode ) => {
-									return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
-								} )
-							}
+							<ThemeProvider theme={ theme }>
+								{
+									this.fcExtra.taxonomyNodes.map( ( tNode ) => {
+										return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
+									} )
+								}
+							</ThemeProvider>
 						</div>
 					);
 					render( taxonomyDropdowns, fcFilterToolbar );
