@@ -12,3 +12,6 @@ build/
 
 ## Mac
 .DS_Store
+
+## Environment
+.env

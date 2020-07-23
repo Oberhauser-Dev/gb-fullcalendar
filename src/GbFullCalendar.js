@@ -23,7 +23,6 @@ export default class GbFullCalendar extends Component {
 		super( props );
 		this.calendarRef = React.createRef();
 		this.loadingComponent = React.createRef();
-		this.filterParams = {};
 
 		/**
 		 * The FullCalendar options
@@ -35,6 +34,28 @@ export default class GbFullCalendar extends Component {
 		 * Additional options for Gutenberg, Wordpress and EventsManager
 		 */
 		this.fcExtra = props.fcExtra;
+
+		/**
+		 * The filter parameters while fetching events from the source.
+		 */
+		this.filterParams = {};
+
+		// Preprocess taxonomies
+		this.fcExtra.taxonomyNodes = this.fcExtra.taxonomyNodes.filter( ( tNode => ! tNode.is_empty ) ).map( ( tNode ) => {
+			tNode.items = tNode.items.filter( term => term.count > 0 );
+			let selected = this.fcExtra.initialTaxonomies[tNode.slug];
+			tNode.selected = selected ?? tNode.selected;
+			if (! Array.isArray( tNode.selected )) {
+				tNode.selected = [ tNode.selected ];
+			}
+			tNode.selected = tNode.selected.map( termId => parseInt( termId ) );
+
+			// Init filter params
+			if (tNode.selected && tNode.selected.length > 0) {
+				this.filterParams[tNode.taxonomy] = tNode.selected;
+			}
+			return tNode;
+		} );
 	}
 
 	getExtraParams() {
@@ -88,15 +109,7 @@ export default class GbFullCalendar extends Component {
 					const taxonomyDropdowns = (
 						<div className='fc-toolbar-chunk'>
 							{
-								this.fcExtra.taxonomyNodes.filter( ( tNode => ! tNode.is_empty ) ).map( ( tNode ) => {
-									tNode.items = tNode.items.filter( term => term.count > 0 );
-									let selected = this.fcExtra.initialTaxonomies[tNode.slug];
-									// TODO set selected to other, if its not in items
-									tNode.selected = selected ?? tNode.selected;
-									if (! Array.isArray( tNode.selected )) {
-										tNode.selected = [ tNode.selected ];
-									}
-									tNode.selected = tNode.selected.map( termId => parseInt( termId ) );
+								this.fcExtra.taxonomyNodes.map( ( tNode ) => {
 									return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
 								} )
 							}
