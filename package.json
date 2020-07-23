@@ -1,44 +1,44 @@
 {
-	"name": "gb-fullcalendar",
-	"version": "0.1.0",
-	"description": "Example block written with ESNext standard and JSX support – build step required.",
-	"author": "The WordPress Contributors",
-	"license": "GPL-2.0-or-later",
-	"main": "build/index.js",
-	"scripts": {
-		"build": "wp-scripts build",
-		"format:js": "wp-scripts format-js",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
-		"start": "wp-scripts start",
-		"packages-update": "wp-scripts packages-update"
-	},
-	"devDependencies": {
-		"@babel/plugin-proposal-class-properties": "^7.10.1",
-		"@fullcalendar/common": "^5.0.0-beta.4",
-		"@wordpress/editor": "^9.17.0",
-		"@wordpress/element": "^2.14.0",
-		"@wordpress/i18n": "^3.13.0",
-		"@wordpress/scripts": "^9.1.0",
-		"css-loader": "^3.5.3",
-		"style-loader": "^1.2.1"
-	},
-	"dependencies": {
-		"@fullcalendar/bootstrap": "^5.0.0-beta.4",
-		"@fullcalendar/core": "^5.0.0-beta.4",
-		"@fullcalendar/daygrid": "^5.0.0-beta.4",
-		"@fullcalendar/list": "^5.0.0-beta.4",
-		"@fullcalendar/react": "^5.0.0-beta.4",
-		"@fullcalendar/timegrid": "^5.0.0-beta.4",
-		"@material-ui/core": "^4.10.0"
-	},
-	"babel": {
-		"presets": [
-			"@babel/preset-env",
-			"@babel/preset-react"
-		],
-		"plugins": [
-			"@babel/plugin-proposal-class-properties"
-		]
-	}
+  "name": "gb-fullcalendar",
+  "version": "0.1.0",
+  "description": "Example block written with ESNext standard and JSX support – build step required.",
+  "author": "The WordPress Contributors",
+  "license": "GPL-2.0-or-later",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "format:js": "wp-scripts format-js",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "start": "wp-scripts start",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@fullcalendar/common": "^5.1.0",
+    "@wordpress/editor": "^9.17.0",
+    "@wordpress/element": "^2.14.0",
+    "@wordpress/i18n": "^3.13.0",
+    "@wordpress/scripts": "^9.1.0",
+    "css-loader": "^3.5.3",
+    "style-loader": "^1.2.1"
+  },
+  "dependencies": {
+    "@fullcalendar/bootstrap": "^5.1.0",
+    "@fullcalendar/core": "^5.1.0",
+    "@fullcalendar/daygrid": "^5.1.0",
+    "@fullcalendar/list": "^5.1.0",
+    "@fullcalendar/react": "^5.1.0",
+    "@fullcalendar/timegrid": "^5.1.0",
+    "@material-ui/core": "^4.10.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
+  }
 }
