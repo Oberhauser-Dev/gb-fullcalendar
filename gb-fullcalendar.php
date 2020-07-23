@@ -289,6 +289,9 @@ function calendar_via_shortcode($args = array())
             $termIdentifier = str_replace('_', '', lcfirst(ucwords(substr($arg, 3), '_')));
             $gbFcLocal->fc->$termIdentifier = $value;
         } else {
+            if (strtolower($arg) === 'category' || strtolower($arg) === 'categories' || strtolower($arg) === 'event-category') {
+                $arg = EM_TAXONOMY_CATEGORY;
+            }
             $taxonomy = get_taxonomy($arg);
             if ($taxonomy) {
                 $search_terms = explode(',', $value);
