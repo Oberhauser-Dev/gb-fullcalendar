@@ -220,7 +220,10 @@ class GbFcAdmin
                                 </tr>
                                 <?php
                                 gbfc_options_select(__('Default View', 'gb-fullcalendar'), 'gbfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.', 'gb-fullcalendar'));
-                                gbfc_options_select(__('Default Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', ['standard' => 'Standard', 'bootstrap' => 'Bootstrap'], __('Choose the default theme system. How to customize theme, see: https://fullcalendar.io/docs/theming', 'gb-fullcalendar'), 'standard');
+                                gbfc_options_select(__('Default Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', ['standard' => 'Standard', 'bootstrap' => 'Bootstrap'],
+                                    __('Choose the default theme system. You can customize the Bootstrap theme as described <a href="https://fullcalendar.io/docs/theming">here</a>. 
+                                        <br/>For the standard theme system you can also alter <a href="https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/styles/vars.css">these CSS</a> variables like mentioned in the <a href="https://fullcalendar.io/docs/css-customization">docs</a>.',
+                                        'gb-fullcalendar'), 'standard');
                                 gbfc_options_number(__('Default HTML font size', 'gb-fullcalendar'), 'gbfc_htmlFontSize', __('Set the <a href="https://material-ui.com/customization/typography/#html-font-size">HTML font size</a>, e.g. to use 10px simplification (default is 16px)', 'gb-fullcalendar'), 16);
 
                                 // Let handle time format by localization in fullcalendar
