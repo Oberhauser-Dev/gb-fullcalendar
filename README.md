@@ -60,4 +60,4 @@ package.json
 style.css
 ```
 
-**The plugin is freely to use. We are not liable for any damage caused by using the plugin!**
+**The plugin is free to use. We are not liable for any damage caused by using the plugin!**
