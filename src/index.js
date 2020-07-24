@@ -35,7 +35,7 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 	 * It will be shown in the Block Tab in the Settings Sidebar.
 	 */
 	description: __(
-		'Example block written with ESNext standard and JSX support – build step required.',
+		'GB FullCalendar is a branch of the popular WP FullCalendar plugin written as a Gutenberg block.',
 		'create-block'
 	),
 
@@ -53,7 +53,9 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 
 	keywords: [
 		__( 'fullcalendar' ),
-		__( 'guten-block' ),
+		__( 'calendar' ),
+		__( 'gutenberg-block' ),
+		__( 'react' ),
 	],
 
 	/**
@@ -72,28 +74,6 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 		initialView: {
 			type: 'string',
 		},
-		// content: {
-		// 	type: 'string',
-		// 	source: 'html',
-		// 	selector: 'p',
-		// },
-		// checkboxField: {
-		// 	type: 'boolean',
-		// 	default: true,
-		// },
-		// radioField: {
-		// 	type: 'string',
-		// 	default: 'yes',
-		// },
-		// textField: {
-		// 	type: 'string',
-		// },
-		// toggleField: {
-		// 	type: 'boolean',
-		// },
-		// selectField: {
-		// 	type: 'string',
-		// },
 	},
 
 	/**

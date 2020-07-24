@@ -2,8 +2,16 @@
   "name": "gb-fullcalendar",
   "version": "0.1.0",
   "description": "Example block written with ESNext standard and JSX support – build step required.",
-  "author": "The WordPress Contributors",
-  "license": "GPL-2.0-or-later",
+  "author": "August Oberhauser",
+  "license": "GPL-3.0-or-later",
+  "contributors": [
+    {
+      "name": "August Oberhauser",
+      "email": "git@reb0.org",
+      "url": "https://www.reb0.org/"
+    }
+  ],
+  "repository": "https://github.com/Oberhauser-Dev/gb-fullcalendar.git",
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build",

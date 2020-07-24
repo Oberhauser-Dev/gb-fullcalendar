@@ -35,10 +35,10 @@ class GbFcAdmin
                         <div class="handlediv" title="Click to toggle"></div>
                         <h3 class="hndle" style="color:green;">GB FullCalendar (Alpha)</h3>
                         <div class="inside">
-                            <p>This plugin is a fresh branch of the popular plugin WP-FullCalendar.
-                                Thanks to the Gutenberg Blocks since the end of 2018 it has become incredibly easy
-                                to add and layout your blocks in a visual way, but also can still be used with
-                                Short-Codes.<br/><br/>
+                            <p>This plugin is a branch of the popular WP-FullCalendar plugin.
+                                Thanks to the Gutenberg-Blocks since the end of 2018, it has become incredibly easy
+                                to add and layout your blocks in a visual way, but still can be used with
+                                Short-Codes, too.<br/><br/>
                                 The Guten-Berg (GB) FullCalendar is based on the flexible and component based framework
                                 React.
                                 It is developed by <a href="http://oberhauser.dev/">August Oberhauser</a>.
