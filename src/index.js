@@ -35,8 +35,8 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 	 * It will be shown in the Block Tab in the Settings Sidebar.
 	 */
 	description: __(
-		'GB FullCalendar is a branch of the popular WP FullCalendar plugin written as a Gutenberg block.',
-		'create-block'
+		'GB FullCalendar is a Gutenberg block for displaying events. It is build on the popular WP FullCalendar plugin.',
+		'create-block',
 	),
 
 	/**

@@ -38,7 +38,7 @@ class GbFcAdmin
                             <p>This plugin is a branch of the popular WP-FullCalendar plugin.
                                 Thanks to the Gutenberg-Blocks since the end of 2018, it has become incredibly easy
                                 to add and layout your blocks in a visual way, but still can be used with
-                                Short-Codes, too.<br/><br/>
+                                Shortcodes, too.<br/><br/>
                                 The Guten-Berg (GB) FullCalendar is based on the flexible and component based framework
                                 React.
                                 It is developed by <a href="http://oberhauser.dev/">August Oberhauser</a>.
@@ -100,9 +100,9 @@ class GbFcAdmin
                 <div id="post-body">
                     <div id="post-body-content">
                         <p>
-                            To use this plugin, simply add the Gutenberg Block <code>GB FullCalendar</code> under the
-                            Widgets section. If you click on your block under the right section you can adjust the
-                            calendar settings in the <b>Block</b> slide.
+                            To use this plugin, simply add the Gutenberg Block <b>GB FullCalendar</b>,
+                            which is located under the Widgets section.
+                            When you select your block, you can adjust the block-settings in the sidebar.
                             <!--                            --><?php //echo sprintf(__('You can also do this with PHP and this snippet : %s.', 'gb-fullcalendar'), '<code>echo WP_FullCalendar::calendar($args);</code>');
                             ?>
                         </p>
@@ -137,12 +137,12 @@ class GbFcAdmin
                         </p>
                         <form action="" class="wpfc-options" method="post">
                             <?php do_action('gbfc_admin_before_options'); ?>
-                            <h2 style="margin-top:0px;"><?php _e('Post Types', 'gb-fullcalendar'); ?></h2>
+                            <h2 style="margin-top:0px;"><?php _e('Post Types <b>(not supported yet)</b>', 'gb-fullcalendar'); ?></h2>
                             <p><?php echo sprintf(__('By default, your calendar will show the types of posts based on settings below.', 'gb-fullcalendar'), ''); ?></p>
                             <p>
-                                <?php echo sprintf(__('You can override these settings by choosing your post type in your shortode like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post"]</code>'); ?>
+                                <?php echo sprintf(__('You can override these settings by choosing your post type in your shortcode like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post"]</code>'); ?>
                                 <?php echo sprintf(__('You can override taxonomy search settings as well like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post_tag,category"]</code>'); ?>
-                                <?php _e('In both cases, the values you should use are in (parenteses) below.', 'gb-fullcalendar'); ?>
+                                <?php _e('In both cases, the values you should use are in (parentheses) below.', 'gb-fullcalendar'); ?>
                             </p>
                             <p>
                             <ul class="wpfc-post-types">

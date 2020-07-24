@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     GB FullCalendar
  * Plugin URI:      https://github.com/oberhauser-dev/gb-fullcalendar/
- * Description:     GB FullCalendar is a branch of the popular WP FullCalendar plugin written as a Gutenberg block.
+ * Description:     GB FullCalendar is a Gutenberg block for displaying events.
  * Version:         0.1.0
  * Author:          August Oberhauser
  * Author URI:      https://www.oberhauser.dev/

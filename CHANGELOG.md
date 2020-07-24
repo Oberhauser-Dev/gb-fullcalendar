@@ -7,7 +7,7 @@
 - Enable client side scripts
 - React components (FullCalendar v5.1, Material-UI v4.10)
 - port admin panel from WP-FullCalendar
-- port & adapt short-codes from WP-FullCalendar
+- port & adapt shortcodes from WP-FullCalendar
 - custom calendar views
 - adapt theme system
 
