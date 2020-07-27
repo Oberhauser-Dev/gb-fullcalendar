@@ -21,6 +21,7 @@ visual way, but still can be used with Shortcodes, too.
 - Filter by taxonomy, such as category, tag etc.
 - Integrates seamlessly with [Events Manager](http://wordpress.org/extend/plugins/events-manager/)
 - Customize [FullCalendar settings](https://fullcalendar.io/docs)
+- Supports IE 11
 
 ### Credits
 
@@ -100,5 +101,7 @@ gb-fullcalendar.php
 package.json
 style.css
 ```
+
+The code is written is provided as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
 
 **The plugin is free to use. We are not liable for any damage caused by using the plugin!**

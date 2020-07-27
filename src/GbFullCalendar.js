@@ -113,7 +113,9 @@ export default class GbFullCalendar extends Component {
 
 					for (let fcHeaderToolbar of fcHeaderToolbars) {
 						fcHeaderToolbar.style.marginBottom = 0;
-						fcHeaderToolbar.after( fcFilterToolbar );
+
+						// TODO replace with fcHeaderToolbar.after( fcFilterToolbar ); when IE is deprecated.
+						fcHeaderToolbar.parentNode.insertBefore(fcFilterToolbar, fcHeaderToolbar.nextSibling);
 					}
 				}
 			},
