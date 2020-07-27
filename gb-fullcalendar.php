@@ -55,6 +55,16 @@ function create_block_gb_fullcalendar_block_init()
         $script_asset['version']
     );
 
+    // TODO only load, if block is registered and block is present.
+    // Unfortunately can only register one style at a time.
+    $style_css = 'build/client.css';
+    wp_enqueue_style(
+        'create-block-gb-fullcalendar-block-client',
+        plugins_url($style_css, __FILE__),
+        array(),
+        filemtime("$dir/$style_css")
+    );
+
     $editor_css = 'editor.css';
     wp_register_style(
         'create-block-gb-fullcalendar-block-editor',
