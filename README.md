@@ -89,8 +89,8 @@ See [changelog file](./CHANGELOG.md).
 
 You are invited to help in form of Merge-Requests or proposing issues with the expected solutions.
 
-To develop install the packages via `npm i`. Then start webpack compiling via `npm start`.
-To build a plugin file run `npm run build` and include the following files in a folder named `gb-fullcalendar` and compress it to a zip file.
+To develop install the packages via `yarn install`. Then start webpack compiling via `yarn start`.
+To build a plugin file run `yarn run build` and include the following files in a folder named `gb-fullcalendar` and compress it to a zip file.
 
 ```
 build/
