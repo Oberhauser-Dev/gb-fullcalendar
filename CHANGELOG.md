@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 - support Internet Explorer 11
+- add Tooltips
 
 ## [0.1.0-alpha.0] - 2020-07-27
 - create Gutenberg plugin

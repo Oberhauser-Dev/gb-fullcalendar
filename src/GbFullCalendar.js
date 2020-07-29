@@ -1,4 +1,4 @@
-import { Component, render, useImperativeHandle } from '@wordpress/element';
+import { Component, render, useImperativeHandle, useEffect } from '@wordpress/element';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -8,9 +8,11 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Tooltip } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 /**
- * @typedef {{ajaxUrl: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], htmlFontSize: number}} FcExtra
+ * @typedef {{ajaxUrl: string, eventAction: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], htmlFontSize: number, tooltips: boolean, tooltipAction:string, tooltipPlacement: string}} FcExtra
  * @typedef {{echo: boolean, class: string, selected: int[], name: string, slug: string, show_option_all: string, items: [], is_empty: boolean}} TaxonomyNode
  * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
@@ -65,10 +67,10 @@ export default class GbFullCalendar extends Component {
 			plugins.push( bootstrapPlugin );
 		}
 
-		const theme = createMuiTheme( {
+		this.muiTheme = createMuiTheme( {
 			typography: {
 				// You might want to change the <html> element default font size. For instance, when using the 10px simplification
-				htmlFontSize: Number( this.fcExtra.htmlFontSize ),
+				htmlFontSize: this.fcExtra.htmlFontSize,
 			},
 		} );
 
@@ -76,6 +78,29 @@ export default class GbFullCalendar extends Component {
 		 * @type {import('@fullcalendar/common').CalendarOptions}
 		 */
 		this.fcOptions = {
+			eventContent: ( arg ) => {
+				if (this.fcExtra.tooltips) {
+					return (
+						<TooltipComponent url={ this.fcExtra.ajaxUrl }
+										  action={ this.fcExtra.tooltipAction }
+										  placement={ this.fcExtra.tooltipPlacement }
+										  { ...arg }>
+							{ this.renderInnerContent( arg ) }
+						</TooltipComponent>
+					);
+				} else {
+					return this.renderInnerContent( arg );
+				}
+			},
+			eventDataTransform: ( eventData ) => {
+				// Text color is now handled by fc to get best contrast in different modes
+				// Can be removed, if em doesn't send text color anymore.
+				if (this.fc.eventDisplay === 'block' && eventData.color !== '#FFFFFF') {
+					// TODO workaround for white background, should be handled in lib
+					delete eventData.textColor;
+				}
+				return eventData;
+			},
 			eventSources: [
 				// WP Events manager source
 				{
@@ -99,15 +124,15 @@ export default class GbFullCalendar extends Component {
 					fcFilterToolbar.style.marginBottom = '1.5em';
 
 					const taxonomyDropdowns = (
-						<div className='fc-toolbar-chunk'>
-							<ThemeProvider theme={ theme }>
+						<ThemeProvider theme={ this.muiTheme }>
+							<div className='fc-toolbar-chunk'>
 								{
 									this.fcExtra.taxonomyNodes.map( ( tNode ) => {
 										return ( <TaxonomySelect onSelectTaxonomy={ _onSelectTax } { ...tNode } /> );
 									} )
 								}
-							</ThemeProvider>
-						</div>
+							</div>
+						</ThemeProvider>
 					);
 					render( taxonomyDropdowns, fcFilterToolbar );
 
@@ -115,18 +140,9 @@ export default class GbFullCalendar extends Component {
 						fcHeaderToolbar.style.marginBottom = 0;
 
 						// TODO replace with fcHeaderToolbar.after( fcFilterToolbar ); when IE is deprecated.
-						fcHeaderToolbar.parentNode.insertBefore(fcFilterToolbar, fcHeaderToolbar.nextSibling);
+						fcHeaderToolbar.parentNode.insertBefore( fcFilterToolbar, fcHeaderToolbar.nextSibling );
 					}
 				}
-			},
-			eventDataTransform: ( eventData ) => {
-				// Text color is now handled by fc to get best contrast in different modes
-				// Can be removed, if em doesn't send text color anymore.
-				if (this.fc.eventDisplay === 'block' && eventData.color !== '#FFFFFF') {
-					// TODO workaround for white background, should be handled in lib
-					delete eventData.textColor;
-				}
-				return eventData;
 			},
 			loading: ( isLoading ) => {
 				if (this.loadingComponent.current) {
@@ -141,7 +157,7 @@ export default class GbFullCalendar extends Component {
 
 	getExtraParams() {
 		return {
-			action: 'WP_FullCalendar',
+			action: this.fcExtra.eventAction,
 			type: 'event',
 			...this.filterParams,
 		};
@@ -158,11 +174,32 @@ export default class GbFullCalendar extends Component {
 		calendarApi.refetchEvents();
 	}
 
+	/**
+	 * https://github.com/fullcalendar/fullcalendar/blob/495d925436e533db2fd591e09a0c887adca77053/packages/common/src/common/StandardEvent.tsx#L79
+	 * TODO remove in favor of more simple (built-in) solution
+	 */
+	renderInnerContent( innerProps ) {
+		return (
+			<div className='fc-event-main-frame'>
+				{ innerProps.timeText &&
+				<div className='fc-event-time'>{ innerProps.timeText }</div>
+				}
+				<div className='fc-event-title-container'>
+					<div className='fc-event-title fc-sticky'>
+						{ innerProps.event.title || <Fragment>&nbsp;</Fragment> }
+					</div>
+				</div>
+			</div>
+		);
+	}
+
 	render() {
 		return (
 			<div style={ { position: 'relative' } }>
-				<FullCalendar ref={ this.calendarRef } { ...this.fcOptions }/>
-				<LoadingComponent ref={ this.loadingComponent }/>
+				<ThemeProvider theme={ this.muiTheme }>
+					<FullCalendar ref={ this.calendarRef } { ...this.fcOptions }/>
+					<LoadingComponent ref={ this.loadingComponent }/>
+				</ThemeProvider>
 			</div>
 		);
 	}
@@ -198,6 +235,55 @@ const LoadingComponent = React.forwardRef( ( props, ref ) => {
 	);
 
 } );
+
+const TooltipComponent = ( { url, action, placement, event, ...props } ) => {
+	const [ tooltipContent, setTooltipContent ] = React.useState( false );
+	const event_data = {
+		action: action,
+		post_id: event.extendedProps.post_id,
+		event_id: event.extendedProps.event_id,
+	};
+
+	async function handleOpen() {
+		if (! tooltipContent) {
+			const result = await fetch(
+				url,
+				{
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					method: 'POST',
+					body: new URLSearchParams( event_data ),
+				},
+			);
+			const content = await result.json();
+			setTooltipContent( ( content && content.excerpt ) ?
+				( <>
+					{ content.imageUrl &&
+					<img src={ content.imageUrl }
+						 style={ {
+							 maxWidth: content.imageDimensions[0],
+							 maxHeight: content.imageDimensions[1],
+							 marginLeft: '4px',
+							 marginBottom: '2px',
+							 marginTop: '2px',
+							 float: 'right',
+						 } }/> }
+					<div dangerouslySetInnerHTML={ { __html: content.excerpt } }/>
+				</> ) :
+				'No information available',
+			);
+		}
+	}
+
+	return (
+		<Tooltip title={ <Typography>{ tooltipContent || 'Loading...' }</Typography> }
+				 arrow
+				 placement={ placement }
+				 onOpen={ handleOpen }>
+			{ props.children }
+		</Tooltip>
+	);
+
+};
 
 const styles = {
 	absoluteFill: {

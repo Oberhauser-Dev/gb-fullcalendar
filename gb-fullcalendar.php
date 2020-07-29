@@ -96,6 +96,13 @@ function create_block_gb_fullcalendar_block_init()
         // Add shortcode
         add_shortcode('fullcalendar', 'calendar_via_shortcode');
     }
+
+    /**
+     * Create ajax endpoint for tooltip information.
+     * https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_(action)
+     */
+    add_action('wp_ajax_gbfc_tooltip_content', 'ajax_tooltip_content');
+    add_action('wp_ajax_nopriv_gbfc_tooltip_content', 'ajax_tooltip_content');
 }
 
 add_action('init', 'create_block_gb_fullcalendar_block_init');
@@ -106,7 +113,7 @@ add_action('init', 'create_block_gb_fullcalendar_block_init');
 function create_block_gb_fullcalendar_block_enqueue_script()
 {
     // Always enqueue script, as shortcode need localized script, too.
-    // TODO may fix that  only load, when needed.
+    // TODO may fix that only load, when needed.
 //    if (has_block('create-block/gb-fullcalendar')) {
     localize_script();
 //    }
@@ -189,7 +196,6 @@ function getFullCalendarArgs()
         //'google_calendar_api_key' => get_option('gbfc_google_calendar_api_key', ''),
         //'google_calendar_ids' => preg_split('/\s+/', get_option('gbfc_google_calendar_ids', '')),
 //        'timeFormat' => get_option('gbfc_timeFormat', 'h(:mm)t'),
-//        'gbfc_qtips' => get_option('gbfc_qtips', true) == true,
 //        'gbfc_dialog' => get_option('gbfc_dialog', true) == true,
     ];
 }
@@ -262,12 +268,18 @@ function getFullCalendarExtraArgs()
         }
     }
 
-    $gbfc_htmlFontSize = get_option('gbfc_htmlFontSize', 16);
+    $gbfc_htmlFontSize = floatval(get_option('gbfc_htmlFontSize', 16));
+    $gbfc_tooltips = boolval(get_option('gbfc_tooltips', false));
+    $gbfc_tooltip_placement = get_option('gbfc_tooltip_placement', 'top');
 
     return [
         'ajaxUrl' => admin_url('admin-ajax.php', $schema),
+        'eventAction' => 'WP_FullCalendar',
+        'tooltipAction' => 'gbfc_tooltip_content',
         'taxonomyNodes' => $taxonomyNodes,
         'htmlFontSize' => $gbfc_htmlFontSize,
+        'tooltips' => $gbfc_tooltips,
+        'tooltipPlacement' => $gbfc_tooltip_placement,
     ];
 }
 
@@ -336,4 +348,36 @@ function calendar_via_shortcode($args = array())
     <?php
     do_action('wpfc_calendar_displayed', $args);
     return ob_get_clean();
+}
+
+/**
+ * AJAX endpoint for tooltip content for a calendar item.
+ * Returns / echos a JSON object
+ */
+function ajax_tooltip_content()
+{
+    $content = new stdClass();
+    if (!empty($_REQUEST['post_id'])) {
+        $post = get_post($_REQUEST['post_id']);
+        if ($post->post_type == 'attachment') {
+            $content->imageUrl = wp_get_attachment_image_url($post->ID, 'thumbnail');
+        } else {
+            $content->excerpt = (!empty($post)) ? $post->post_content : '';
+            if (get_option('gbfc_tooltip_image', true)) {
+                $post_image_url = get_the_post_thumbnail_url($post->ID);
+                if (!empty($post_image_url)) {
+                    $content->imageUrl = $post_image_url;
+                    $content->imageDimensions = [
+                        intval(get_option('gbfc_tooltip_image_w', 75)),
+                        intval(get_option('gbfc_tooltip_image_h', 75))
+                    ];
+                }
+            }
+        }
+    }
+    // Apply content filter of Events Manager
+    $content->excerpt = apply_filters('wpfc_qtip_content', $content->excerpt);
+    $content = apply_filters('gbfc_tooltip_content', $content);
+    echo json_encode($content);
+    die();
 }

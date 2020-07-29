@@ -2,6 +2,7 @@
 
 class GbFcAdmin
 {
+    static $tip_positions = array('top-start', 'top-end', 'top', 'bottom-start', 'bottom-end', 'bottom', 'right-start', 'right-end', 'right', 'left-start', 'left-end', 'left');
 
     public static function menus()
     {
@@ -181,6 +182,8 @@ class GbFcAdmin
 								} );
                             </script>
                             <?php do_action('gbfc_admin_after_cpt_options'); ?>
+                            <hr/>
+                            <br/>
                             <h2><?php _e('Calendar Options', 'gb-fullcalendar'); ?></h2>
                             <table class='form-table'>
                                 <?php
@@ -238,12 +241,65 @@ class GbFcAdmin
                                 ?>
                             </table>
                             <?php do_action('gbfc_admin_after_calendar_options'); ?>
-                            <!--						    <h2>--><?php //_e('Tooltips','gb-fullcalendar');
-                            ?><!--</h2>-->
-                            <!--						    <p>-->
-                            <?php //_e( 'You can use <a href="http://craigsworks.com/projects/qtip2/">jQuery qTips</a> to show excerpts of your events within a tooltip when hovering over a specific event on the calendar. You can control the content shown, positioning and style of the tool tips below.','gb-fullcalendar');
-                            ?><!--</p>-->
-                            <!---->
+                            <hr/>
+                            <br/>
+                            <h2><?php _e('Tooltips', 'gb-fullcalendar'); ?></h2>
+                            <p>
+                                <?php _e('You can use <a href="https://material-ui.com/components/tooltips/">MUI Tooltip</a> to show excerpts of your events within a tooltip when hovering over a specific event on the calendar. You can control the content shown and positioning of the tool tips below.', 'gb-fullcalendar'); ?>
+                            </p>
+                            <table class='form-table'>
+                                <?php
+                                gbfc_options_radio_binary(__('Enable event tooltips?', 'gb-fullcalendar'), 'gbfc_tooltips', '');
+                                /*
+                                $tip_styles = array();
+                                foreach (WP_FullCalendar::$tip_styles as $tip_style) {
+                                    $tip_styles[$tip_style] = $tip_style;
+                                }
+                                wpfc_options_select(__('Tooltip style', 'gb-fullcalendar'), 'wpfc_qtips_style', $tip_styles, __('You can choose from one of these preset styles for your tooltip.', 'gb-fullcalendar'));
+                                wpfc_options_radio_binary(__('Rounded tooltips?', 'gb-fullcalendar'), 'wpfc_qtips_rounded', __('If your chosen tooltip style doesn\'t already do/prevent this, you can add rounded corners using CSS3.', 'gb-fullcalendar'));
+                                wpfc_options_radio_binary(__('Add shadow to tooltips?', 'gb-fullcalendar'), 'wpfc_qtips_shadow', __('If your chosen tooltip style doesn\'t already do/prevent this, you can add a CSS3 drop-shadow effect to your tooltip.', 'gb-fullcalendar'));
+                                */
+                                $positions_options = array();
+                                foreach (static::$tip_positions as $position) {
+                                    $positions_options[$position] = $position;
+                                }
+                                gbfc_options_select(__('Tooltip bubble position', 'gb-fullcalendar'), 'gbfc_tooltip_placement', $positions_options, __('Choose where your tooltip will be situated relative to the event card.', 'gb-fullcalendar'), 'bottom');
+                                gbfc_options_radio_binary(__('Enable featured image?', 'gb-fullcalendar'), 'gbfc_tooltip_image', __('If your post has a featured image, it will be included as a thumbnail.', 'gb-fullcalendar'));
+                                ?>
+                                <tr id="gbfc_tooltip_image_dimensions_row">
+                                    <th><label><?php _e('Featured image size', 'gb-fullcalendar'); ?></label></th>
+                                    <td>
+                                        <?php _e('Max width', 'gb-fullcalendar'); ?> :
+                                        <input name="gbfc_tooltip_image_w" type="number" style="width:100px;"
+                                               value="<?php echo get_option('gbfc_tooltip_image_w'); ?>"/>
+                                        <?php _e('Max height', 'gb-fullcalendar'); ?> :
+                                        <input name="gbfc_tooltip_image_h" type="number" style="width:100px;"
+                                               value="<?php echo get_option('gbfc_tooltip_image_h'); ?>"/>
+                                    </td>
+                                </tr>
+                                <script type="text/javascript">
+									window.addEventListener( 'DOMContentLoaded', () => {
+										function tooltipsChanged( event ) {
+											if (Boolean( Number( document.querySelector( 'input[name=gbfc_tooltips]:checked' ).value ) )) {
+												document.getElementById( 'gbfc_tooltip_placement_row' ).style.display = 'table-row';
+												document.getElementById( 'gbfc_tooltip_image_row' ).style.display = 'table-row';
+												document.getElementById( 'gbfc_tooltip_image_dimensions_row' ).style.display = 'table-row';
+											} else {
+												document.getElementById( 'gbfc_tooltip_placement_row' ).style.display = 'none';
+												document.getElementById( 'gbfc_tooltip_image_row' ).style.display = 'none';
+												document.getElementById( 'gbfc_tooltip_image_dimensions_row' ).style.display = 'none';
+											}
+										}
+
+										document.getElementsByName( 'gbfc_tooltips' ).forEach( ( input ) => {
+											input.addEventListener( 'change', tooltipsChanged );
+										} );
+										tooltipsChanged();
+									} );
+                                </script>
+                            </table>
+                            <?php do_action('gbfc_admin_after_tooltip_options'); ?>
+
                             <!--							<h2>-->
                             <?php //_e ( 'JS and CSS Files (Optimization)', 'gb-fullcalendar');
                             ?><!--</h2>-->

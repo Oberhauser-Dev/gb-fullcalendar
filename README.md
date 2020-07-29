@@ -21,6 +21,7 @@ visual way, but still can be used with Shortcodes, too.
 - Filter by taxonomy, such as category, tag etc.
 - Integrates seamlessly with [Events Manager](http://wordpress.org/extend/plugins/events-manager/)
 - Customize [FullCalendar settings](https://fullcalendar.io/docs)
+- Tooltips
 - Supports IE 11
 
 ### Credits
