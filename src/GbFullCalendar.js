@@ -80,17 +80,27 @@ export default class GbFullCalendar extends Component {
 		this.fcOptions = {
 			eventContent: ( arg ) => {
 				if (this.fcExtra.tooltips) {
+					// TODO change in favor of more simple (built-in) solution
+					const data = this.calendarRef.current.getApi().getCurrentData();
+					const viewSpec = data.viewSpecs[arg.view.type];
+					let innerContent;
+					if (viewSpec.component.name === 'ListView') {
+						// ListView has other content than regular views.
+						// See: https://github.com/fullcalendar/fullcalendar-react/issues/12#issuecomment-665807912
+						innerContent = this.renderListInnerContent( arg );
+					} else {
+						innerContent = this.renderInnerContent( arg );
+					}
 					return (
 						<TooltipComponent url={ this.fcExtra.ajaxUrl }
 										  action={ this.fcExtra.tooltipAction }
 										  placement={ this.fcExtra.tooltipPlacement }
 										  { ...arg }>
-							{ this.renderInnerContent( arg ) }
+							{ innerContent }
 						</TooltipComponent>
 					);
-				} else {
-					return this.renderInnerContent( arg );
 				}
+				// If nothing is returned, it renders regular content.
 			},
 			eventDataTransform: ( eventData ) => {
 				// Text color is now handled by fc to get best contrast in different modes
@@ -176,7 +186,6 @@ export default class GbFullCalendar extends Component {
 
 	/**
 	 * https://github.com/fullcalendar/fullcalendar/blob/495d925436e533db2fd591e09a0c887adca77053/packages/common/src/common/StandardEvent.tsx#L79
-	 * TODO remove in favor of more simple (built-in) solution
 	 */
 	renderInnerContent( innerProps ) {
 		return (
@@ -190,6 +199,21 @@ export default class GbFullCalendar extends Component {
 					</div>
 				</div>
 			</div>
+		);
+	}
+
+	/**
+	 * https://github.com/fullcalendar/fullcalendar/blob/495d925436e533db2fd591e09a0c887adca77053/packages/list/src/ListViewEventRow.tsx#L55
+	 */
+	renderListInnerContent( props ) {
+		let { event } = props;
+		let url = event.url;
+		let anchorAttrs = url ? { href: url } : {};
+
+		return (
+			<a { ...anchorAttrs }>
+				{ event.title }
+			</a>
 		);
 	}
 
