@@ -96,8 +96,8 @@ To build a plugin file run `yarn run build` and include the following files in a
 
 ```
 build/
+php/
 editor.css
-gb-fc-admin.php
 gb-fullcalendar.php
 package.json
 style.css

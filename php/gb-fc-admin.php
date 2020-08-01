@@ -326,7 +326,7 @@ class GbFcAdmin
     }
 }
 
-$str = file_get_contents(__DIR__ . '/package.json');
+$str = file_get_contents(__DIR__ . '/../package.json');
 $package = json_decode($str, true);
 
 //check for updates
