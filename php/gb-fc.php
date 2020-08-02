@@ -159,8 +159,12 @@ function getEmTermColor($term_id)
  * @param array $args
  * @return string
  */
-function calendar_via_shortcode($args = array())
+function calendar_via_shortcode($args = [])
 {
+    if (empty($args)) {
+        // Avoid empty string
+        $args = [];
+    }
     //figure out what taxonomies to show
     $gbFcLocal = new stdClass();
     $gbFcLocal->fc = new stdClass();
