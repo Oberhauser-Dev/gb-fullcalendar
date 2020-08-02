@@ -1,6 +1,26 @@
 <?php
 
-class GbFcAjax {
+class GbFcAjax
+{
+    /**
+     * Fix list view missing weeks
+     * @param $args array the EM_Calendar args.
+     */
+    public static function filter_ajax_em_event_args($args)
+    {
+        //get the month/year between the start/end dates and feed these to EM
+        $dateTimeStart = new DateTime($args['start']);
+        $dateTimeStart->setDate($dateTimeStart->format('Y'), $dateTimeStart->format('m'), 1);
+        $dateTimeEnd = new DateTime($args['end']);
+        $dateTimeInterval = $dateTimeStart->diff($dateTimeEnd);
+        $args['month'] = $dateTimeStart->format('n');
+        $args['year'] = $dateTimeStart->format('Y');
+        // FIXME at least 6 weeks, else JSON parse error
+        $args['number_of_weeks'] = max(intval(ceil($dateTimeInterval->days / 7.0)), 6);
+
+        return $args;
+    }
+
     /**
      * AJAX endpoint for tooltip content for a calendar item.
      * Returns / echos a JSON object

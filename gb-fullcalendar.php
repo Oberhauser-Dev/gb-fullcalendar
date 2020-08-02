@@ -100,9 +100,17 @@ function create_block_gb_fullcalendar_block_init()
     }
 
     /**
-     * Create ajax endpoint for tooltip information.
+     * Create ajax endpoints.
      * https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_(action)
      */
+    // TODO some time rename "WP_FullCalendar" to "gbfc_events"
+    //overrides the ajax calls for event data
+    if (defined('DOING_AJAX') && DOING_AJAX && !empty($_REQUEST['type'])) { //only needed during ajax requests anyway
+        if ($_REQUEST['type'] === EM_POST_TYPE_EVENT) {
+            add_filter('wpfc_fullcalendar_args', ['GbFcAjax', 'filter_ajax_em_event_args']);
+        }
+    }
+
     add_action('wp_ajax_gbfc_tooltip_content', ['GbFcAjax', 'ajax_tooltip_content']);
     add_action('wp_ajax_nopriv_gbfc_tooltip_content', ['GbFcAjax', 'ajax_tooltip_content']);
 }

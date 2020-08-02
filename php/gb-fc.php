@@ -44,7 +44,8 @@ function getFullCalendarArgs()
         'dayMaxEventRows' => true,
         'dayMaxEvents' => true,
         'views' => $views,
-        'showNonCurrentDates' => false, // TODO Cannot handle dates outside of range in events manager
+        // TODO Can be removed, but causes much overhead, as whole month of start date is fetched from EM.
+        'showNonCurrentDates' => false,
 
         // eventBackgroundColor: 'white',
         // eventColor: 'white',
