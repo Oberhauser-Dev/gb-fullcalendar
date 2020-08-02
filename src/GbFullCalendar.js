@@ -12,7 +12,7 @@ import { Tooltip } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 /**
- * @typedef {{ajaxUrl: string, eventAction: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], htmlFontSize: number, tooltips: boolean, tooltipAction:string, tooltipPlacement: string}} FcExtra
+ * @typedef {{ajaxUrl: string, eventAction: string, eventPostType: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], htmlFontSize: number, tooltips: boolean, tooltipAction:string, tooltipPlacement: string}} FcExtra
  * @typedef {{echo: boolean, class: string, selected: int[], name: string, slug: string, show_option_all: string, items: [], is_empty: boolean}} TaxonomyNode
  * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
@@ -168,7 +168,7 @@ export default class GbFullCalendar extends Component {
 	getExtraParams() {
 		return {
 			action: this.fcExtra.eventAction,
-			type: 'event',
+			type: this.fcExtra.eventPostType,
 			...this.filterParams,
 		};
 	}

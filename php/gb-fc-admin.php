@@ -150,9 +150,9 @@ class GbFcAdmin
                                 <?php
                                 $selected_taxonomies = get_option('gbfc_post_taxonomies');
                                 foreach (get_post_types(apply_filters('gbfc_get_post_types_args', array('public' => true)), 'names') as $post_type) {
-                                    $checked = get_option('gbfc_default_type') == $post_type ? 'checked' : '';
+                                    $checked = get_option('gbfc_post_type') == $post_type ? 'checked' : '';
                                     $post_data = get_post_type_object($post_type);
-                                    echo "<li><label><input type='radio' class='wpfc-post-type' name='gbfc_default_type' value='$post_type' $checked />&nbsp;&nbsp;{$post_data->labels->name} (<em>$post_type</em>)</label>";
+                                    echo "<li><label><input type='radio' class='wpfc-post-type' name='gbfc_post_type' value='$post_type' $checked />&nbsp;&nbsp;{$post_data->labels->name} (<em>$post_type</em>)</label>";
                                     do_action('gbfc_admin_options_post_type_' . $post_type);
                                     $post_type_taxonomies = get_object_taxonomies($post_type);
                                     if (count($post_type_taxonomies) > 0) {
@@ -177,7 +177,7 @@ class GbFcAdmin
 								jQuery( document ).ready( function( $ ) {
 									$( 'input.wpfc-post-type' ).change( function() {
 										$( 'ul.wpfc-post-types div' ).hide();
-										$( 'input[name=gbfc_default_type]:checked' ).parent().parent().find( 'div' ).show();
+										$( 'input[name=gbfc_post_type]:checked' ).parent().parent().find( 'div' ).show();
 									} );
 								} );
                             </script>

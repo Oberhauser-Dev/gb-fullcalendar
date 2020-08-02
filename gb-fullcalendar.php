@@ -108,6 +108,9 @@ function create_block_gb_fullcalendar_block_init()
     if (defined('DOING_AJAX') && DOING_AJAX && !empty($_REQUEST['type'])) { //only needed during ajax requests anyway
         if ($_REQUEST['type'] === EM_POST_TYPE_EVENT) {
             add_filter('wpfc_fullcalendar_args', ['GbFcAjax', 'filter_ajax_em_event_args']);
+        } else {
+            add_action('wp_ajax_WP_FullCalendar', ['GbFcAjax', 'ajax_events']);
+            add_action('wp_ajax_nopriv_WP_FullCalendar', ['GbFcAjax', 'ajax_events']);
         }
     }
 

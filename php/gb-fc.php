@@ -72,10 +72,10 @@ function getFullCalendarExtraArgs()
     $schema = is_ssl() ? 'https' : 'http';
 
     $args = []; // TODO fetch from settings
-    $post_type = get_option('gbfc_default_type', 'event');
+    $post_type = get_option('gbfc_post_type', 'event');
     //figure out what taxonomies to show
     $gbfc_post_taxonomies = get_option('gbfc_post_taxonomies');
-    $search_taxonomies = array_keys($gbfc_post_taxonomies[$post_type]) ?? array();
+    $search_taxonomies = array_keys($gbfc_post_taxonomies[$post_type] ?? array());
     if (!empty($args['taxonomies'])) {
         //we accept taxonomies in arguments
         $search_taxonomies = explode(',', $args['taxonomies']);
@@ -133,10 +133,12 @@ function getFullCalendarExtraArgs()
     $gbfc_htmlFontSize = floatval(get_option('gbfc_htmlFontSize', 16));
     $gbfc_tooltips = boolval(get_option('gbfc_tooltips', false));
     $gbfc_tooltip_placement = get_option('gbfc_tooltip_placement', 'top');
+    $gbfc_eventPostType = get_option('gbfc_post_type', 'event');
 
     return [
         'ajaxUrl' => admin_url('admin-ajax.php', $schema),
         'eventAction' => 'WP_FullCalendar',
+        'eventPostType' => $gbfc_eventPostType,
         'tooltipAction' => 'gbfc_tooltip_content',
         'taxonomyNodes' => $taxonomyNodes,
         'htmlFontSize' => $gbfc_htmlFontSize,

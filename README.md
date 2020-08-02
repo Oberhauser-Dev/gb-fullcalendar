@@ -19,6 +19,7 @@ visual way, but still can be used with Shortcodes, too.
 
 - Month / Week / Day and List views
 - Filter by taxonomy, such as category, tag etc.
+- Supports custom post types and custom taxonomies
 - Integrates seamlessly with [Events Manager](http://wordpress.org/extend/plugins/events-manager/)
 - Customize [FullCalendar settings](https://fullcalendar.io/docs)
 - Tooltips
