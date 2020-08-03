@@ -1,0 +1,73 @@
+{
+  "views": [
+    {
+      "value": "dayGridMonth",
+      "label": "DayGrid (month)",
+      "type": "dayGrid",
+      "enabled": true
+    },
+    {
+      "value": "dayGridWeek",
+      "label": "DayGrid (week)",
+      "type": "dayGrid"
+    },
+    {
+      "value": "dayGridCustom",
+      "label": "DayGrid (custom)",
+      "type": "dayGrid",
+      "customDurationDays": 7
+    },
+    {
+      "value": "timeGridWeek",
+      "label": "TimeGrid (week)",
+      "type": "timeGrid",
+      "enabled": true
+    },
+    {
+      "value": "timeGridDay",
+      "label": "TimeGrid (day)",
+      "type": "timeGrid",
+      "enabled": true
+    },
+    {
+      "value": "timeGridCustom",
+      "label": "TimeGrid (custom)",
+      "type": "timeGrid",
+      "customDurationDays": 1
+    },
+    {
+      "value": "listMonth",
+      "label": "List (month)",
+      "type": "list"
+    },
+    {
+      "value": "listWeek",
+      "label": "List (week)",
+      "type": "list"
+    },
+    {
+      "value": "listDay",
+      "label": "List (day)",
+      "type": "list"
+    },
+    {
+      "value": "listCustom",
+      "label": "List (custom)",
+      "type": "list",
+      "customDurationDays": 30,
+      "enabled": true,
+      "default": true
+    }
+  ],
+  "themeSystems": [
+    {
+      "value": "standard",
+      "label": "Standard",
+      "default": true
+    },
+    {
+      "value": "bootstrap",
+      "label": "Bootstrap"
+    }
+  ]
+}

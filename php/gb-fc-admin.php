@@ -2,8 +2,6 @@
 
 class GbFcAdmin
 {
-    static $tip_positions = array('top-start', 'top-end', 'top', 'bottom-start', 'bottom-end', 'bottom', 'right-start', 'right-end', 'right', 'left-start', 'left-end', 'left');
-
     public static function menus()
     {
         $page = add_options_page('GB FullCalendar', 'GB FullCalendar', 'manage_options', 'gb-fullcalendar', array('GbFcAdmin', 'admin_options'));
@@ -13,6 +11,8 @@ class GbFcAdmin
 
     public static function admin_options()
     {
+        $fcOptions = json_decode(file_get_contents(__DIR__ . "/../res/FcOptions.json"));
+        $fcExtraOptions = json_decode(file_get_contents(__DIR__ . "/../res/FcExtraOptions.json"));
         if (!empty($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'gbfc_options_save')) {
             foreach ($_REQUEST as $option_name => $option_value) {
                 if (substr($option_name, 0, 5) == 'gbfc_') {
@@ -187,46 +187,39 @@ class GbFcAdmin
                             <h2><?php _e('Calendar Options', 'gb-fullcalendar'); ?></h2>
                             <table class='form-table'>
                                 <?php
-                                $available_views = apply_filters('gbfc_available_views', array(
-                                    'dayGridMonth' => 'DayGrid (month)',
-                                    'dayGridWeek' => 'DayGrid (week)',
-                                    'dayGridCustom' => 'DayGrid (custom)',
-                                    'timeGridWeek' => 'TimeGrid (week)',
-                                    'timeGridDay' => 'TimeGrid (day)',
-                                    'timeGridCustom' => 'TimeGrid (custom)',
-                                    'listMonth' => 'List (month)',
-                                    'listWeek' => 'List (week)',
-                                    'listDay' => 'List (day)',
-                                    'listCustom' => 'List (custom)',
-                                ));
-                                $custom_views = array(
-                                    'dayGridCustom',
-                                    'timeGridCustom',
-                                    'listCustom',
-                                );
+                                $fcViews = $fcOptions->views;
                                 ?>
                                 <tr>
                                     <th scope="row"><?php _e('Available Views', 'gb-fullcalendar'); ?></th>
                                     <td>
-                                        <?php $gbfc_available_views = get_option('gbfc_available_views', array('dayGridMonth', 'timeGridWeek', 'timeGridDay', 'listCustom')); ?>
-                                        <?php $gbfc_available_views_duration = get_option('gbfc_available_views_duration', array('dayGridCustom' => 7, 'timeGridCustom' => 1, 'listCustom' => 30)); ?>
-                                        <?php foreach ($available_views as $view_key => $view_value): ?>
+                                        <?php $gbfc_available_views = get_option('gbfc_available_views', []); ?>
+                                        <?php $gbfc_available_views_duration = get_option('gbfc_available_views_duration', []); ?>
+                                        <?php foreach ($fcViews as $view): ?>
                                             <input type="checkbox" name="gbfc_available_views[]"
-                                                   value="<?php echo $view_key ?>" <?php if (in_array($view_key, $gbfc_available_views)) {
+                                                   value="<?php echo $view->value ?>" <?php if (in_array($view->value, $gbfc_available_views)) {
                                                 echo 'checked="checked"';
-                                            } ?>/> <?php echo $view_value; ?>
-                                            <?php if (in_array($view_key, $custom_views)) { ?>
+                                            } ?>/> <?php echo $view->label; ?>
+                                            <?php if (!empty($view->customDurationDays)) { ?>
                                                 <input type="number"
-                                                       name="gbfc_available_views_duration[<?php echo $view_key ?>]"
-                                                       value="<?php echo $gbfc_available_views_duration[$view_key] ?? 1 ?>"/> Days
+                                                       name="gbfc_available_views_duration[<?php echo $view->value ?>]"
+                                                       value="<?php echo $gbfc_available_views_duration[$view->value] ?? $view->customDurationDays ?>"/> Days
                                             <?php } ?><br/>
                                         <?php endforeach; ?>
                                         <em><?php _e('Users will be able to select from these views when viewing the calendar.'); ?></em>
                                     </td>
                                 </tr>
                                 <?php
+                                $available_views = [];
+                                foreach ($fcViews as $view) {
+                                    $available_views[$view->value] = $view->label;
+                                }
+                                $available_views = apply_filters('gbfc_available_views', $available_views);
                                 gbfc_options_select(__('Default View', 'gb-fullcalendar'), 'gbfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.', 'gb-fullcalendar'));
-                                gbfc_options_select(__('Default Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', ['standard' => 'Standard', 'bootstrap' => 'Bootstrap'],
+                                $themeSystems = [];
+                                foreach ($fcOptions->themeSystems as $themeSystem) {
+                                    $themeSystems[$themeSystem->value] = $themeSystem->label;
+                                }
+                                gbfc_options_select(__('Default Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', $themeSystems,
                                     __('Choose the default theme system. You can customize the Bootstrap theme as described <a href="https://fullcalendar.io/docs/theming">here</a>. 
                                         <br/>For the standard theme system you can also alter <a href="https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/styles/vars.css">these CSS</a> variables like mentioned in the <a href="https://fullcalendar.io/docs/css-customization">docs</a>.',
                                         'gb-fullcalendar'), 'standard');
@@ -259,9 +252,9 @@ class GbFcAdmin
                                 wpfc_options_radio_binary(__('Rounded tooltips?', 'gb-fullcalendar'), 'wpfc_qtips_rounded', __('If your chosen tooltip style doesn\'t already do/prevent this, you can add rounded corners using CSS3.', 'gb-fullcalendar'));
                                 wpfc_options_radio_binary(__('Add shadow to tooltips?', 'gb-fullcalendar'), 'wpfc_qtips_shadow', __('If your chosen tooltip style doesn\'t already do/prevent this, you can add a CSS3 drop-shadow effect to your tooltip.', 'gb-fullcalendar'));
                                 */
-                                $positions_options = array();
-                                foreach (static::$tip_positions as $position) {
-                                    $positions_options[$position] = $position;
+                                $positions_options = [];
+                                foreach ($fcExtraOptions->tooltipPositions as $position) {
+                                    $positions_options[$position->value] = $position->label;
                                 }
                                 gbfc_options_select(__('Tooltip bubble position', 'gb-fullcalendar'), 'gbfc_tooltip_placement', $positions_options, __('Choose where your tooltip will be situated relative to the event card.', 'gb-fullcalendar'), 'bottom');
                                 gbfc_options_radio_binary(__('Enable featured image?', 'gb-fullcalendar'), 'gbfc_tooltip_image', __('If your post has a featured image, it will be included as a thumbnail.', 'gb-fullcalendar'));

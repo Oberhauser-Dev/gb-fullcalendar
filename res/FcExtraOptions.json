@@ -1,0 +1,53 @@
+{
+  "tooltipPositions": [
+    {
+      "value": "top-start",
+      "label": "Top start",
+      "default": true
+    },
+    {
+      "value": "top-end",
+      "label": "Top end"
+    },
+    {
+      "value": "top",
+      "label": "Top center"
+    },
+    {
+      "value": "bottom-start",
+      "label": "Bottom start"
+    },
+    {
+      "value": "bottom-end",
+      "label": "Bottom end"
+    },
+    {
+      "value": "bottom",
+      "label": "Bottom center"
+    },
+    {
+      "value": "right-start",
+      "label": "Right start"
+    },
+    {
+      "value": "right-end",
+      "label": "Right end"
+    },
+    {
+      "value": "right",
+      "label": "Right center"
+    },
+    {
+      "value": "left-start",
+      "label": "Left start"
+    },
+    {
+      "value": "left-end",
+      "label": "Left end"
+    },
+    {
+      "value": "left",
+      "label": "Left center"
+    }
+  ]
+}

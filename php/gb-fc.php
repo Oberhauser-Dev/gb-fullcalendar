@@ -8,27 +8,30 @@
  */
 function getFullCalendarArgs()
 {
+    $gbfc_available_views = get_option('gbfc_available_views', []);
+    $gbfc_available_views_duration = get_option('gbfc_available_views_duration', []);
     // Header Toolbar
     $headerToolbar = new stdClass();
     $headerToolbar->left = 'prevYear,prev,today,next,nextYear';
     $headerToolbar->center = 'title';
-    $headerToolbar->right = implode(',', get_option('gbfc_available_views', array('dayGridMonth', 'timeGridWeek', 'timeGridDay', 'listCustom')));
+    $headerToolbar->right = implode(',', $gbfc_available_views);
     $headerToolbar = apply_filters('gbfc_calendar_header_vars', $headerToolbar);
 
     // Custom views
-    $gbfc_available_views_duration = get_option('gbfc_available_views_duration', array('dayGridCustom' => 7, 'timeGridCustom' => 1, 'listCustom' => 30));
-    $viewsTypeMap = [
-        'dayGridCustom' => 'dayGrid',
-        'timeGridCustom' => 'timeGrid',
-        'listCustom' => 'list',
-    ];
+    $fcOptions = json_decode(file_get_contents(__DIR__ . "/../res/FcOptions.json"));
+    $fcViews = $fcOptions->views;
     $views = new stdClass();
-    foreach ($gbfc_available_views_duration as $customViewKey => $duration) {
-        $view = new stdClass();
-        $view->type = $viewsTypeMap[$customViewKey];
-        $view->duration = new stdClass();
-        $view->duration->days = intval($duration);
-        $views->$customViewKey = $view;
+    foreach ($fcViews as $viewOption) {
+        // Always allow all custom views, as local settings may have it as default.
+        // But only the ones, who have a duration day count.
+        $viewKey = $viewOption->value;
+        if (array_key_exists($viewKey, $gbfc_available_views_duration)) {
+            $view = new stdClass();
+            $view->type = $viewOption->type;
+            $view->duration = new stdClass();
+            $view->duration->days = intval($gbfc_available_views_duration[$viewKey]);
+            $views->$viewKey = $view;
+        }
     }
 
     return [

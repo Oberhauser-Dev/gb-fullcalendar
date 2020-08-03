@@ -13,7 +13,7 @@ import {
 import {
 	InspectorControls,
 } from '@wordpress/editor';
-import fcOptions from './FullCalendarOptions.json';
+import fcOptions from '../res/FcOptions.json';
 import GbFullCalendarWrapper from './GbFullCalendarWrapper';
 
 /**
@@ -28,7 +28,7 @@ import GbFullCalendarWrapper from './GbFullCalendarWrapper';
  */
 export default function Edit( { attributes, setAttributes } ) {
 
-	const gbFcPrefs = attributesToGbfcOptions( attributes, GbFcGlobal );
+	const gbFcPrefs = attributesToGbfcOptions( attributes, JSON.parse( JSON.stringify( GbFcGlobal ) ) );
 	const initialTaxonomies = gbFcPrefs.fcExtra.initialTaxonomies;
 
 	function onChangeInputField( fieldName, newValue ) {
@@ -43,7 +43,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						<SelectControl
 							label="Initial View"
 							value={ gbFcPrefs.fc.initialView }
-							options={ fcOptions.initialView }
+							options={ fcOptions.views }
 							onChange={ ( value ) => onChangeInputField( 'initialView', value ) }
 						/>
 					</PanelRow>
