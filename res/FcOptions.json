@@ -12,6 +12,11 @@
       "type": "dayGrid"
     },
     {
+      "value": "dayGridDay",
+      "label": "DayGrid (day)",
+      "type": "dayGrid"
+    },
+    {
       "value": "dayGridCustom",
       "label": "DayGrid (custom)",
       "type": "dayGrid",
@@ -34,6 +39,11 @@
       "label": "TimeGrid (custom)",
       "type": "timeGrid",
       "customDurationDays": 1
+    },
+    {
+      "value": "listYear",
+      "label": "List (year)",
+      "type": "list"
     },
     {
       "value": "listMonth",
