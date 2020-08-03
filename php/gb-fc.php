@@ -54,14 +54,12 @@ function getFullCalendarArgs()
         // eventColor: 'white',
         // eventTextColor: 'black',
 
+        // TODO handle / documentate / implement following options properly:
 //        'gbfc_theme' => get_option('gbfc_theme_css') ? true : false,
-//        'gbfc_theme_system' => get_option('gbfc_theme_system'),
 //        'gbfc_limit' => get_option('gbfc_limit', 3),
 //        'gbfc_limit_txt' => get_option('gbfc_limit_txt', 'more ...'),
         //'google_calendar_api_key' => get_option('gbfc_google_calendar_api_key', ''),
         //'google_calendar_ids' => preg_split('/\s+/', get_option('gbfc_google_calendar_ids', '')),
-//        'timeFormat' => get_option('gbfc_timeFormat', 'h(:mm)t'),
-//        'gbfc_dialog' => get_option('gbfc_dialog', true) == true,
     ];
 }
 
