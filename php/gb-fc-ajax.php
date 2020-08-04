@@ -112,13 +112,13 @@ class GbFcAjax
                 $content->imageUrl = wp_get_attachment_image_url($post->ID, 'thumbnail');
             } else {
                 $content->excerpt = (!empty($post)) ? $post->post_content : '';
-                if (get_option('gbfc_tooltip_image', true)) {
+                if (get_option('gbfc_tooltipImage', true)) {
                     $post_image_url = get_the_post_thumbnail_url($post->ID);
                     if (!empty($post_image_url)) {
                         $content->imageUrl = $post_image_url;
                         $content->imageDimensions = [
-                            intval(get_option('gbfc_tooltip_image_w', 75)),
-                            intval(get_option('gbfc_tooltip_image_h', 75))
+                            intval(get_option('gbfc_tooltipImageMaxWidth', 75)),
+                            intval(get_option('gbfc_tooltipImageMaxHeight', 75))
                         ];
                     }
                 }

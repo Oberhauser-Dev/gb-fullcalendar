@@ -22,8 +22,8 @@ class GbFcAdmin
                     update_option($option_name, $option_value);
                 }
             }
-            if (empty($_REQUEST['gbfc_post_taxonomies'])) {
-                update_option('gbfc_post_taxonomies', '');
+            if (empty($_REQUEST['gbfc_postTaxonomies'])) {
+                update_option('gbfc_postTaxonomies', '');
             }
             echo '<div class="updated notice"><p>' . __('Settings saved.') . '</p></div>';
         }
@@ -148,11 +148,11 @@ class GbFcAdmin
                             <p>
                             <ul class="wpfc-post-types">
                                 <?php
-                                $selected_taxonomies = get_option('gbfc_post_taxonomies');
+                                $selected_taxonomies = get_option('gbfc_postTaxonomies');
                                 foreach (get_post_types(apply_filters('gbfc_get_post_types_args', array('public' => true)), 'names') as $post_type) {
-                                    $checked = get_option('gbfc_post_type') == $post_type ? 'checked' : '';
+                                    $checked = get_option('gbfc_postType') == $post_type ? 'checked' : '';
                                     $post_data = get_post_type_object($post_type);
-                                    echo "<li><label><input type='radio' class='wpfc-post-type' name='gbfc_post_type' value='$post_type' $checked />&nbsp;&nbsp;{$post_data->labels->name} (<em>$post_type</em>)</label>";
+                                    echo "<li><label><input type='radio' class='wpfc-post-type' name='gbfc_postType' value='$post_type' $checked />&nbsp;&nbsp;{$post_data->labels->name} (<em>$post_type</em>)</label>";
                                     do_action('gbfc_admin_options_post_type_' . $post_type);
                                     $post_type_taxonomies = get_object_taxonomies($post_type);
                                     if (count($post_type_taxonomies) > 0) {
@@ -163,7 +163,7 @@ class GbFcAdmin
                                         foreach ($post_type_taxonomies as $taxonomy_name) {
                                             $taxonomy = get_taxonomy($taxonomy_name);
                                             $tax_checked = !empty($selected_taxonomies[$post_type][$taxonomy_name]) ? 'checked' : '';
-                                            echo "<li><label><input type='checkbox' name='gbfc_post_taxonomies[$post_type][$taxonomy_name]' value='1' $tax_checked />&nbsp;&nbsp;{$taxonomy->labels->name} (<em>$taxonomy_name</em>)</label></li>";
+                                            echo "<li><label><input type='checkbox' name='gbfc_postTaxonomies[$post_type][$taxonomy_name]' value='1' $tax_checked />&nbsp;&nbsp;{$taxonomy->labels->name} (<em>$taxonomy_name</em>)</label></li>";
                                         }
                                         echo "</ul>";
                                         echo "</div>";
@@ -177,7 +177,7 @@ class GbFcAdmin
 								jQuery( document ).ready( function( $ ) {
 									$( 'input.wpfc-post-type' ).change( function() {
 										$( 'ul.wpfc-post-types div' ).hide();
-										$( 'input[name=gbfc_post_type]:checked' ).parent().parent().find( 'div' ).show();
+										$( 'input[name=gbfc_postType]:checked' ).parent().parent().find( 'div' ).show();
 									} );
 								} );
                             </script>
@@ -187,34 +187,36 @@ class GbFcAdmin
                             <h2><?php _e('Calendar Options', 'gb-fullcalendar'); ?></h2>
                             <table class='form-table'>
                                 <?php
-                                $fcViews = $fcOptions->views;
+                                $fcViews = apply_filters('gbfc_views', $fcOptions->views);
+                                $gbfc_enabledViews = get_option('gbfc_enabledViews', []);
+                                $gbfc_viewsDurationDays = get_option('gbfc_viewsDurationDays', []);
                                 ?>
                                 <tr>
-                                    <th scope="row"><?php _e('Available Views', 'gb-fullcalendar'); ?></th>
+                                    <th scope="row"><?php _e('Enabled Views', 'gb-fullcalendar'); ?></th>
                                     <td>
-                                        <?php $gbfc_available_views = get_option('gbfc_available_views', []); ?>
-                                        <?php $gbfc_available_views_duration = get_option('gbfc_available_views_duration', []); ?>
                                         <?php foreach ($fcViews as $view): ?>
-                                            <input type="checkbox" name="gbfc_available_views[]"
-                                                   value="<?php echo $view->value ?>" <?php if (in_array($view->value, $gbfc_available_views)) {
+                                            <input type="checkbox" name="gbfc_enabledViews[]"
+                                                   value="<?php echo $view->value ?>" <?php if (in_array($view->value, $gbfc_enabledViews)) {
                                                 echo 'checked="checked"';
                                             } ?>/> <?php echo $view->label; ?>
                                             <?php if (!empty($view->customDurationDays)) { ?>
                                                 <input type="number"
-                                                       name="gbfc_available_views_duration[<?php echo $view->value ?>]"
-                                                       value="<?php echo $gbfc_available_views_duration[$view->value] ?? $view->customDurationDays ?>"/> Days
+                                                       name="gbfc_viewsDurationDays[<?php echo $view->value ?>]"
+                                                       value="<?php echo $gbfc_viewsDurationDays[$view->value] ?? $view->customDurationDays ?>"/> Days
                                             <?php } ?><br/>
                                         <?php endforeach; ?>
                                         <em><?php _e('Users will be able to select from these views when viewing the calendar.'); ?></em>
                                     </td>
                                 </tr>
                                 <?php
-                                $available_views = [];
+                                // Only can select enabled view as default.
+                                $enabledViews = [];
                                 foreach ($fcViews as $view) {
-                                    $available_views[$view->value] = $view->label;
+                                    if (in_array($view->value, $gbfc_enabledViews)) {
+                                        $enabledViews[$view->value] = $view->label;
+                                    }
                                 }
-                                $available_views = apply_filters('gbfc_available_views', $available_views);
-                                gbfc_options_select(__('Default View', 'gb-fullcalendar'), 'gbfc_defaultView', $available_views, __('Choose the default view to be displayed when the calendar is first shown.', 'gb-fullcalendar'));
+                                gbfc_options_select(__('Default View', 'gb-fullcalendar'), 'gbfc_initialView', $enabledViews, __('Choose the default view to be displayed when the calendar is first shown.', 'gb-fullcalendar'));
                                 $themeSystems = [];
                                 foreach ($fcOptions->themeSystems as $themeSystem) {
                                     $themeSystems[$themeSystem->value] = $themeSystem->label;
@@ -224,13 +226,6 @@ class GbFcAdmin
                                         <br/>For the standard theme system you can also alter <a href="https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/styles/vars.css">these CSS</a> variables like mentioned in the <a href="https://fullcalendar.io/docs/css-customization">docs</a>.',
                                         'gb-fullcalendar'), 'standard');
                                 gbfc_options_number(__('Default HTML font size', 'gb-fullcalendar'), 'gbfc_htmlFontSize', __('Set the <a href="https://material-ui.com/customization/typography/#html-font-size">HTML font size</a>, e.g. to use 10px simplification (default is 16px)', 'gb-fullcalendar'), 16);
-
-                                // Let handle time format by localization in fullcalendar
-                                //gbfc_options_input_text ( __( 'Time Format', 'gb-fullcalendar'), 'gbfc_timeFormat', sprintf(__('Set the format used for showing the times on the calendar, <a href="%s">see possible combinations</a>. Leave blank for no time display.','gb-fullcalendar'),'http://momentjs.com/docs/#/displaying/format/'), 'h(:mm)a' );
-                                // TODO wpfc_limit as well as gbfc_limit_txt option should be disabled by default and let fullcalendar handle too much events.
-                                // Keep name wpfc_limit as it is referred in events-manager/em-wpfc.php -> if not set default is 3.
-                                gbfc_options_input_text(__('Events limit', 'gb-fullcalendar'), 'wpfc_limit', __('Enter the maximum number of events to show per day, which will then be preceded by a link to the calendar day page. (Default: 1000, if let handle this by fullcalendar)', 'gb-fullcalendar'), '1000');
-                                //gbfc_options_input_text ( __( 'View events link', 'gb-fullcalendar'), 'wpfc_limit_txt', __('When the limit of events is shown for one day, this text will be used for the link to the calendar day page.','gb-fullcalendar') );
                                 ?>
                             </table>
                             <?php do_action('gbfc_admin_after_calendar_options'); ?>
@@ -256,31 +251,31 @@ class GbFcAdmin
                                 foreach ($fcExtraOptions->tooltipPositions as $position) {
                                     $positions_options[$position->value] = $position->label;
                                 }
-                                gbfc_options_select(__('Tooltip bubble position', 'gb-fullcalendar'), 'gbfc_tooltip_placement', $positions_options, __('Choose where your tooltip will be situated relative to the event card.', 'gb-fullcalendar'), 'bottom');
-                                gbfc_options_radio_binary(__('Enable featured image?', 'gb-fullcalendar'), 'gbfc_tooltip_image', __('If your post has a featured image, it will be included as a thumbnail.', 'gb-fullcalendar'));
+                                gbfc_options_select(__('Tooltip bubble position', 'gb-fullcalendar'), 'gbfc_tooltipPlacement', $positions_options, __('Choose where your tooltip will be situated relative to the event card.', 'gb-fullcalendar'), 'bottom');
+                                gbfc_options_radio_binary(__('Enable featured image?', 'gb-fullcalendar'), 'gbfc_tooltipImage', __('If your post has a featured image, it will be included as a thumbnail.', 'gb-fullcalendar'));
                                 ?>
-                                <tr id="gbfc_tooltip_image_dimensions_row">
+                                <tr id="gbfc_tooltipImage_dimensions_row">
                                     <th><label><?php _e('Featured image size', 'gb-fullcalendar'); ?></label></th>
                                     <td>
                                         <?php _e('Max width', 'gb-fullcalendar'); ?> :
-                                        <input name="gbfc_tooltip_image_w" type="number" style="width:100px;"
-                                               value="<?php echo get_option('gbfc_tooltip_image_w'); ?>"/>
+                                        <input name="gbfc_tooltipImageMaxWidth" type="number" style="width:100px;"
+                                               value="<?php echo get_option('gbfc_tooltipImageMaxWidth'); ?>"/>
                                         <?php _e('Max height', 'gb-fullcalendar'); ?> :
-                                        <input name="gbfc_tooltip_image_h" type="number" style="width:100px;"
-                                               value="<?php echo get_option('gbfc_tooltip_image_h'); ?>"/>
+                                        <input name="gbfc_tooltipImageMaxHeight" type="number" style="width:100px;"
+                                               value="<?php echo get_option('gbfc_tooltipImageMaxHeight'); ?>"/>
                                     </td>
                                 </tr>
                                 <script type="text/javascript">
 									window.addEventListener( 'DOMContentLoaded', () => {
 										function tooltipsChanged( event ) {
 											if (Boolean( Number( document.querySelector( 'input[name=gbfc_tooltips]:checked' ).value ) )) {
-												document.getElementById( 'gbfc_tooltip_placement_row' ).style.display = 'table-row';
-												document.getElementById( 'gbfc_tooltip_image_row' ).style.display = 'table-row';
-												document.getElementById( 'gbfc_tooltip_image_dimensions_row' ).style.display = 'table-row';
+												document.getElementById( 'gbfc_tooltipPlacement_row' ).style.display = 'table-row';
+												document.getElementById( 'gbfc_tooltipImage_row' ).style.display = 'table-row';
+												document.getElementById( 'gbfc_tooltipImage_dimensions_row' ).style.display = 'table-row';
 											} else {
-												document.getElementById( 'gbfc_tooltip_placement_row' ).style.display = 'none';
-												document.getElementById( 'gbfc_tooltip_image_row' ).style.display = 'none';
-												document.getElementById( 'gbfc_tooltip_image_dimensions_row' ).style.display = 'none';
+												document.getElementById( 'gbfc_tooltipPlacement_row' ).style.display = 'none';
+												document.getElementById( 'gbfc_tooltipImage_row' ).style.display = 'none';
+												document.getElementById( 'gbfc_tooltipImage_dimensions_row' ).style.display = 'none';
 											}
 										}
 
@@ -324,7 +319,7 @@ $package = json_decode($str, true);
 
 //check for updates
 if (version_compare($package['version'], get_option('gbfc_version', 0)) > 0 && current_user_can('activate_plugins')) {
-    //include('wpfc-install.php');
+    //include('gb-fc-install.php');
 }
 //add admin action hook
 add_action('admin_menu', array('GbFcAdmin', 'menus'));

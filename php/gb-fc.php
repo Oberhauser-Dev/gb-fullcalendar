@@ -8,13 +8,13 @@
  */
 function getFullCalendarArgs()
 {
-    $gbfc_available_views = get_option('gbfc_available_views', []);
-    $gbfc_available_views_duration = get_option('gbfc_available_views_duration', []);
+    $gbfc_enabledViews = get_option('gbfc_enabledViews', []);
+    $gbfc_viewsDurationDays = get_option('gbfc_viewsDurationDays', []);
     // Header Toolbar
     $headerToolbar = new stdClass();
     $headerToolbar->left = 'prevYear,prev,today,next,nextYear';
     $headerToolbar->center = 'title';
-    $headerToolbar->right = implode(',', $gbfc_available_views);
+    $headerToolbar->right = implode(',', $gbfc_enabledViews);
     $headerToolbar = apply_filters('gbfc_calendar_header_vars', $headerToolbar);
 
     // Custom views
@@ -25,20 +25,20 @@ function getFullCalendarArgs()
         // Always allow all custom views, as local settings may have it as default.
         // But only the ones, who have a duration day count.
         $viewKey = $viewOption->value;
-        if (array_key_exists($viewKey, $gbfc_available_views_duration)) {
+        if (array_key_exists($viewKey, $gbfc_viewsDurationDays)) {
             $view = new stdClass();
             $view->type = $viewOption->type;
             $view->duration = new stdClass();
-            $view->duration->days = intval($gbfc_available_views_duration[$viewKey]);
+            $view->duration->days = intval($gbfc_viewsDurationDays[$viewKey]);
             $views->$viewKey = $view;
         }
     }
 
     return [
-        'themeSystem' => get_option('gbfc_themeSystem', 'standard'), // else: 'bootstrap'
+        'themeSystem' => get_option('gbfc_themeSystem', 'standard'),
         'firstDay' => get_option('start_of_week'),
         'editable' => false,
-        'initialView' => get_option('gbfc_defaultView', 'dayGridMonth'), // Can be overwritten in shortcode
+        'initialView' => get_option('gbfc_initialView', 'dayGridMonth'), // Can be overwritten in shortcode
         'weekends' => get_option('gbfc_weekends', true) ? true : false,
         'headerToolbar' => $headerToolbar,
         'locale' => strtolower(str_replace('_', '-', get_locale())),
@@ -56,8 +56,6 @@ function getFullCalendarArgs()
 
         // TODO handle / documentate / implement following options properly:
 //        'gbfc_theme' => get_option('gbfc_theme_css') ? true : false,
-//        'gbfc_limit' => get_option('gbfc_limit', 3),
-//        'gbfc_limit_txt' => get_option('gbfc_limit_txt', 'more ...'),
         //'google_calendar_api_key' => get_option('gbfc_google_calendar_api_key', ''),
         //'google_calendar_ids' => preg_split('/\s+/', get_option('gbfc_google_calendar_ids', '')),
     ];
@@ -73,10 +71,10 @@ function getFullCalendarExtraArgs()
     $schema = is_ssl() ? 'https' : 'http';
 
     $args = []; // TODO fetch from settings
-    $post_type = get_option('gbfc_post_type', 'event');
+    $post_type = get_option('gbfc_postType', 'event');
     //figure out what taxonomies to show
-    $gbfc_post_taxonomies = get_option('gbfc_post_taxonomies');
-    $search_taxonomies = array_keys($gbfc_post_taxonomies[$post_type] ?? array());
+    $gbfc_postTaxonomies = get_option('gbfc_postTaxonomies');
+    $search_taxonomies = array_keys($gbfc_postTaxonomies[$post_type] ?? array());
     if (!empty($args['taxonomies'])) {
         //we accept taxonomies in arguments
         $search_taxonomies = explode(',', $args['taxonomies']);
@@ -133,8 +131,8 @@ function getFullCalendarExtraArgs()
 
     $gbfc_htmlFontSize = floatval(get_option('gbfc_htmlFontSize', 16));
     $gbfc_tooltips = boolval(get_option('gbfc_tooltips', false));
-    $gbfc_tooltip_placement = get_option('gbfc_tooltip_placement', 'top');
-    $gbfc_eventPostType = get_option('gbfc_post_type', 'event');
+    $gbfc_tooltipPlacement = get_option('gbfc_tooltipPlacement', 'top');
+    $gbfc_eventPostType = get_option('gbfc_postType', 'event');
 
     return [
         'ajaxUrl' => admin_url('admin-ajax.php', $schema),
@@ -144,7 +142,7 @@ function getFullCalendarExtraArgs()
         'taxonomyNodes' => $taxonomyNodes,
         'htmlFontSize' => $gbfc_htmlFontSize,
         'tooltips' => $gbfc_tooltips,
-        'tooltipPlacement' => $gbfc_tooltip_placement,
+        'tooltipPlacement' => $gbfc_tooltipPlacement,
     ];
 }
 
