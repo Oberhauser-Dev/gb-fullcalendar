@@ -23,6 +23,7 @@ visual way, but still can be used with Shortcodes, too.
 - Integrates seamlessly with [Events Manager](http://wordpress.org/extend/plugins/events-manager/)
 - Customize [FullCalendar settings](https://fullcalendar.io/docs)
 - Tooltips
+- Custom [themes and styles](./docs/Themes-Styles.md)
 - Supports IE 11
 
 ### Credits
@@ -74,6 +75,10 @@ defined by <a href="https://wp-events-plugin.com/">Events Manager</a>.
 ### Taxonomies and Terms
 
 You can define your own [taxonomies and terms](./docs/EM-Taxonomies-Terms.md) in order to categorize your events more precisely.
+
+### Themes and Styles
+
+See documentation for [themes and styles](./docs/Themes-Styles.md)
 
 ## Frequently Asked Questions (FAQ)
 

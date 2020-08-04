@@ -55,7 +55,6 @@ function getFullCalendarArgs()
         // eventTextColor: 'black',
 
         // TODO handle / documentate / implement following options properly:
-//        'gbfc_theme' => get_option('gbfc_theme_css') ? true : false,
         //'google_calendar_api_key' => get_option('gbfc_google_calendar_api_key', ''),
         //'google_calendar_ids' => preg_split('/\s+/', get_option('gbfc_google_calendar_ids', '')),
     ];
