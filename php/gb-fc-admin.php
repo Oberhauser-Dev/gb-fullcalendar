@@ -114,65 +114,76 @@ class GbFcAdmin
                             </b>
                         </p>
 
-                        <h2 style="margin-top:0px;"><?php _e('Short Codes', 'gb-fullcalendar'); ?></h2>
-                        <p>
-                            In addition you are able to use the <code>[fullcalendar]</code> shortcode in one of your
-                            posts or pages, too.
-                            We introduced new features in order to allow more customization:<br/> <br/>
-                            To adjust all the <a href="https://fullcalendar.io/docs">settings of FullCalendar</a> use
-                            following rule:
-                            Convert all Camel-case words to lower-case words separated with an underscore. Then add the
-                            prefix <code>fc_</code>. <br/>
-                            Example: <a href="https://fullcalendar.io/docs/initialView"><code>initialView:
-                                    "listCustom"</code></a> is converted to <code>[fullcalendar
-                                fc_initial_view="listCustom"]</code>.
-                            <br/><br/>
-                            Further you can declare your default <a
-                                    href="https://developer.wordpress.org/themes/basics/categories-tags-custom-taxonomies/#custom-taxonomies"><code>taxonomy
-                                    terms</code></a> as follows:
-                            <code>[fullcalendar category="concert, cinema, 11, theatre"
-                                your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id" ]</code>.<br/>
-                            Note that <code>category</code> is a synonym for the taxonomy <code>event-categories</code>
-                            defined by <a href="https://wp-events-plugin.com/">Events Manager</a>.
-                            <br/>
-                        </p>
+                        <table class='form-table'>
+                            <tr>
+                                <th scope="row"><?php _e('Shortcodes', 'gb-fullcalendar'); ?></th>
+                                <td>
+                                    <p>
+                                        In addition you are able to use the <code>[fullcalendar]</code> shortcode in one
+                                        of your posts or pages, too.
+                                        We introduced new features in order to allow more customization:<br/> <br/>
+                                        To adjust all the <a href="https://fullcalendar.io/docs">settings of
+                                            FullCalendar</a> use following rule:
+                                        Convert all Camel-case words to lower-case words separated with an underscore.
+                                        Then add the prefix <code>fc_</code>. <br/>
+                                        Example: <a href="https://fullcalendar.io/docs/initialView"><code>initialView:
+                                                "listCustom"</code></a> is converted to <code>[fullcalendar
+                                            fc_initial_view="listCustom"]</code>.
+                                        <br/><br/>
+                                        Further you can declare your default <a
+                                                href="https://developer.wordpress.org/themes/basics/categories-tags-custom-taxonomies/#custom-taxonomies"><code>taxonomy
+                                                terms</code></a> as follows:
+                                        <code>[fullcalendar category="concert, cinema, 11, theatre"
+                                            your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id"
+                                            ]</code>.<br/>
+                                        Note that <code>category</code> is a synonym for the taxonomy <code>event-categories</code>
+                                        defined by <a href="https://wp-events-plugin.com/">Events Manager</a>.
+                                        <br/>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
                         <form action="" class="wpfc-options" method="post">
                             <?php do_action('gbfc_admin_before_options'); ?>
-                            <h2 style="margin-top:0px;"><?php _e('Post Types <b>(not supported yet)</b>', 'gb-fullcalendar'); ?></h2>
-                            <p><?php echo sprintf(__('By default, your calendar will show the types of posts based on settings below.', 'gb-fullcalendar'), ''); ?></p>
-                            <p>
-                                <?php echo sprintf(__('You can override these settings by choosing your post type in your shortcode like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post"]</code>'); ?>
-                                <?php echo sprintf(__('You can override taxonomy search settings as well like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post_tag,category"]</code>'); ?>
-                                <?php _e('In both cases, the values you should use are in (parentheses) below.', 'gb-fullcalendar'); ?>
-                            </p>
-                            <p>
-                            <ul class="wpfc-post-types">
-                                <?php
-                                $selected_taxonomies = get_option('gbfc_postTaxonomies');
-                                foreach (get_post_types(apply_filters('gbfc_get_post_types_args', array('public' => true)), 'names') as $post_type) {
-                                    $checked = get_option('gbfc_postType') == $post_type ? 'checked' : '';
-                                    $post_data = get_post_type_object($post_type);
-                                    echo "<li><label><input type='radio' class='wpfc-post-type' name='gbfc_postType' value='$post_type' $checked />&nbsp;&nbsp;{$post_data->labels->name} (<em>$post_type</em>)</label>";
-                                    do_action('gbfc_admin_options_post_type_' . $post_type);
-                                    $post_type_taxonomies = get_object_taxonomies($post_type);
-                                    if (count($post_type_taxonomies) > 0) {
-                                        $display = empty($checked) ? 'style="display:none;"' : '';
-                                        echo "<div $display>";
-                                        echo "<p>" . __('Choose which taxonomies you want to see listed as search options on the calendar.', 'gb-fullcalendar') . "</p>";
-                                        echo "<ul>";
-                                        foreach ($post_type_taxonomies as $taxonomy_name) {
-                                            $taxonomy = get_taxonomy($taxonomy_name);
-                                            $tax_checked = !empty($selected_taxonomies[$post_type][$taxonomy_name]) ? 'checked' : '';
-                                            echo "<li><label><input type='checkbox' name='gbfc_postTaxonomies[$post_type][$taxonomy_name]' value='1' $tax_checked />&nbsp;&nbsp;{$taxonomy->labels->name} (<em>$taxonomy_name</em>)</label></li>";
-                                        }
-                                        echo "</ul>";
-                                        echo "</div>";
-                                    }
-                                    echo "</li>";
-                                }
-                                ?>
-                            </ul>
-                            </p>
+                            <table class='form-table'>
+                                <tr>
+                                    <th scope="row"><?php _e('Post type', 'gb-fullcalendar'); ?></th>
+                                    <td>
+                                        <ul class="wpfc-post-types">
+                                            <?php
+                                            $selected_taxonomies = get_option('gbfc_postTaxonomies');
+                                            foreach (get_post_types(apply_filters('gbfc_get_post_types_args', array('public' => true)), 'names') as $post_type) {
+                                                $checked = get_option('gbfc_postType') == $post_type ? 'checked' : '';
+                                                $post_data = get_post_type_object($post_type);
+                                                echo "<li><label><input type='radio' class='wpfc-post-type' name='gbfc_postType' value='$post_type' $checked />&nbsp;&nbsp;{$post_data->labels->name} (<em>$post_type</em>)</label>";
+                                                do_action('gbfc_admin_options_post_type_' . $post_type);
+                                                $post_type_taxonomies = get_object_taxonomies($post_type);
+                                                if (count($post_type_taxonomies) > 0) {
+                                                    $display = empty($checked) ? 'style="display:none;"' : '';
+                                                    echo "<div $display>";
+                                                    echo "<p>" . __('Choose which taxonomies you want to see listed as search options on the calendar.', 'gb-fullcalendar') . "</p>";
+                                                    echo "<ul>";
+                                                    foreach ($post_type_taxonomies as $taxonomy_name) {
+                                                        $taxonomy = get_taxonomy($taxonomy_name);
+                                                        $tax_checked = !empty($selected_taxonomies[$post_type][$taxonomy_name]) ? 'checked' : '';
+                                                        echo "<li><label><input type='checkbox' name='gbfc_postTaxonomies[$post_type][$taxonomy_name]' value='1' $tax_checked />&nbsp;&nbsp;{$taxonomy->labels->name} (<em>$taxonomy_name</em>)</label></li>";
+                                                    }
+                                                    echo "</ul>";
+                                                    echo "</div>";
+                                                }
+                                                echo "</li>";
+                                            }
+                                            ?>
+                                        </ul>
+                                        <p><?php echo sprintf(__('By default, your calendar will show the types of posts based on these settings.', 'gb-fullcalendar'), ''); ?></p>
+                                        <p>
+                                            <?php echo sprintf(__('You can override these settings by choosing your post type in your shortcode like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post"]</code>'); ?>
+                                            <?php echo sprintf(__('You can override taxonomy search settings as well like this %s.', 'gb-fullcalendar'), '<code>[fullcalendar type="post_tag,category"]</code>'); ?>
+                                            <?php _e('In both cases, the values you should use are defined in parentheses e.g. (page).', 'gb-fullcalendar'); ?>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
                             <script type="text/javascript">
 								jQuery( document ).ready( function( $ ) {
 									$( 'input.wpfc-post-type' ).change( function() {
@@ -182,9 +193,6 @@ class GbFcAdmin
 								} );
                             </script>
                             <?php do_action('gbfc_admin_after_cpt_options'); ?>
-                            <hr/>
-                            <br/>
-                            <h2><?php _e('Calendar Options', 'gb-fullcalendar'); ?></h2>
                             <table class='form-table'>
                                 <?php
                                 $fcViews = apply_filters('gbfc_views', $fcOptions->views);
@@ -221,23 +229,18 @@ class GbFcAdmin
                                 foreach ($fcOptions->themeSystems as $themeSystem) {
                                     $themeSystems[$themeSystem->value] = $themeSystem->label;
                                 }
-                                gbfc_options_select(__('Default Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', $themeSystems,
+                                gbfc_options_select(__('Theme System', 'gb-fullcalendar'), 'gbfc_themeSystem', $themeSystems,
                                     __('Choose the default theme system. You can customize the Bootstrap theme as described <a href="https://fullcalendar.io/docs/theming">here</a>. 
                                         <br/>For the standard theme system you can also alter <a href="https://github.com/fullcalendar/fullcalendar/blob/master/packages/common/src/styles/vars.css">these CSS</a> variables like mentioned in the <a href="https://fullcalendar.io/docs/css-customization">docs</a>.',
                                         'gb-fullcalendar'), 'standard');
-                                gbfc_options_number(__('Default HTML font size', 'gb-fullcalendar'), 'gbfc_htmlFontSize', __('Set the <a href="https://material-ui.com/customization/typography/#html-font-size">HTML font size</a>, e.g. to use 10px simplification (default is 16px)', 'gb-fullcalendar'), 16);
+                                gbfc_options_number(__('HTML font size', 'gb-fullcalendar'), 'gbfc_htmlFontSize', __('Set the <a href="https://material-ui.com/customization/typography/#html-font-size">HTML font size</a>, e.g. to use 10px simplification (default is 16px)', 'gb-fullcalendar'), 16);
                                 ?>
                             </table>
                             <?php do_action('gbfc_admin_after_calendar_options'); ?>
-                            <hr/>
-                            <br/>
-                            <h2><?php _e('Tooltips', 'gb-fullcalendar'); ?></h2>
-                            <p>
-                                <?php _e('You can use <a href="https://material-ui.com/components/tooltips/">MUI Tooltip</a> to show excerpts of your events within a tooltip when hovering over a specific event on the calendar. You can control the content shown and positioning of the tool tips below.', 'gb-fullcalendar'); ?>
-                            </p>
                             <table class='form-table'>
                                 <?php
-                                gbfc_options_radio_binary(__('Enable event tooltips?', 'gb-fullcalendar'), 'gbfc_tooltips', '');
+                                gbfc_options_radio_binary(__('Enable event tooltips?', 'gb-fullcalendar'), 'gbfc_tooltips',
+                                    'You can use <a href="https://material-ui.com/components/tooltips/">MUI Tooltip</a> to show excerpts of your events within a tooltip when hovering over a specific event on the calendar. You can control the content shown and positioning of the tool tips below.');
                                 /*
                                 $tip_styles = array();
                                 foreach (WP_FullCalendar::$tip_styles as $tip_style) {
@@ -416,7 +419,8 @@ function gbfc_options_radio_binary($title, $name, $description, $option_names = 
             <?php echo $option_names[0]; ?> <input id="<?php echo esc_attr($name) ?>_no"
                                                    name="<?php echo esc_attr($name) ?>" type="radio"
                                                    value="0" <?php if (!$list_events_page) echo "checked='checked'"; ?> />
-            <br/><em><?php echo $description; ?></em>
+            <br/>
+            <em><p><?php echo $description; ?></p></em>
         </td>
     </tr>
     <?php
@@ -439,7 +443,7 @@ function gbfc_options_select($title, $name, $list, $description, $default = '')
                     </option>
                 <?php endforeach; ?>
             </select> <br/>
-            <em><?php echo $description; ?></em>
+            <em><p><?php echo $description; ?></p></em>
         </td>
     </tr>
     <?php
@@ -455,7 +459,7 @@ function gbfc_options_number($title, $name, $description, $default = 0)
             <input name="<?php echo esc_attr($name); ?>" type="number"
                    style="max-width: 100px; width: 100%"
                    value="<?php echo esc_attr(get_option($name, $default), ENT_QUOTES); ?>"/> <br/>
-            <em><?php echo $description; ?></em>
+            <em><p><?php echo $description; ?></p></em>
         </td>
     </tr>
     <?php
