@@ -101,6 +101,7 @@ php/
 res/
 editor.css
 gb-fullcalendar.php
+uninstall.php
 package.json
 style.css
 ```
