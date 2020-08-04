@@ -134,6 +134,15 @@ function create_block_gb_fullcalendar_block_enqueue_script()
 
 add_action('wp_enqueue_scripts', 'create_block_gb_fullcalendar_block_enqueue_script');
 
+// action links (e.g. Settings)
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'gbfc_settings_link', 10, 1);
+function gbfc_settings_link($links)
+{
+    $new_links = array(); //put settings first
+    $new_links[] = '<a href="' . admin_url('options-general.php?page=gb-fullcalendar') . '">' . __('Settings', 'gb-fullcalendar') . '</a>';
+    return array_merge($new_links, $links);
+}
+
 /**
  * Localize javascript variables for gb-fullcalendar.
  */
