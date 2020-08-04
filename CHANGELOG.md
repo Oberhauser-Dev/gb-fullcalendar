@@ -1,11 +1,15 @@
 # Changelog
 
 ## [Unreleased]
+
+## [v0.1.0-alpha.1] - 2020-08-04
 - support Internet Explorer 11
 - add Tooltips
 - support custom post types
+- migration of WP FullCalendar
+- remove wp_options of plugin on uninstall
 
-## [0.1.0-alpha.0] - 2020-07-27
+## [v0.1.0-alpha.0] - 2020-07-27
 - create Gutenberg plugin
 - enable client side scripts
 - React components (FullCalendar v5.1, Material-UI v4.10)
@@ -14,5 +18,6 @@
 - custom calendar views
 - adapt theme system
 
-[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/0.1.0...HEAD
-[0.1.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/releases/tag/0.1.0
+[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.1...HEAD
+[v0.1.0-alpha.1]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.0...v0.1.0-alpha.1
+[v0.1.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/releases/tag/v0.1.0-alpha.0
