@@ -319,7 +319,7 @@ $package = json_decode($str, true);
 
 //check for updates
 if (version_compare($package['version'], get_option('gbfc_version', 0)) > 0 && current_user_can('activate_plugins')) {
-    //include('gb-fc-install.php');
+    include('gb-fc-install.php');
 }
 //add admin action hook
 add_action('admin_menu', array('GbFcAdmin', 'menus'));
