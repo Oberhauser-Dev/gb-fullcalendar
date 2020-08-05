@@ -89,16 +89,12 @@ function flattenHierarchy( items, depth, selected = [] ) {
 		// if (term.color) {
 		// 	colorEl = <span style={ { color: term.color, fontSize: '1.5em' } }>● </span>;
 		// }
-		let space = '';
-		for (let i = 0; i < depth; i++) {
-			space += ' ';
-		}
 		const customColor = ! selected.includes( term.term_id ) ? 'grey' : term.color;
 		let res = [
 			<MenuItem key={ term.term_id } value={ term.term_id }>
-				<Checkbox style={ { color: customColor } }
+				<Checkbox style={ { color: customColor, marginLeft: depth + 'em' } }
 						  checked={ selected.includes( term.term_id ) || selected.includes( 0 ) }/>
-				<ListItemText primary={ space + term.name }/>
+				<ListItemText primary={ term.name }/>
 			</MenuItem>,
 		];
 		if (term.children && term.children.length > 0) {

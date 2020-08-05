@@ -24,6 +24,11 @@ UI hacks, TODO need to be implemented properly via Material UI Theme system
     margin: 0;
 }
 
+/* Fix indent of MUI checkbox in WP themes */
+.MuiCheckbox-root input[type="checkbox"] {
+    position: absolute;
+}
+
 /**
  Responsive Calendar
  */
