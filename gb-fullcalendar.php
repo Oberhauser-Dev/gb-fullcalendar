@@ -16,6 +16,7 @@
 include_once(ABSPATH . 'wp-admin/includes/plugin.php'); // load method for front-end
 require_once 'php/gb-fc.php';
 include_once 'php/gb-fc-ajax.php';
+include_once 'php/gb-fc-actions.php';
 
 if (!is_plugin_active('wp-fullcalendar/wp-fullcalendar.php')) {
     // Define WPFC-Version to enable EM-wpfc API (ajax);
@@ -123,7 +124,7 @@ add_action('init', 'create_block_gb_fullcalendar_block_init');
 /**
  * Only localize js variables if block is present in front-end.
  */
-function create_block_gb_fullcalendar_block_enqueue_script()
+function create_block_gbfc_block_enqueue_script()
 {
     // Always enqueue script, as shortcode need localized script, too.
     // TODO may fix that only load, when needed.
@@ -132,16 +133,60 @@ function create_block_gb_fullcalendar_block_enqueue_script()
 //    }
 }
 
-add_action('wp_enqueue_scripts', 'create_block_gb_fullcalendar_block_enqueue_script');
+add_action('wp_enqueue_scripts', 'create_block_gbfc_block_enqueue_script');
 
 // action links (e.g. Settings)
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'gbfc_settings_link', 10, 1);
 function gbfc_settings_link($links)
 {
-    $new_links = array(); //put settings first
-    $new_links[] = '<a href="' . admin_url('options-general.php?page=gb-fullcalendar') . '">' . __('Settings', 'gb-fullcalendar') . '</a>';
-    return array_merge($new_links, $links);
+    array_unshift($links, '<a href="' . admin_url('options-general.php?page=gb-fullcalendar') . '">' . __('Settings', 'gb-fullcalendar') . '</a>');
+
+    // Add remove wipe data option.
+    $plugin_data = get_plugin_data(__FILE__);
+    $url = wp_nonce_url(admin_url('admin-post.php?action=gbfc_uninstall'), 'gbfc_uninstall');
+    $links[] = '<span class="delete"><a href="' . $url
+        . '" onclick="return confirm(\'Are you sure you want to uninstall ' . $plugin_data['Name']
+        . '? All preferences will be removed!\')">Uninstall</a></span>';
+    return $links;
 }
+
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'gbfc_settings_link', 10, 1);
+
+/**
+ * Admin post action hook, without the need of specifying own endpoint / handler.
+ * https://codex.wordpress.org/Plugin_API/Action_Reference/admin_post_(action)
+ */
+function gbfc_admin_uninstall()
+{
+    check_admin_referer('gbfc_uninstall');
+    $plugins = [plugin_basename(__FILE__)];
+    deactivate_plugins($plugins);
+    GbFcActions::deleteOptions();
+    delete_plugins($plugins);
+    wp_redirect($_SERVER['HTTP_REFERER']);
+    exit();
+}
+
+add_action('admin_post_gbfc_uninstall', 'gbfc_admin_uninstall');
+
+function gbfc_admin_reset()
+{
+    check_admin_referer('gbfc_reset');
+    GbFcActions::resetOptions();
+    wp_redirect($_SERVER['HTTP_REFERER']);
+    exit();
+}
+
+add_action('admin_post_gbfc_reset', 'gbfc_admin_reset');
+
+function gbfc_admin_resetToWpFc()
+{
+    check_admin_referer('gbfc_resetToWpFc');
+    GbFcActions::resetToWpFcOptions();
+    wp_redirect($_SERVER['HTTP_REFERER']);
+    exit();
+}
+
+add_action('admin_post_gbfc_resetToWpFc', 'gbfc_admin_resetToWpFc');
 
 /**
  * Localize javascript variables for gb-fullcalendar.

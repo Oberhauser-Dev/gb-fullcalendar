@@ -25,6 +25,7 @@ visual way, but still can be used with Shortcodes, too.
 - Tooltips
 - Custom [themes and styles](./docs/Themes-Styles.md)
 - Supports IE 11
+- Migrating WP FullCalendar settings
 
 ### Credits
 
@@ -106,7 +107,6 @@ php/
 res/
 editor.css
 gb-fullcalendar.php
-uninstall.php
 package.json
 style.css
 ```

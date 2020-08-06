@@ -1,6 +1,9 @@
 # Changelog
 
 ## [Unreleased]
+- improved WP FullCalendar migration
+- actions for uninstalling & resetting options
+- adjust the taxonomy select indents
 
 ## [v0.1.0-alpha.1] - 2020-08-04
 - support Internet Explorer 11

@@ -1,4 +1,5 @@
 <?php
+include_once('gb-fc-actions.php');
 
 class GbFcAdmin
 {
@@ -306,10 +307,26 @@ class GbFcAdmin
 
                             <input type="hidden" name="_wpnonce"
                                    value="<?php echo wp_create_nonce('gbfc_options_save'); ?>"/>
-                            <p class="submit"><input type="submit"
-                                                     value="<?php _e('Submit Changes', 'gb-fullcalendar'); ?>"
-                                                     class="button-primary"></p>
+                            <?php submit_button(); ?>
                         </form>
+                        <form action="<?php echo admin_url('admin-post.php'); ?>" class="gbfc-options" method="post"
+                              style="float: left; margin-right: 8px">
+                            <input type="hidden" name="action" value="gbfc_reset">
+                            <?php
+                            wp_nonce_field('gbfc_reset');
+                            submit_button('Reset settings', 'secondary', 'submit', false);
+                            ?>
+                        </form>
+                        <?php if (!empty(get_option('wpfc_version'))) { ?>
+                            <form action="<?php echo admin_url('admin-post.php'); ?>" class="gbfc-options" method="post"
+                                  style="float: left; margin-right: 8px">
+                                <input type="hidden" name="action" value="gbfc_resetToWpFc">
+                                <?php
+                                wp_nonce_field('gbfc_resetToWpFc');
+                                submit_button('Reset to WPFC-settings', 'secondary', 'submit', false);
+                                ?>
+                            </form>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -323,7 +340,7 @@ $package = json_decode($str, true);
 
 //check for updates
 if (version_compare($package['version'], get_option('gbfc_version', 0)) > 0 && current_user_can('activate_plugins')) {
-    include('gb-fc-install.php');
+    GbFcActions::initOrMigrateOptions();
 }
 //add admin action hook
 add_action('admin_menu', array('GbFcAdmin', 'menus'));
