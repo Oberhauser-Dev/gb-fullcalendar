@@ -11,6 +11,7 @@ class GbFcAdmin
 
     public static function admin_options()
     {
+        $package = json_decode(file_get_contents(__DIR__ . '/../package.json'), true);
         $fcOptions = json_decode(file_get_contents(__DIR__ . "/../res/FcOptions.json"));
         $fcExtraOptions = json_decode(file_get_contents(__DIR__ . "/../res/FcExtraOptions.json"));
         if (!empty($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'gbfc_options_save')) {
@@ -34,7 +35,7 @@ class GbFcAdmin
                 <div id="side-info-column" class="inner-sidebar">
                     <div id="categorydiv" class="postbox ">
                         <div class="handlediv" title="Click to toggle"></div>
-                        <h3 class="hndle" style="color:green;">GB FullCalendar (Alpha)</h3>
+                        <h3 class="hndle" style="color:green;">GB FullCalendar (<?php echo $package['version']; ?>)</h3>
                         <div class="inside">
                             <p>This plugin is a branch of the popular WP-FullCalendar plugin.
                                 Thanks to the Gutenberg-Blocks since the end of 2018, it has become incredibly easy
