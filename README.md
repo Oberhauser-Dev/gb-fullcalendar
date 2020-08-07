@@ -1,4 +1,7 @@
 ## GB FullCalendar
+
+<img align="right" width="100" height="100" src="./assets/GB-FullCalendar.svg">
+
 - Contributors:      August Oberhauser
 - Tags:              block, fullcalendar, react
 - Requires at least: 5.3.2
