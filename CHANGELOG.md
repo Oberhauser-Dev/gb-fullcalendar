@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [v0.1.0-alpha.2] - 2020-08-07
 - improved WP FullCalendar migration
 - actions for uninstalling & resetting options
 - adjust the taxonomy select indents
@@ -21,6 +23,7 @@
 - custom calendar views
 - adapt theme system
 
-[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.1...HEAD
+[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.2...HEAD
+[v0.1.0-alpha.2]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
 [v0.1.0-alpha.1]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.0...v0.1.0-alpha.1
 [v0.1.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/releases/tag/v0.1.0-alpha.0
