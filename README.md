@@ -108,10 +108,8 @@ To build a plugin file run `yarn run build` and include the following files in a
 build/
 php/
 res/
-editor.css
 gb-fullcalendar.php
 package.json
-style.css
 ```
 
 The code is written is provided as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.

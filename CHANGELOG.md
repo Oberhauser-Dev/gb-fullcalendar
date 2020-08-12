@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Adapt styles to wp-scripts update
 
 ## [v0.1.0-alpha.2] - 2020-08-07
 - improved WP FullCalendar migration

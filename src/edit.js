@@ -4,6 +4,15 @@
  * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
  */
 import { __ } from '@wordpress/i18n';
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * Those files can contain any CSS code that gets applied to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+import './editor.scss';
+
 import GbFullCalendar, { attributesToGbfcOptions } from './GbFullCalendar';
 import {
 	SelectControl,
@@ -14,7 +23,7 @@ import {
 	InspectorControls,
 } from '@wordpress/editor';
 import fcOptions from '../res/FcOptions.json';
-import GbFullCalendarWrapper from './GbFullCalendarWrapper';
+/*import GbFullCalendarWrapper from './GbFullCalendarWrapper';*/
 
 /**
  * The edit function describes the structure of your block in the context of the

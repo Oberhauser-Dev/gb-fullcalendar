@@ -1,0 +1,15 @@
+{
+	"name": "create-block/gb-fullcalendar",
+	"title": "GB FullCalendar",
+	"category": "widgets",
+	"icon": "calendar-alt",
+	"description": "GB FullCalendar is a Gutenberg block for displaying events. It is build on the popular WP FullCalendar plugin.",
+	"textdomain": "create-block",
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"script": "file:./build/client.js",
+	"style": "file:./build/client.css"
+}

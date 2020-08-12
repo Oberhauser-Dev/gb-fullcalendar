@@ -49,26 +49,7 @@ function create_block_gb_fullcalendar_block_init()
         $script_asset['version']
     );
 
-    // TODO may only load, if block is present, if possible.
-    $client_js = 'build/client.js';
-    wp_register_script(
-        'create-block-gb-fullcalendar-block',
-        plugins_url($client_js, __FILE__),
-        $script_asset['dependencies'],
-        $script_asset['version']
-    );
-
-    // TODO only load, if block is registered and block is present.
-    // Unfortunately can only register one style at a time.
-    $style_css = 'build/client.css';
-    wp_enqueue_style(
-        'create-block-gb-fullcalendar-block-client',
-        plugins_url($style_css, __FILE__),
-        array(),
-        filemtime("$dir/$style_css")
-    );
-
-    $editor_css = 'editor.css';
+    $editor_css = 'build/index.css';
     wp_register_style(
         'create-block-gb-fullcalendar-block-editor',
         plugins_url($editor_css, __FILE__),
@@ -76,19 +57,37 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$editor_css")
     );
 
-    $style_css = 'style.css';
+    // Replaced by client.css
+    /*$style_css = 'build/style-index.css';
     wp_register_style(
         'create-block-gb-fullcalendar-block',
         plugins_url($style_css, __FILE__),
         array(),
         filemtime("$dir/$style_css")
+    );*/
+
+    // TODO may only load, if block is present, if possible.
+    $client_js = 'build/client.js';
+    wp_register_script(
+        'create-block-gb-fullcalendar-block-client',
+        plugins_url($client_js, __FILE__),
+        $script_asset['dependencies'],
+        $script_asset['version']
+    );
+
+    $client_css = 'build/client.css';
+    wp_register_style(
+        'create-block-gb-fullcalendar-block-client',
+        plugins_url($client_css, __FILE__),
+        array(),
+        filemtime("$dir/$client_css")
     );
 
     register_block_type('create-block/gb-fullcalendar', array(
         'editor_script' => 'create-block-gb-fullcalendar-block-editor',
-        'script' => 'create-block-gb-fullcalendar-block',
         'editor_style' => 'create-block-gb-fullcalendar-block-editor',
-        'style' => 'create-block-gb-fullcalendar-block',
+        'script' => 'create-block-gb-fullcalendar-block-client',
+        'style' => 'create-block-gb-fullcalendar-block-client',
     ));
 
     if (is_admin()) {
@@ -194,7 +193,7 @@ add_action('admin_post_gbfc_resetToWpFc', 'gbfc_admin_resetToWpFc');
 function localize_script()
 {
     wp_localize_script(
-        'create-block-gb-fullcalendar-block',
+        'create-block-gb-fullcalendar-block-client',
         'GbFcGlobal', // Array containing dynamic data for a JS Global.
         [
             'pluginDirPath' => plugin_dir_path(__DIR__),
