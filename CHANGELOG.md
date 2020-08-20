@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Automate zipping plugin with gulp
 - Adapt styles to wp-scripts update
 
 ## [v0.1.0-alpha.2] - 2020-08-07

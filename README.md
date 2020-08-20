@@ -101,16 +101,9 @@ See [changelog file](./CHANGELOG.md).
 
 You are invited to help in form of Merge-Requests or proposing issues with the expected solutions.
 
-To develop install the packages via `yarn install`. Then start webpack compiling via `yarn start`.
-To build a plugin file run `yarn run build` and include the following files in a folder named `gb-fullcalendar` and compress it to a zip file.
-
-```
-build/
-php/
-res/
-gb-fullcalendar.php
-package.json
-```
+To develop, install the packages via `yarn install`. Then start webpack compiling via `yarn start`.
+To build files for production run `yarn run build`.
+To build a plugin file run `yarn run zip`. The zip file will be saved in the `dist` folder.
 
 The code is written is provided as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
 

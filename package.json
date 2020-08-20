@@ -15,6 +15,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build",
+    "zip": "npm run build && gulp zip",
     "format:js": "wp-scripts format-js",
     "lint:css": "wp-scripts lint-style",
     "lint:js": "wp-scripts lint-js",
@@ -27,7 +28,9 @@
     "@wordpress/editor": "^9.20.2",
     "@wordpress/element": "^2.16.0",
     "@wordpress/i18n": "^3.14.0",
-    "@wordpress/scripts": "^12.1.1"
+    "@wordpress/scripts": "^12.1.1",
+    "gulp": "^4.0.2",
+    "gulp-zip": "^5.0.2"
   },
   "dependencies": {
     "@fullcalendar/bootstrap": "^5.1.0",
