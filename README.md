@@ -105,6 +105,6 @@ To develop, install the packages via `yarn install`. Then start webpack compilin
 To build files for production run `yarn run build`.
 To build a plugin file run `yarn run zip`. The zip file will be saved in the `dist` folder.
 
-The code is written is provided as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
+The code is written as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
 
 **The plugin is free to use. We are not liable for any damage caused by using the plugin!**
