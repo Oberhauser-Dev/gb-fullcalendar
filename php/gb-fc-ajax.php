@@ -111,7 +111,7 @@ class GbFcAjax
             if ($post->post_type == 'attachment') {
                 $content->imageUrl = wp_get_attachment_image_url($post->ID, 'thumbnail');
             } else {
-                $content->excerpt = (!empty($post)) ? $post->post_content : '';
+                $content->excerpt = $post->post_excerpt ?: $post->post_content;
                 if (get_option('gbfc_tooltipImage', true)) {
                     $post_image_url = get_the_post_thumbnail_url($post->ID);
                     if (!empty($post_image_url)) {
