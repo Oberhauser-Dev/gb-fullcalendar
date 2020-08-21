@@ -111,7 +111,7 @@ class GbFcAdmin
                         </p>
                         <p>
                             <b>
-                                Note: There's no guarantee that GB FullClanedar works simultaneously with WP
+                                Note: There's no guarantee that GB FullCalendar works simultaneously with WP
                                 FullCalendar. It's recommended to only enable one plugin at the same time!
                             </b>
                         </p>

@@ -42,7 +42,7 @@ Thanks to [Marcus Sykes](https://profiles.wordpress.org/netweblogic/) for his pr
 ## Usage
 
 <b>
-    Note: There's no guarantee that GB FullClanedar works simultaneously with WP
+    Note: There's no guarantee that GB FullCalendar works simultaneously with WP
     FullCalendar. It's recommended to only enable one plugin at the same time!
 </b>
 
