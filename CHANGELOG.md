@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [v0.2.0-alpha.0] - 2020-09-01
 - Automate zipping plugin with gulp
 - Adapt styles to wp-scripts update
 - Specify package and text domain
@@ -28,7 +30,8 @@
 - Custom calendar views
 - Adapt theme system
 
-[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.2...HEAD
+[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0-alpha.0...HEAD
+[v0.2.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.2...v0.2.0-alpha.0
 [v0.1.0-alpha.2]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
 [v0.1.0-alpha.1]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.0...v0.1.0-alpha.1
 [v0.1.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/releases/tag/v0.1.0-alpha.0
