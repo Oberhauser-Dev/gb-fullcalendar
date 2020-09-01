@@ -1,13 +1,13 @@
-import { Component, render, useImperativeHandle, useEffect } from '@wordpress/element';
+import { Component, render, useImperativeHandle } from '@wordpress/element';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
+import listPlugin, { ListView } from '@fullcalendar/list';
 import allLocales from '@fullcalendar/core/locales-all';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import TaxonomySelect from './TaxonomySelect';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Tooltip } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import './calendar.scss';
@@ -85,7 +85,7 @@ export default class GbFullCalendar extends Component {
 					const data = this.calendarRef.current.getApi().getCurrentData();
 					const viewSpec = data.viewSpecs[arg.view.type];
 					let innerContent;
-					if (viewSpec.component.name === 'ListView') {
+					if (viewSpec.component.name === ListView.name) {
 						// ListView has other content than regular views.
 						// See: https://github.com/fullcalendar/fullcalendar-react/issues/12#issuecomment-665807912
 						innerContent = this.renderListInnerContent( arg );
