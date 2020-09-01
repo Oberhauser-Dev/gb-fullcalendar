@@ -32,12 +32,12 @@ import save from './save';
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-registerBlockType( 'create-block/gb-fullcalendar', {
+registerBlockType( 'oberhauser-dev/gb-fullcalendar', {
 	/**
 	 * This is the display title for your block, which can be translated with `i18n` functions.
 	 * The block inserter will show this name.
 	 */
-	title: __( 'GB FullCalendar', 'create-block' ),
+	title: __( 'GB FullCalendar', 'gb-fullcalendar' ),
 
 	/**
 	 * This is a short description for your block, can be translated with `i18n` functions.
@@ -45,7 +45,7 @@ registerBlockType( 'create-block/gb-fullcalendar', {
 	 */
 	description: __(
 		'GB FullCalendar is a Gutenberg block for displaying events. It is build on the popular WP FullCalendar plugin.',
-		'create-block',
+		'gb-fullcalendar',
 	),
 
 	/**

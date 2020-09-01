@@ -8,9 +8,9 @@
  * Author URI:      https://www.oberhauser.dev/
  * License:         GPL3+
  * License URI:     https://www.gnu.org/licenses/gpl-3.0.txt
- * Text Domain:     create-block
+ * Text Domain:     gb-fullcalendar
  *
- * @package         create-block
+ * @package         oberhauser-dev
  */
 
 include_once(ABSPATH . 'wp-admin/includes/plugin.php'); // load method for front-end
@@ -37,13 +37,13 @@ function create_block_gb_fullcalendar_block_init()
     $script_asset_path = "$dir/build/index.asset.php";
     if (!file_exists($script_asset_path)) {
         throw new Error(
-            'You need to run `npm start` or `npm run build` for the "create-block/gb-fullcalendar" block first.'
+            'You need to run `npm start` or `npm run build` for the "oberhauser-dev/gb-fullcalendar" block first.'
         );
     }
     $index_js = 'build/index.js';
     $script_asset = require($script_asset_path);
     wp_register_script(
-        'create-block-gb-fullcalendar-block-editor',
+        'gb-fullcalendar-block-editor',
         plugins_url($index_js, __FILE__),
         $script_asset['dependencies'],
         $script_asset['version']
@@ -51,7 +51,7 @@ function create_block_gb_fullcalendar_block_init()
 
     $editor_css = 'build/index.css';
     wp_register_style(
-        'create-block-gb-fullcalendar-block-editor',
+        'gb-fullcalendar-block-editor',
         plugins_url($editor_css, __FILE__),
         array(),
         filemtime("$dir/$editor_css")
@@ -60,7 +60,7 @@ function create_block_gb_fullcalendar_block_init()
     // Replaced by client.css
     /*$style_css = 'build/style-index.css';
     wp_register_style(
-        'create-block-gb-fullcalendar-block',
+        'gb-fullcalendar-block',
         plugins_url($style_css, __FILE__),
         array(),
         filemtime("$dir/$style_css")
@@ -69,7 +69,7 @@ function create_block_gb_fullcalendar_block_init()
     // TODO may only load, if block is present, if possible.
     $client_js = 'build/client.js';
     wp_register_script(
-        'create-block-gb-fullcalendar-block-client',
+        'gb-fullcalendar-block-client',
         plugins_url($client_js, __FILE__),
         $script_asset['dependencies'],
         $script_asset['version']
@@ -77,17 +77,17 @@ function create_block_gb_fullcalendar_block_init()
 
     $client_css = 'build/client.css';
     wp_register_style(
-        'create-block-gb-fullcalendar-block-client',
+        'gb-fullcalendar-block-client',
         plugins_url($client_css, __FILE__),
         array(),
         filemtime("$dir/$client_css")
     );
 
-    register_block_type('create-block/gb-fullcalendar', array(
-        'editor_script' => 'create-block-gb-fullcalendar-block-editor',
-        'editor_style' => 'create-block-gb-fullcalendar-block-editor',
-        'script' => 'create-block-gb-fullcalendar-block-client',
-        'style' => 'create-block-gb-fullcalendar-block-client',
+    register_block_type('oberhauser-dev/gb-fullcalendar', array(
+        'editor_script' => 'gb-fullcalendar-block-editor',
+        'editor_style' => 'gb-fullcalendar-block-editor',
+        'script' => 'gb-fullcalendar-block-client',
+        'style' => 'gb-fullcalendar-block-client',
     ));
 
     if (is_admin()) {
@@ -127,7 +127,7 @@ function create_block_gbfc_block_enqueue_script()
 {
     // Always enqueue script, as shortcode need localized script, too.
     // TODO may fix that only load, when needed.
-//    if (has_block('create-block/gb-fullcalendar')) {
+//    if (has_block('oberhauser-dev/gb-fullcalendar')) {
     localize_script();
 //    }
 }
@@ -193,7 +193,7 @@ add_action('admin_post_gbfc_resetToWpFc', 'gbfc_admin_resetToWpFc');
 function localize_script()
 {
     wp_localize_script(
-        'create-block-gb-fullcalendar-block-client',
+        'gb-fullcalendar-block-client',
         'GbFcGlobal', // Array containing dynamic data for a JS Global.
         [
             'pluginDirPath' => plugin_dir_path(__DIR__),

@@ -3,6 +3,7 @@
 ## [Unreleased]
 - Automate zipping plugin with gulp
 - Adapt styles to wp-scripts update
+- Specify package and text domain
 
 ## [v0.1.0-alpha.2] - 2020-08-07
 - improved WP FullCalendar migration
