@@ -103,7 +103,7 @@ You are invited to help in form of Merge-Requests or proposing issues with the e
 
 To develop, install the packages via `yarn install`. Then start webpack compiling via `yarn start`.
 To build files for production run `yarn run build`.
-To build a plugin file run `yarn run zip`. The zip file will be saved in the `dist` folder.
+To build a plugin file run `yarn run zipSnap`. The zip file will be saved in the `dist` folder.
 
 The code is written as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
 
