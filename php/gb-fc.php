@@ -1,5 +1,11 @@
 <?php
 
+// see events-manager/em-posts.php
+if( !defined('EM_POST_TYPE_EVENT') ) define('EM_POST_TYPE_EVENT','event');
+if( !defined('EM_POST_TYPE_LOCATION') ) define('EM_POST_TYPE_LOCATION','location');
+if( !defined('EM_TAXONOMY_CATEGORY') ) define('EM_TAXONOMY_CATEGORY','event-categories');
+if( !defined('EM_TAXONOMY_TAG') ) define('EM_TAXONOMY_TAG','event-tags');
+
 /**
  * Set most options of FullCalendar.
  * See https://fullcalendar.io/docs.
@@ -171,14 +177,31 @@ function calendar_via_shortcode($args = [])
     $gbFcLocal->fc = new stdClass();
     $gbFcLocal->fcExtra = new stdClass();
     $gbFcLocal->fcExtra->initialTaxonomies = [];
+    /**
+     * Filter parameters for EventsManager
+     * https://wp-events-plugin.com/documentation/event-search-attributes/
+     */
+    $gbFcLocal->fcExtra->emSearchAttributes = [];
     foreach ($args as $arg => $value) {
         if (substr($arg, 0, 3) === 'fc_') {
             // Convert fullcalendar specific parameters
             $termIdentifier = str_replace('_', '', lcfirst(ucwords(substr($arg, 3), '_')));
             $gbFcLocal->fc->$termIdentifier = $value;
         } else {
-            if (strtolower($arg) === 'category' || strtolower($arg) === 'categories' || strtolower($arg) === 'event-category') {
-                $arg = EM_TAXONOMY_CATEGORY;
+            switch (strtolower($arg)) {
+                case 'category':
+                case 'categories':
+                case 'event-category':
+                    $arg = EM_TAXONOMY_CATEGORY;
+                    break;
+                case 'tag':
+                case 'tags':
+                    $arg = EM_TAXONOMY_TAG;
+                    break;
+                case 'event-location':
+                case 'event-locations':
+                    $arg = EM_POST_TYPE_LOCATION;
+                    break;
             }
             $taxonomy = get_taxonomy($arg);
             if ($taxonomy) {
@@ -196,6 +219,9 @@ function calendar_via_shortcode($args = [])
                     }
                 }
                 $gbFcLocal->fcExtra->initialTaxonomies[$arg] = $search_terms;
+            } else {
+                // If not a taxonomy, then send as events manager filter
+                $gbFcLocal->fcExtra->emSearchAttributes[$arg] = $value;
             }
         }
     }

@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import './calendar.scss';
 
 /**
- * @typedef {{ajaxUrl: string, eventAction: string, eventPostType: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: [], htmlFontSize: number, tooltips: boolean, tooltipAction:string, tooltipPlacement: string}} FcExtra
+ * @typedef {{ajaxUrl: string, eventAction: string, eventPostType: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: {}, htmlFontSize: number, tooltips: boolean, tooltipAction:string, tooltipPlacement: string, emSearchAttributes: {} }} FcExtra
  * @typedef {{echo: boolean, class: string, selected: int[], name: string, slug: string, show_option_all: string, items: [], is_empty: boolean}} TaxonomyNode
  * @typedef {{ fc: {import('@fullcalendar/common').CalendarOptions}, fcExtra: FcExtra }} GbFcPrefs
  */
@@ -44,7 +44,7 @@ export default class GbFullCalendar extends Component {
 		 */
 		this.filterParams = {};
 
-		// Preprocess taxonomies
+		// Preprocess taxonomies via filter
 		this.fcExtra.taxonomyNodes = this.fcExtra.taxonomyNodes.filter( ( tNode => ! tNode.is_empty ) ).map( ( tNode ) => {
 			tNode.items = tNode.items.filter( term => term.count > 0 );
 			let selected = this.fcExtra.initialTaxonomies[tNode.slug];
@@ -60,6 +60,13 @@ export default class GbFullCalendar extends Component {
 			}
 			return tNode;
 		} );
+
+		// Add hidden initialTaxonomies to filterParams
+		for (const [key, value] of Object.entries(this.fcExtra.initialTaxonomies)) {
+			if(!this.filterParams.hasOwnProperty(key)) {
+				this.filterParams[key] = value;
+			}
+		}
 
 		// Calendar options
 		const _onSelectTax = ( ...props ) => this.onSelectTaxonomy( ...props );
@@ -170,6 +177,7 @@ export default class GbFullCalendar extends Component {
 		return {
 			action: this.fcExtra.eventAction,
 			type: this.fcExtra.eventPostType,
+			...this.fcExtra.emSearchAttributes,
 			...this.filterParams,
 		};
 	}
