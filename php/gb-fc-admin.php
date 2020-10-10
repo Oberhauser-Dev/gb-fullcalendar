@@ -115,36 +115,10 @@ class GbFcAdmin
                                 FullCalendar. It's recommended to only enable one plugin at the same time!
                             </b>
                         </p>
+                        <p>
+                            For a detailed description (e.g. of <a href="https://codex.wordpress.org/Shortcode_API">Shortcodes</a>), visit the <a href="https://github.com/Oberhauser-Dev/gb-fullcalendar">Plugin page</a>.
+                        </p>
 
-                        <table class='form-table'>
-                            <tr>
-                                <th scope="row"><?php _e('Shortcodes', 'gb-fullcalendar'); ?></th>
-                                <td>
-                                    <p>
-                                        In addition you are able to use the <code>[fullcalendar]</code> shortcode in one
-                                        of your posts or pages, too.
-                                        We introduced new features in order to allow more customization:<br/> <br/>
-                                        To adjust all the <a href="https://fullcalendar.io/docs">settings of
-                                            FullCalendar</a> use following rule:
-                                        Convert all Camel-case words to lower-case words separated with an underscore.
-                                        Then add the prefix <code>fc_</code>. <br/>
-                                        Example: <a href="https://fullcalendar.io/docs/initialView"><code>initialView:
-                                                "listCustom"</code></a> is converted to <code>[fullcalendar
-                                            fc_initial_view="listCustom"]</code>.
-                                        <br/><br/>
-                                        Further you can declare your default <a
-                                                href="https://developer.wordpress.org/themes/basics/categories-tags-custom-taxonomies/#custom-taxonomies"><code>taxonomy
-                                                terms</code></a> as follows:
-                                        <code>[fullcalendar category="concert, cinema, 11, theatre"
-                                            your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id"
-                                            ]</code>.<br/>
-                                        Note that <code>category</code> is a synonym for the taxonomy <code>event-categories</code>
-                                        defined by <a href="https://wp-events-plugin.com/">Events Manager</a>.
-                                        <br/>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
                         <form action="" class="wpfc-options" method="post">
                             <?php do_action('gbfc_admin_before_options'); ?>
                             <table class='form-table'>

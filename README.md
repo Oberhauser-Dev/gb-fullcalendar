@@ -54,27 +54,29 @@ When you select your block, you can adjust the block-settings in the sidebar.
 ### Shortcode
 
 You are able to use the <code>[fullcalendar]</code> shortcode in one of your posts or pages, too.
-We introduced new features in order to allow more customization:
 
-To adjust all the <a href="https://fullcalendar.io/docs">settings of FullCalendar</a> use following rule:
-- Convert all Camel-case words to lower-case words separated with an underscore.
-- Add the prefix <code>fc_</code>
+The calendar can be customized
 
-Example: 
-[<code>initialView: "listCustom"</code>](https://fullcalendar.io/docs/initialView) is converted to 
-<code>[fullcalendar fc_initial_view="listCustom"]</code>.               
-
-Further you can declare your default [<code>taxonomy terms</code>](https://developer.wordpress.org/themes/basics/categories-tags-custom-taxonomies/#custom-taxonomies) 
-by either the term id or the term slug as follows:
+- with [Event search attributes](https://wp-events-plugin.com/documentation/event-search-attributes/) of Events Manager.
+    - Note that some attributes can differ from its internal representation in Events Manager. 
+      E.g.`category` is a synonym for the taxonomy `event-categories`
+- with [FullCalendar settings](https://fullcalendar.io/docs). 
+    - Convert the keys with camel case to lowercase words separated with an underscore. 
+    - Add the prefix `fc_`.
+    - Example: 
+    [<code>initialView: "listCustom"</code>](https://fullcalendar.io/docs/initialView) is converted to 
+    `[fullcalendar fc_initial_view="listCustom"]`.     
+- by declaring your default [<code>taxonomy terms</code>](https://developer.wordpress.org/themes/basics/categories-tags-custom-taxonomies/#custom-taxonomies). 
+     - Specify value either via the term id or the term slug.          
 
 ```
 [fullcalendar 
- category="concert, cinema, 11, theatre" 
- your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id"]
+  category="concert, cinema, 11, theatre" 
+  event-tags="mytag"
+  search="Demo"
+  fc_event_display="auto"
+  your_custom_taxonomy_slug="your_custom_term_slug, another_custom_term_id"]
 ```
-
-Note that <code>category</code> is a synonym for the taxonomy <code>event-categories</code>
-defined by <a href="https://wp-events-plugin.com/">Events Manager</a>.
 
 ### Taxonomies and Terms
 
