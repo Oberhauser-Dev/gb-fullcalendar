@@ -55,6 +55,7 @@ function getFullCalendarArgs()
         'views' => $views,
         // TODO Can be removed, but causes much overhead, as whole month of start date is fetched from EM.
         'showNonCurrentDates' => false,
+        'contentHeight' => 'auto', // See: https://stackoverflow.com/questions/63906327/react-fullcalendar-error-cannot-read-property-seg-of-undefined
 
         // eventBackgroundColor: 'white',
         // eventColor: 'white',
