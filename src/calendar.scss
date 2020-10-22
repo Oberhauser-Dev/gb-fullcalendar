@@ -17,6 +17,10 @@ UI hacks, TODO need to be implemented properly via Material UI Theme system
     color: var(--fc-button-active-bg-color, #1a252f);
 }
 
+.fc .MuiCircularProgress-colorPrimary {
+    color: var(--fc-button-bg-color, #2C3E50);
+}
+
 .fc table {
     margin: 0;
 }

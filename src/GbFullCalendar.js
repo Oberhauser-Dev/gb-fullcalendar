@@ -161,6 +161,21 @@ export default class GbFullCalendar extends Component {
 						fcHeaderToolbar.parentNode.insertBefore( fcFilterToolbar, fcHeaderToolbar.nextSibling );
 					}
 				}
+
+				// Add loading spinner
+				if (calendarWrapper.getElementsByClassName( 'fc-loading-spinner' ).length === 0) {
+					const allFcViewHarness = calendarWrapper.getElementsByClassName( 'fc-view-harness' );
+
+					const fcFilterToolbar = document.createElement( 'div' );
+					fcFilterToolbar.classList.add( 'fc-loading-spinner' );
+
+					const loadingSpinner = ( <LoadingComponent ref={ this.loadingComponent }/> );
+					render( loadingSpinner, fcFilterToolbar );
+
+					for (let fcViewHarness of allFcViewHarness) {
+						fcViewHarness.appendChild( fcFilterToolbar );
+					}
+				}
 			},
 			loading: ( isLoading ) => {
 				if (this.loadingComponent.current) {
@@ -231,7 +246,6 @@ export default class GbFullCalendar extends Component {
 			<div style={ { position: 'relative' } }>
 				<ThemeProvider theme={ this.muiTheme }>
 					<FullCalendar ref={ this.calendarRef } { ...this.fcOptions }/>
-					<LoadingComponent ref={ this.loadingComponent }/>
 				</ThemeProvider>
 			</div>
 		);
