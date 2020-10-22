@@ -1,13 +1,16 @@
 # Changelog
 
 ## [Unreleased]
+- Events Manager search attributes in shortcodes [#17](https://github.com/Oberhauser-Dev/gb-fullcalendar/issues/17)
+- Show toolbar while loading
+- Upgrade node modules
 
 ## [v0.2.0-alpha.0] - 2020-09-01
 - Automate zipping plugin with gulp
 - Adapt styles to wp-scripts update
 - Specify package and text domain
 - Fix ListView name substitution on production build
-- Use excerpt for tooltip, if available #16
+- Use excerpt for tooltip, if available [#16](https://github.com/Oberhauser-Dev/gb-fullcalendar/pull/16)
 
 ## [v0.1.0-alpha.2] - 2020-08-07
 - Improved WP FullCalendar migration
