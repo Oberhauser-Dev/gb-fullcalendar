@@ -1,6 +1,8 @@
 # Changelog
 
 ## [Unreleased]
+
+## [v0.2.0] - 2021-01-21
 - Events Manager search attributes in shortcodes [#17](https://github.com/Oberhauser-Dev/gb-fullcalendar/issues/17)
 - Show toolbar while loading
 - Upgrade node modules
@@ -33,7 +35,8 @@
 - Custom calendar views
 - Adapt theme system
 
-[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0-alpha.0...HEAD
+[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0...HEAD
+[v0.2.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0-alpha.0...v0.2.0
 [v0.2.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.2...v0.2.0-alpha.0
 [v0.1.0-alpha.2]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
 [v0.1.0-alpha.1]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.0...v0.1.0-alpha.1

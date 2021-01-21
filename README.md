@@ -5,8 +5,8 @@
 - Contributors:      August Oberhauser
 - Tags:              block, fullcalendar, react
 - Requires at least: 5.3.2
-- Tested up to:      5.5
-- Stable tag:        0.2.0-alpha.0
+- Tested up to:      5.6
+- Stable tag:        0.2.0
 - Requires PHP:      7.0.0
 - License:           GPL-3.0-or-later
 - License URI:       https://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,7 @@ visual way, but still can be used with Shortcodes, too.
 ### Features
 
 - Month / Week / Day and List views
-- Filter by taxonomy, such as category, tag etc.
+- Filter by taxonomies, such as category, tag etc.
 - Supports custom post types and custom taxonomies
 - Integrates seamlessly with [Events Manager](http://wordpress.org/extend/plugins/events-manager/)
 - Customize [FullCalendar settings](https://fullcalendar.io/docs)
@@ -104,8 +104,8 @@ See [changelog file](./CHANGELOG.md).
 You are invited to help in form of Merge-Requests or proposing issues with the expected solutions.
 
 To develop, install the packages via `yarn install`. Then start webpack compiling via `yarn start`.
-To build files for production run `yarn run build`.
-To build a plugin file run `yarn run zipSnap`. The zip file will be saved in the `dist` folder.
+To build files for production run `yarn build`.
+To build a plugin file run `yarn zip-snap`. The zip file will be saved in the `dist` folder.
 
 The code is written as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
 
