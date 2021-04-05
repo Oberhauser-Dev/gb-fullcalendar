@@ -5,8 +5,8 @@
 - Contributors:      August Oberhauser
 - Tags:              block, fullcalendar, react
 - Requires at least: 5.3.2
-- Tested up to:      5.6
-- Stable tag:        0.2.0
+- Tested up to:      5.7
+- Stable tag:        0.2.1
 - Requires PHP:      7.0.0
 - License:           GPL-3.0-or-later
 - License URI:       https://www.gnu.org/licenses/gpl-3.0.html

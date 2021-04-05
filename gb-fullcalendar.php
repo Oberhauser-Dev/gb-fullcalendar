@@ -3,9 +3,9 @@
  * Plugin Name:     GB FullCalendar
  * Plugin URI:      https://github.com/oberhauser-dev/gb-fullcalendar/
  * Description:     GB FullCalendar is a Gutenberg block for displaying events.
- * Version:         0.2.0
+ * Version:         0.2.1
  * Requires at least: 5.3.2
- * Tested up to:    5.6
+ * Tested up to:    5.7
  * Requires PHP:    7.0.0
  * Author:          August Oberhauser
  * Author URI:      https://www.oberhauser.dev/
