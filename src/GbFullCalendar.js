@@ -92,9 +92,9 @@ export default class GbFullCalendar extends Component {
 					const data = this.calendarRef.current.getApi().getCurrentData();
 					const viewSpec = data.viewSpecs[arg.view.type];
 					let innerContent;
-					if (viewSpec.component.name === ListView.name) {
+					if (viewSpec.component === ListView) {
 						// ListView has other content than regular views.
-						// See: https://github.com/fullcalendar/fullcalendar-react/issues/12#issuecomment-665807912
+						// See: https://github.com/fullcalendar/fullcalendar/issues/5927
 						innerContent = this.renderListInnerContent( arg );
 					} else {
 						innerContent = this.renderInnerContent( arg );
