@@ -1,6 +1,6 @@
 {
   "name": "gb-fullcalendar",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Example block written with ESNext standard and JSX support – build step required.",
   "author": "August Oberhauser",
   "license": "GPL-3.0-or-later",
