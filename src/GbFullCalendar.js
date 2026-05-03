@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { Tooltip } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import './calendar.scss';
+import './style.scss';
 
 /**
  * @typedef {{ajaxUrl: string, eventAction: string, eventPostType: string, taxonomyNodes: TaxonomyNode[], initialTaxonomies: {}, htmlFontSize: number, tooltips: boolean, tooltipAction:string, tooltipPlacement: string, emSearchAttributes: {} }} FcExtra

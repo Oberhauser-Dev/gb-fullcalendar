@@ -68,7 +68,7 @@ function getFullCalendarArgs()
 }
 
 /**
- * Set custom FullCalendar options. Needs a counterpart in "src/client.js"
+ * Set custom FullCalendar options. Needs a counterpart in "src/view.js"
  *
  * @return array the custom FC options to be localized.
  */

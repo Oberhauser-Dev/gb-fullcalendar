@@ -70,7 +70,7 @@ function create_block_gb_fullcalendar_block_init()
     );*/
 
     // TODO may only load, if block is present, if possible.
-    $client_js = 'build/client.js';
+    $client_js = 'build/view.js';
     wp_register_script(
         'gb-fullcalendar-block-client',
         plugins_url($client_js, __FILE__),
