@@ -1,5 +1,8 @@
 {
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
 	"name": "oberhauser-dev/gb-fullcalendar",
+	"version": "0.2.2",
 	"title": "GB FullCalendar",
 	"category": "widgets",
 	"icon": "calendar-alt",
@@ -8,8 +11,8 @@
 	"supports": {
 		"html": false
 	},
-	"editorScript": "file:./build/index.js",
-	"editorStyle": "file:./build/index.css",
-	"script": "file:./build/client.js",
-	"style": "file:./build/client.css"
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"viewScript": "file:./client.js",
+	"style": "file:./client.css"
 }
