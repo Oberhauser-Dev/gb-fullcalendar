@@ -75,8 +75,7 @@ function create_block_gb_fullcalendar_block_init()
         'gb-fullcalendar-block-client',
         plugins_url($client_js, __FILE__),
         $script_asset['dependencies'],
-        $script_asset['version'],
-        true
+        $script_asset['version']
     );
 
     $client_css = 'build/view.css';
@@ -87,20 +86,11 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$client_css")
     );
 
-    register_block_type('oberhauser-dev/gb-fullcalendar', array(
-        'editor_script' => 'gb-fullcalendar-block-editor',
-        'editor_style' => 'gb-fullcalendar-block-editor',
-        'script' => 'gb-fullcalendar-block-client',
-        'style' => 'gb-fullcalendar-block-client',
-    ));
+    localize_script();
 
     if (is_admin()) {
         // Call always as admin, otherwise block cannot be added dynamically.
-        localize_script();
         include_once('php/gb-fc-admin.php');
-    } else {
-        // Add shortcode
-        add_shortcode('fullcalendar', 'call_shortcode');
     }
 
     /**
@@ -120,22 +110,20 @@ function create_block_gb_fullcalendar_block_init()
 
     add_action('wp_ajax_gbfc_tooltip_content', ['GbFcAjax', 'ajax_tooltip_content']);
     add_action('wp_ajax_nopriv_gbfc_tooltip_content', ['GbFcAjax', 'ajax_tooltip_content']);
+
+    // Register block
+    register_block_type('oberhauser-dev/gb-fullcalendar', array(
+        'editor_script' => 'gb-fullcalendar-block-editor',
+        'editor_style' => 'gb-fullcalendar-block-editor',
+        'script' => 'gb-fullcalendar-block-client',
+        'style' => 'gb-fullcalendar-block-client',
+    ));
+
+    // Register shortcode
+    add_shortcode('fullcalendar', 'call_shortcode');
 }
 
 add_action('init', 'create_block_gb_fullcalendar_block_init');
-
-/**
- * Only localize js variables if block is present in front-end.
- */
-function create_block_gbfc_block_enqueue_script()
-{
-    // Always enqueue script, as shortcode need localized script, too.
-    if (has_block('oberhauser-dev/gb-fullcalendar')) {
-        localize_script();
-    }
-}
-
-add_action('wp_enqueue_scripts', 'create_block_gbfc_block_enqueue_script');
 
 // action links (e.g. Settings)
 function gbfc_settings_link($links)
@@ -194,8 +182,8 @@ function call_shortcode($args = [])
 {
     // Only add script, when shortcode is used
     wp_enqueue_script('gb-fullcalendar-block-client');
-    localize_script();
-    calendar_via_shortcode($args);
+    wp_enqueue_style('gb-fullcalendar-block-client');
+    return calendar_via_shortcode($args);
 }
 
 /**
@@ -207,8 +195,8 @@ function localize_script()
         'gb-fullcalendar-block-client',
         'GbFcGlobal', // Array containing dynamic data for a JS Global.
         [
-            'pluginDirPath' => plugin_dir_path(__DIR__),
-            'pluginDirUrl' => plugin_dir_url(__DIR__),
+            'pluginDirPath' => plugin_dir_path(__FILE__),
+            'pluginDirUrl' => plugin_dir_url(__FILE__),
             // Add more data here that you want to access from `cgbGlobal` object.
             'fc' => getFullCalendarArgs(),
             'fcExtra' => getFullCalendarExtraArgs(),
