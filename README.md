@@ -5,8 +5,8 @@
 - Contributors:      August Oberhauser
 - Tags:              block, fullcalendar, react
 - Requires at least: 5.3.2
-- Tested up to:      5.7
-- Stable tag:        0.2.1
+- Tested up to:      6.9
+- Stable tag:        0.2.2
 - Requires PHP:      7.0.0
 - License:           GPL-3.0-or-later
 - License URI:       https://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,6 @@ visual way, but still can be used with Shortcodes, too.
 - Customize [FullCalendar settings](https://fullcalendar.io/docs)
 - Tooltips
 - Custom [themes and styles](./docs/Themes-Styles.md)
-- Supports IE 11
 - Migrating WP FullCalendar settings
 
 ### Credits
@@ -106,7 +105,5 @@ You are invited to help in form of Merge-Requests or proposing issues with the e
 To develop, install the packages via `yarn install`. Then start webpack compiling via `yarn start`.
 To build files for production run `yarn build`.
 To build a plugin file run `yarn zip-snap`. The zip file will be saved in the `dist` folder.
-
-The code is written as ESNext, but uses Babel and Webpack to provide compatibility to ancient browsers.
 
 **The plugin is free to use. We are not liable for any damage caused by using the plugin!**

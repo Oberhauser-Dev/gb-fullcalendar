@@ -27,7 +27,7 @@ class GbFcAjax
                 $args['tax_query'][] = array(
                     'taxonomy' => $taxonomy_name,
                     'field' => 'id',
-                    'terms' => $_REQUEST[$taxonomy_name]
+                    'terms' => absint($_REQUEST[$taxonomy_name]),
                 );
             }
         }

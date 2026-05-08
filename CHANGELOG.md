@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v0.2.2] - 2026-05-08
+- Update build pipeline
+- Update dependencies
+- Rework registering GB block and shortcode
+- Remove support of IE 11
+
 ## [v0.2.1] - 2021-04-06
 - Fix ListView name substitution with Webpack
 - Upgrade node modules
@@ -38,7 +44,8 @@
 - Custom calendar views
 - Adapt theme system
 
-[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.1...HEAD
+[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.2...HEAD
+[v0.2.2]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0-alpha.0...v0.2.0
 [v0.2.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.2...v0.2.0-alpha.0

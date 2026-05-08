@@ -3,9 +3,9 @@
  * Plugin Name:     GB FullCalendar
  * Plugin URI:      https://github.com/oberhauser-dev/gb-fullcalendar/
  * Description:     GB FullCalendar is a Gutenberg block for displaying events.
- * Version:         0.2.1
+ * Version:         0.2.2
  * Requires at least: 5.3.2
- * Tested up to:    5.7
+ * Tested up to:    6.9
  * Requires PHP:    7.0.0
  * Author:          August Oberhauser
  * Author URI:      https://www.oberhauser.dev/
@@ -24,7 +24,7 @@ include_once 'php/gb-fc-actions.php';
 if (!is_plugin_active('wp-fullcalendar/wp-fullcalendar.php')) {
     // Define WPFC-Version to enable EM-wpfc API (ajax);
     if (!defined('WPFC_VERSION'))
-        define('WPFC_VERSION', '2.1.0');
+        define('WPFC_VERSION', '2.2.0');
 }
 
 /**
@@ -60,7 +60,7 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$editor_css")
     );
 
-    // Replaced by client.css
+    // Replaced by view.css
     /*$style_css = 'build/style-index.css';
     wp_register_style(
         'gb-fullcalendar-block',
@@ -69,8 +69,7 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$style_css")
     );*/
 
-    // TODO may only load, if block is present, if possible.
-    $client_js = 'build/client.js';
+    $client_js = 'build/view.js';
     wp_register_script(
         'gb-fullcalendar-block-client',
         plugins_url($client_js, __FILE__),
@@ -78,7 +77,7 @@ function create_block_gb_fullcalendar_block_init()
         $script_asset['version']
     );
 
-    $client_css = 'build/client.css';
+    $client_css = 'build/view.css';
     wp_register_style(
         'gb-fullcalendar-block-client',
         plugins_url($client_css, __FILE__),
@@ -86,20 +85,11 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$client_css")
     );
 
-    register_block_type('oberhauser-dev/gb-fullcalendar', array(
-        'editor_script' => 'gb-fullcalendar-block-editor',
-        'editor_style' => 'gb-fullcalendar-block-editor',
-        'script' => 'gb-fullcalendar-block-client',
-        'style' => 'gb-fullcalendar-block-client',
-    ));
+    localize_script();
 
     if (is_admin()) {
         // Call always as admin, otherwise block cannot be added dynamically.
-        localize_script();
         include_once('php/gb-fc-admin.php');
-    } else {
-        // Add shortcode
-        add_shortcode('fullcalendar', 'calendar_via_shortcode');
     }
 
     /**
@@ -119,23 +109,20 @@ function create_block_gb_fullcalendar_block_init()
 
     add_action('wp_ajax_gbfc_tooltip_content', ['GbFcAjax', 'ajax_tooltip_content']);
     add_action('wp_ajax_nopriv_gbfc_tooltip_content', ['GbFcAjax', 'ajax_tooltip_content']);
+
+    // Register block
+    register_block_type('oberhauser-dev/gb-fullcalendar', array(
+        'editor_script' => 'gb-fullcalendar-block-editor',
+        'editor_style' => 'gb-fullcalendar-block-editor',
+        'script' => 'gb-fullcalendar-block-client',
+        'style' => 'gb-fullcalendar-block-client',
+    ));
+
+    // Register shortcode
+    add_shortcode('fullcalendar', 'call_shortcode');
 }
 
 add_action('init', 'create_block_gb_fullcalendar_block_init');
-
-/**
- * Only localize js variables if block is present in front-end.
- */
-function create_block_gbfc_block_enqueue_script()
-{
-    // Always enqueue script, as shortcode need localized script, too.
-    // TODO may fix that only load, when needed.
-//    if (has_block('oberhauser-dev/gb-fullcalendar')) {
-    localize_script();
-//    }
-}
-
-add_action('wp_enqueue_scripts', 'create_block_gbfc_block_enqueue_script');
 
 // action links (e.g. Settings)
 function gbfc_settings_link($links)
@@ -190,6 +177,14 @@ function gbfc_admin_resetToWpFc()
 
 add_action('admin_post_gbfc_resetToWpFc', 'gbfc_admin_resetToWpFc');
 
+function call_shortcode($args = [])
+{
+    // Only add script, when shortcode is used
+    wp_enqueue_script('gb-fullcalendar-block-client');
+    wp_enqueue_style('gb-fullcalendar-block-client');
+    return calendar_via_shortcode($args);
+}
+
 /**
  * Localize javascript variables for gb-fullcalendar.
  */
@@ -199,8 +194,8 @@ function localize_script()
         'gb-fullcalendar-block-client',
         'GbFcGlobal', // Array containing dynamic data for a JS Global.
         [
-            'pluginDirPath' => plugin_dir_path(__DIR__),
-            'pluginDirUrl' => plugin_dir_url(__DIR__),
+            'pluginDirPath' => plugin_dir_path(__FILE__),
+            'pluginDirUrl' => plugin_dir_url(__FILE__),
             // Add more data here that you want to access from `cgbGlobal` object.
             'fc' => getFullCalendarArgs(),
             'fcExtra' => getFullCalendarExtraArgs(),
