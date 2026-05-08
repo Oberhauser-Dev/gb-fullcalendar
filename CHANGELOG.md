@@ -44,7 +44,8 @@
 - Custom calendar views
 - Adapt theme system
 
-[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.1...HEAD
+[unreleased]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.2...HEAD
+[v0.2.2]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.1...v0.2.2
 [v0.2.1]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0...v0.2.1
 [v0.2.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.2.0-alpha.0...v0.2.0
 [v0.2.0-alpha.0]: https://github.com/Oberhauser-Dev/gb-fullcalendar/compare/v0.1.0-alpha.2...v0.2.0-alpha.0
