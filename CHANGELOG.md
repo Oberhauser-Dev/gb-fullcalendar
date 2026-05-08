@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [v0.2.2] - 2026-05-08
+- Update build pipeline
+- Update dependencies
+- Rework registering GB block and shortcode
+- Remove support of IE 11
+
 ## [v0.2.1] - 2021-04-06
 - Fix ListView name substitution with Webpack
 - Upgrade node modules
