@@ -60,7 +60,7 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$editor_css")
     );
 
-    // Replaced by client.css
+    // Replaced by view.css
     /*$style_css = 'build/style-index.css';
     wp_register_style(
         'gb-fullcalendar-block',
@@ -75,10 +75,11 @@ function create_block_gb_fullcalendar_block_init()
         'gb-fullcalendar-block-client',
         plugins_url($client_js, __FILE__),
         $script_asset['dependencies'],
-        $script_asset['version']
+        $script_asset['version'],
+        true
     );
 
-    $client_css = 'build/client.css';
+    $client_css = 'build/view.css';
     wp_register_style(
         'gb-fullcalendar-block-client',
         plugins_url($client_css, __FILE__),
@@ -99,7 +100,7 @@ function create_block_gb_fullcalendar_block_init()
         include_once('php/gb-fc-admin.php');
     } else {
         // Add shortcode
-        add_shortcode('fullcalendar', 'calendar_via_shortcode');
+        add_shortcode('fullcalendar', 'call_shortcode');
     }
 
     /**
@@ -129,10 +130,9 @@ add_action('init', 'create_block_gb_fullcalendar_block_init');
 function create_block_gbfc_block_enqueue_script()
 {
     // Always enqueue script, as shortcode need localized script, too.
-    // TODO may fix that only load, when needed.
-//    if (has_block('oberhauser-dev/gb-fullcalendar')) {
-    localize_script();
-//    }
+    if (has_block('oberhauser-dev/gb-fullcalendar')) {
+        localize_script();
+    }
 }
 
 add_action('wp_enqueue_scripts', 'create_block_gbfc_block_enqueue_script');
@@ -189,6 +189,14 @@ function gbfc_admin_resetToWpFc()
 }
 
 add_action('admin_post_gbfc_resetToWpFc', 'gbfc_admin_resetToWpFc');
+
+function call_shortcode($args = [])
+{
+    // Only add script, when shortcode is used
+    wp_enqueue_script('gb-fullcalendar-block-client');
+    localize_script();
+    calendar_via_shortcode($args);
+}
 
 /**
  * Localize javascript variables for gb-fullcalendar.
