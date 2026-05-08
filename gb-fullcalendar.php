@@ -69,7 +69,6 @@ function create_block_gb_fullcalendar_block_init()
         filemtime("$dir/$style_css")
     );*/
 
-    // TODO may only load, if block is present, if possible.
     $client_js = 'build/view.js';
     wp_register_script(
         'gb-fullcalendar-block-client',
